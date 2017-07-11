@@ -1,0 +1,101 @@
+﻿@model FoodDeliveryTemplete.ViewModel.MemberWalletViewModel
+@{
+    ViewBag.Title = "食宿列車-我的錢包";
+    Layout = "~/Areas/Member/Views/Blog/_BlogPage.cshtml";
+}
+@section style
+{
+    <style>
+        #profileshow label {
+            font-family:'標楷體';
+            font-size:18px;
+            color:#ff6a00;
+            text-align:right
+        }
+        #profileshow p {
+            font-family:'標楷體';
+            font-size:18px;
+            color:skyblue;   
+        }
+    </style>
+}
+
+<div class="container" style="margin-top:5%">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-usd" style="top: 3px;"></span> 我的錢包</h3>
+        </div>
+        <div id="profileshow" class="panel-body">
+            <h3>@Model.fMemeberName 的電子錢包</h3>
+            <div>
+                <label class = "control-label">信用卡帳號:</label><p>@Model.fCreditAccount</p>
+            </div>
+            <div>
+                <label class = "control-label">電子錢包目前的餘額:</label><p>@Model.fWalletTotalMoney</p>
+            </div>           
+            <div>
+                <button style="font-size:14px" type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    加值
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@*---*@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">加值電子錢包</h4>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("MemberWallet", "MemberArea", FormMethod.Post, new { @class = "form-horizontal success", enctype = "multipart/form-data" }))
+                {
+                    @Html.HiddenFor(w => w.fMemberID)
+                    <div class="form-group">
+                        @Html.LabelFor(w => w.fDeposit, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            @Html.EditorFor(w => w.fDeposit, new { htmlAttributes = new { @class = "form-control", placeholder = "加值金額" } })
+                            @Html.ValidationMessageFor(w => w.fDeposit, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button type="submit" class="btn btn-success" id="bonus">加值</button>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            $('#bonus').click(function (e) {
+                if (!confirm("確定要加值嗎?"))
+                    e.preventDefault();
+            })
+        })
+
+    </script>
+
+}
+

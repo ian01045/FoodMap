@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3" id="CostomizedCategoryInformation">
+        <a class="btn btn-info" href="@Url.Action("Index","Restaurant")">返回餐廳頁面</a>
+        <a class="btn btn-info" href="@Url.Action("CreateCustomizedCategory", "CustomizedCategory")">設定客製化選項</a>
+        <br /><br />
+        <ul class="list-group" id="CostomizedCategory"></ul>
+    </div>
+    <div class="col-lg-7">
+        <ul class="list-group" id="Options"></ul>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+@section script{
+    <script>
+        $(document).ready(function () {
+            //-------------------------------------------------------------------------------------------------------
+            //取得所有套餐名稱@*Request.Cookies["RestaurantID"].Value*@
+            @*$.getJSON('@Url.Action("getMealsCount", "Meal",new { id = Request.Cookies["RestaurantID"].Value })', function (data) {*@
+            $.getJSON('@Url.Action("GetAllCostomized", "Json")', function (data) {
+                var divNav = $('#CostomizedCategory');
+                var docFrag = $(document.createDocumentFragment());
+                if (data == "") {
+                    $('#CostomizedCategoryInformation').html("<h2>尚未設定客製化分類</h2>")
+                }
+                else {
+                    $.each(data, function (idx, CostomizedCategory) {
+                        var btn = $("<li></li>").attr({ 'data-costomizedcategoryid': CostomizedCategory.CustomizedCategoryID })
+                                                .addClass('list-group-item')
+                                                .text(CostomizedCategory.CustomizedCategoryName)
+                                                //套餐名稱後面加上 此套餐內容數量
+                                                .append('<span class="SpanInLi badge">' + CostomizedCategory.OptionCount + '</span>')
+                        ;
+                        docFrag.append(btn);
+                    })
+                    divNav.append(docFrag);
+                }
+            })
+            //-------------------------------------------------------------------------------------------------------
+            $('#CostomizedCategory').on('click','li', function () {
+                //抓自訂屬性data-mealsid的值
+                var id = $(this).data("costomizedcategoryid");
+                console.log(id)
+                $('#Options').load('@Url.Action("CustomizedOption", "CustomizedCategory")' + '?CostomizedCategoryID=' + id);
+                //-------------------------------------------------------------------------------------------------------
+
+                //點到的套餐名稱獲得底色
+                $('#CostomizedCategory>li').removeClass('active');
+                $(this).addClass('active');
+            }).on('mouseenter', 'li', function () {
+                $(this);
+            });
+            //-------------------------------------------------------------------------------------------------------
+
+        })
+    </script>
+}

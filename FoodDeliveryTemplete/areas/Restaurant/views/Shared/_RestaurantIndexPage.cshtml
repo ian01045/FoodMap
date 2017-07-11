@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/Account.css" rel="stylesheet" />
+    <link href="~/Content/LoginForm.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.glide.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/MyIndexHeaderJavaScript.js"></script>
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/lightbox.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/presets/preset1.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet">
+    <link href="~/Content/sm-clean/sm-clean.css" rel="stylesheet" />
+    <link href="~/Content/sm-simple/sm-core-css.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Buenard:700' rel='stylesheet' type='text/css'>
+    <link href="~/css/loading/loading.css" rel="stylesheet" />
+    <link href="~/Areas/Member/css/ChatStyle.css" rel="stylesheet" />
+    @RenderSection("style", false)
+</head>
+<body>
+    <div class="loader"></div>
+    <a id="menu-toggle" style="background-color: rgba(117, 112, 109, 0.49);" href="#" class="btn-dark btn-lp toggle">
+        <div class="fa">我的功能<span class="glyphicon glyphicon-arrow-down"></span></div>
+    </a>
+    <nav id="sidebar">
+        <ul class="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle">
+                <i class="fa">
+                    <img class="cancelicon" src="~/images/Navbar/cancel.png" />
+                </i>
+            </a>
+            <li class="sidebar-brand">
+                <a href="#top" onclick=$("#menu-close").click();>你的專頁</a>
+            </li>
+            <li>
+                @Html.ActionLink("餐廳管理", "Index", "Home", new { Area = "Restaurant" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("開店資訊", "InformationRestaurant", "Restaurant", new { Area = "Restaurant" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("餐廳基本資料", "RestaurantProfile", "Account", new { Area = "Restaurant" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("餐廳消息", "RestaurantBoard", "RestaurantNews", new { Area = "Restaurant" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("登出", "AccountLogout", "Home")
+            </li>
+        </ul>
+    </nav>
+
+    <!--Video Section-->
+    <!--Video Section Ends Here-->
+
+    <header id="home">
+        <section style="padding:180px 0" class="content-section video-section">
+            <div class="pattern-overlay">
+                <a id="bgndVideo" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=PZ4pctQMdg4',containment:'.video-section', quality:'large', autoPlay:true, mute:true, opacity:0.8}"></a>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>肚子餓了嗎?</h1>
+                            <h3>只要動動您的手指即可不用出門就能享用美食</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="main-nav">
+            <div class="container">
+                <nav role="navigation">
+                    <ul id="main-menu" class="sm sm-clean">
+                        <li><a href="#">首頁</a></li>
+                        <li>
+                            <a href="#">尋找美食</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li>
+                                    <a href="#/">年度人氣</a>
+                                    @*<ul>
+                                            <li><a href="#">About Vadikom</a></li>
+                                        </ul>*@
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">遊走餐廳</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li><a href="#">年度人氣</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">美食搜尋</a>
+                        </li>
+                        <li><a href="#">餐廳搜尋</a></li>
+                        <li>
+                            <a href="#">常見問題</a>
+                            <ul>
+                                <li><a href="#">Dummy item</a></li>
+                                <li><a href="#" class="disabled">Disabled menu item</a></li>
+                                <li>
+                                    <a href="#">more...</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">A</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">more...</a>
+                                            <ul>
+                                                <li><a href="#">Dummy item</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#contact">聯絡我們</a>
+                            @*<ul class="mega-menu">
+                                <li>*@
+                            <!-- The mega drop down contents -->
+                            @*<div style="width:400px;max-width:100%;">
+                                            <div style="padding:5px 24px;">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>*@
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    @RenderBody()
+    <section id="contact">
+        <div id="contact-us" class="parallax">
+            <div class="container">
+                <div class="row">
+                    <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                        <h2>聯絡我們</h2>
+                        <p>對於食宿列車網站上的功能或者使用方式的任何問題都可以與我們連絡，我們非常樂意為您服務及解決您的問題</p>
+                    </div>
+                </div>
+                <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form id="main-contact-form" name="contact-form" method="post" action="#">
+                                <div class="row  wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" name="name" class="form-control" placeholder="Name" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control" placeholder="Email Address" required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="subject" class="form-control" placeholder="Subject" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="Enter your message" required="required"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-submit">Send Now</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="contact-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                <p>以下是我們的聯絡方式，或者您可以填寫意見涵並傳送給我們，我們隨時願意為您服務:</p>
+                                <ul class="address">
+                                    <li><i class="fa fa-map-marker"></i> <span> 地址:</span>106台北市大安區復興南路一段390號</li>
+                                    <li><i class="fa fa-phone"></i> <span> 電話:</span>0987-178-738</li>
+                                    <li><i class="fa fa-envelope"></i> <span> 信箱:</span><a href="mailto:henry0223@hotmail.com">henry0223@@hotmail.com</a></li>
+                                    <li><i class="fa fa-globe"></i> <span> 網站:</span> <a href="#">www.traintofood.com.tw</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#contact-->
+    <footer id="footer">
+        <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="container text-center">
+                <div class="footer-logo">
+                    <h3 style="color:white">與Food To Train互動</h3>
+                </div>
+                <div class="social-icons">
+                    <ul>
+                        <li><a class="envelope" href="#"><i class="fa fa-envelope"></i></a></li>
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>@DateTime.Now.ToString("yyyy  年  MM  月  dd  日")</p>
+                    </div>
+                    <div class="col-sm-6">
+                        &copy; FoodToTrain 已註冊，FoodToTrain版權所有 2017
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--聊天室視窗-->
+    <div id="chatroomshowdiv" class="container">
+        <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:10px;z-index:9999999;">
+            <div class="col-xs-12 col-md-12 chatroompanelbody">
+                <div style="margin-bottom:0" class="panel panel-default">
+                    <div class="panel-heading top-bar">
+                        <div class="col-md-8 col-xs-8">
+                            <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span><span id="chatnameshow" style="color:#1bb010">尚未開始聊天</span></h3>
+                        </div>
+                        <div class="col-md-4 col-xs-4" style="text-align: right;">
+                            <a style="cursor:pointer"><span id="minim_chat_window" class="glyphicon glyphicon-plus icon_minim"></span></a>
+                            <a style="cursor:pointer"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
+                        </div>
+                    </div>
+                    <div id="takechatcontentin">
+                    </div>
+                    <div class="panel-footer inputpanelchat">
+                        <!--sendMessage-->
+                        <div class="input-group parentchatinput">
+                            <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="傳送訊息" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-warning btn-sm" id="btn-chat">傳送</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chatbar" class="btn-group dropup">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-comment">聊天室</span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="member_list dropdown-menu" role="menu">
+            <ul class="list-unstyled showunreadmsg"></ul>
+        </div>
+    </div>
+
+
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.smartmenus.min.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/jquery.inview.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/mousescroll.js"></script>
+    @*<script src="~/js/smoothscroll.js"></script>*@
+    <script src="~/js/jquery.countTo.js"></script>
+    <script src="~/js/lightbox.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/html5shiv.js"></script>
+
+    <script src="~/js/AdvertisementVideo/AdvertisementVideo.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+  
+    <script>        
+    $(window).load(function () {
+        $(".loader").fadeOut(2000);
+    })
+    </script>   
+    <script>
+        $(document).on('click', '.panel-heading span.icon_minim', function (e) {
+            var $this = $(this);
+            console.log($this)
+            if (!$this.hasClass('panel-collapsed')) {
+                $this.parents('.panel').find('.panel-body').slideUp();
+                $this.parents('.panel').find('.panel-footer').slideUp();
+                $this.addClass('panel-collapsed');
+                $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+            } else {
+                $this.parents('.panel').find('.panel-body').slideDown();
+                $this.parents('.panel').find('.panel-footer').slideDown();
+                $this.removeClass('panel-collapsed');
+                $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+                $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+            }
+        });
+        $(document).on('focus', '.panel-footer input.chat_input', function (e) {
+            var $this = $(this);
+            if (!$('#minim_chat_window').hasClass('panel-collapsed')) {
+                $this.parents('.panel').find('.panel-body').slideDown();
+                $this.parents('.panel').find('.panel-footer').slideDown();
+                $('#minim_chat_window').removeClass('panel-collapsed');
+                $('#minim_chat_window').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+            }
+        });
+        $(document).on('click', '.icon_close', function (e) {
+            //$(this).parent().parent().parent().parent().remove();
+            $("#chat_window_1").remove();
+        });
+        //$(function () {
+        //    $(".player").mb_YTPlayer();
+        //    //關掉sidebar
+        //})
+
+        $(function () {
+
+            var notifications = $.connection.messagesHub;
+
+            //debugger;
+            // Create a function that the hub can call to broadcast messages.
+            notifications.client.updateMessages = function () {
+                ChatMessages(_ID)
+                UnReadMsg()
+            };
+            // Start the connection.
+            $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+                ChatMessages(_ID);
+                UnReadMsg()
+            }).fail(function (e) {
+                alert(e);
+            });
+            //載入chat資料
+
+
+          
+         
+            $("#menu-close").click(function (e) {
+                e.preventDefault();
+                $("#sidebar").toggleClass("active");
+            });
+            //開啟sidebar
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#sidebar").toggleClass("active");
+            });
+            var _ID = 0
+            //點擊與誰聊天
+            $(".showunreadmsg").on("click", ".chatlistclick", function () {
+                //抓聊天對象的參數
+                var id = 0;
+                id = $(this).find('#chatobj').text();
+                _ID = id;
+                //點擊後顯示已讀
+                var maketrue = "@Url.Action("ReadMessage", "Chat",new {Area="Restaurant" })/" + _ID + "";
+                $.ajax({
+                    url: maketrue,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function () {
+
+                });//點擊顯示已讀結束
+
+                var msgURL = "@Url.Action("GetName", "Chat", new { Area = "Restaurant" })/" + id + "";
+                //抓聊天對象的名字
+                $.ajax({
+                    url: msgURL,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function (result) {
+                    $("#chatnameshow").text(result)
+                    var notifications = $.connection.messagesHub;
+                    notifications.client.updateMessages = function () {
+                        GoChatMessages()
+                        UnMsg()
+                    };
+                    // Start the connection.
+                    $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+                        GoChatMessages()
+                        UnMsg()
+                    }).fail(function (e) {
+                        alert(e);
+                    });
+                    function GoChatMessages() {
+                        var msgURL = "@Url.Action("GetMessages", "Chat", new { Area = "Restaurant" })/" + id + "?name=" + result + "";
+                        var tbl = $('#takechatcontentin');
+                        $.ajax({
+                            url: msgURL,
+                            contentType: 'application/html ; charset:utf-8',
+                            type: 'GET',
+                            dataType: 'html'
+                        }).success(function (result) {
+                            tbl.empty().append(result);
+                            $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+                        }).error(function () {
+
+                        });
+                    }
+                    function UnMsg() {
+                        var msgURL = "@Url.Action("GetUnReadMessages", "Chat", new { Area = "Restaurant" })";
+                        var tbl = $('.showunreadmsg');
+                        $.ajax({
+                            url: msgURL,
+                            contentType: 'application/html ; charset:utf-8',
+                            type: 'GET',
+                            dataType: 'html'
+                        }).success(function (result) {
+                            tbl.empty().append(result);
+                        }).error(function () {
+
+                        });
+                    }
+                });  //點擊與誰聊天結束
+
+                //傳送訊息
+                $(".inputpanelchat").on("click", "#btn-chat", function () {
+                    var showcon = $(this).parents().find("#btn-input");
+                    var content = $(this).parents().find("#btn-input").val();
+                    var msgURL = "@Url.Action("SendMesseages", "Chat",new {Area="Restaurant" })"
+                    console.log(content)
+                    var JsonData = JSON.stringify({ "id": _ID, "content": content });
+                    console.log(_ID);
+                    $.ajax({
+                        url: msgURL,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JsonData
+                    }).done(function () {
+                        showcon.val("");
+                        showcon.focus();
+                    })
+                });
+
+            
+            });
+            function ChatMessages(id) {
+                var msgURL = "@Url.Action("GetMessages", "Chat",new {Area="Restaurant" })/" + id;
+                var tbl = $('#takechatcontentin');
+                $.ajax({
+                    url: msgURL,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function (result) {
+                    tbl.empty().append(result);
+                    $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+                }).error(function () {
+
+                });
+            }
+
+            function UnReadMsg() {
+                var msgURL = "@Url.Action("GetUnReadMessages", "Chat", new { Area = "Restaurant" })";
+                var tbl = $('.showunreadmsg');
+                $.ajax({
+                    url: msgURL,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function (result) {
+                    tbl.empty().append(result);
+                }).error(function () {
+
+                });
+            }
+        })
+
+    </script>
+    @RenderSection("script",false)
+</body>
+</html>
+

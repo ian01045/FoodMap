@@ -1,0 +1,115 @@
+﻿@model FoodDeliveryTemplete.ViewModel.OpenAccountViewModel
+@{
+    ViewBag.Title = "食速列車-開通電子錢包";
+    Layout = "~/Areas/Member/Views/Blog/_BlogPage.cshtml";
+}
+
+@section style
+{
+    <style>
+        .self-control input {
+            border-color: #5bc0de;
+            border-radius: 5px;
+            width: 80%;
+        }
+
+        .form-horizontal label {
+            color: #ff6a00;
+            font-family: '標楷體';
+            font-size: 16px;
+        }
+    </style>
+}
+
+<div class="container" style="margin-bottom:8%;margin-top:5%">
+    <div class="panel panel-warning" style="border:1px solid #f2d59c;">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> @ViewBag.memberName 的電子錢包帳戶</h3>
+        </div>
+        <div class="panel-body self-control">
+            <div>
+                @using (Html.BeginForm("OpenAccount", "MemberArea", FormMethod.Post, new { @class = "form-horizontal success", enctype = "multipart/form-data", style = "margin-top:50px" }))
+                {
+                    <input type="hidden" name="fMemberID" value="@ViewBag.memberId" />
+
+                    <div class="form-group">
+                        @Html.Label("信用卡類別", new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+
+                            <div class="=row">
+                                <div class=" col-lg-3 ">
+                                    <label>@Html.RadioButton("card", "card", new { @class = "radio-inline form-inline", style = "padding-top:20px;" }) VISA</label>
+                                </div>
+                                <div class=" col-lg-3">
+                                    <label>@Html.RadioButton("card", "card", new { @class = "radio-inline form-inline", style = "padding-top:20px;" }) MasterCard</label>
+
+                                </div>
+                                <div class=" col-lg-3">
+                                    <label>@Html.RadioButton("card", "card", new { @class = "radio-inline form-inline", style = "padding-top:20px;" }) Amercian Express</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(w => w.fCreditAccount, new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-9">
+                                @Html.EditorFor(w => w.fCreditAccount, new { htmlAttributes = new { @class = "form-control", placeholder = "信用卡帳號" } })
+                                @Html.ValidationMessageFor(w => w.fCreditAccount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <button type="submit" class="btn btn-success" id="open">開通</button>
+                                
+                            </div>
+                        </div>
+
+                }
+                <button type="button" class="btn btn-success" id="demo">Demo</button>
+                <h3 style="color:#ff0000">信用卡綁定須知</h3>
+                <div>
+                    <ol>
+
+                        <li>
+                            以上活動實際回饋時間、相關作業處理、發送方式皆依本行作業時間及規定為準。
+                        </li>
+                        <li>
+                            本活動以實際成功交易消費訂單計算，若為付款失敗、訂單取消、退貨、非商品瑕疵因素之換貨、銷退、購買禮券、贈品、公關等訂單將不列入計算範圍；消費計算以活動期間內「實際消費日」及「實際刷卡消費金額」為計算基準。
+                        </li>
+                        <li>
+                            本活動之金額皆以新台幣計價。
+                        </li>
+                        <li>
+                            如有任何因電腦、網路、電話、技術或不可歸責於本行之事由，而使持卡人登錄之資料有遲延、遺失、錯誤、無法辨識或毀損之情況，本行不負任何法律責任，持卡人亦不得因此異議。
+                        </li>
+                        <li>
+                            本行並未介入商品之交付或商品瑕疵等買賣之實體關係，相關商品退貨或服務取消之退款事宜，持卡人應先洽特約商店尋求解決，如無法解決，得要求本行就該筆交易以「帳款疑義之處理程序」辦理
+                        </li>
+                        <li>
+                            優惠提供期間倘因不可歸責於本行之事由，本行得變更或終止活動內容，並於本行網站上揭露。
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section script{
+    
+<script>
+    $(document).ready(function () {
+        $('#demo').click(function () {
+            $('#fCreditAccount').val("4830374715971633");
+
+        })
+    })
+</script>
+}

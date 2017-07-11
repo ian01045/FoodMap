@@ -1,0 +1,27 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.ViewModels.RestaurantandComment>
+      <!--主版-->
+@foreach (var item in Model)
+{
+    <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">
+        <div class="post-thumb">
+            <a href="@Url.Action("RestaurantBlog","Blog",new {id=item.fRestaurantID })"><img class="img-responsive" src="@Url.Action("GetBlogImage", "Blog", new { id = item.fPhotoID })" alt=""></a>
+            <div class="post-icon">
+                <i class="fa fa-pencil"></i>
+            </div>
+        </div>
+        <div class="entry-header">
+            <h6><a href="@Url.Action("RestaurantBlog","Blog",new {id=item.fRestaurantID })">@item.fRestaurantName</a></h6>
+            <div>
+                <div class="post-meta">
+                    <span><i class="fa fa-comments-o"></i> @item.CountComment 個讚數</span><!--可以計算留言數量-->
+                    <span><i class="fa fa-heart"></i> @item.CountLikes 評價人數</span><!--可以計算多少人喜歡-->
+                </div>
+            </div>
+            <span class="date">營業時間:</span>
+            <span class="cetagory"><strong>@item.fOpenTime - @item.fCloseTime</strong></span>
+
+        </div>
+        <div class="entry-content">
+        </div>
+    </div>
+}

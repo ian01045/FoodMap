@@ -1,0 +1,126 @@
+﻿@model FoodDeliveryTemplete.ViewModel.MyFavoriteRestaurantCategoryViewModel
+@{
+    ViewBag.Title = "食速列車-我的最愛";
+    Layout = "~/Areas/Member/Views/Blog/_BlogPage.cshtml";
+}
+
+<div class="container" style="margin-bottom:8%;margin-top:5%">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> 我的最愛</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-3" id="category">
+                </div>
+                <div class="col-lg-9" id="restaurant">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script{   
+
+    <script>
+        $(document).ready(function () {
+            $.getJSON('@Url.Action("Category","MemberArea")', function (datas) {
+                var div = $('#category');
+                div.empty();
+
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    var btn = $("<li></li>").attr({ 'data-categoryid': category.CategoryId }).addClass('list-group-item').attr("style","cursor:pointer").text(category.CategoryName + category.count);
+                    docFrag.append(btn);
+                })
+                div.append(docFrag);
+                //跑出預設的第一個分類的餐廳
+                $('#restaurant').load('@Url.Action("Restaurant", "MemberArea")' + '/?categoryId=' + $('#category>li:eq(0)').addClass('active').attr('data-categoryid'));
+
+            })
+
+
+            $('#category').on('click', 'li', function () {
+                var id = $(this).data("categoryid");
+                $('#restaurant').load('@Url.Action("Restaurant", "MemberArea")'+'/?categoryId='+id);
+
+                $('#category>li').removeClass('active');
+                $(this).addClass('active');
+            }).on('mouseenter', 'li', function () {
+                $(this).css("cursor","pointer")
+            });
+        })
+
+        function openwindow(url, name, iWidth, iHeight) {
+            var url;     //網頁位置;
+            var name;    //網頁名稱;
+            var iWidth;  //視窗的寬度;
+            var iHeight; //視窗的高度;
+            var iTop = (window.screen.availHeight - 30 - iHeight) / 2;  //視窗的垂直位置;
+            var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;   //視窗的水平位置;
+            window.open(url, name, 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,location=no,status=no,menubar=no,toolbar=no,resizable=no,scrollbars=no');
+        }
+
+
+        //秀出餐廳位置地圖
+        $('body').on('click','button[name="mapinfo"]',function () {
+            var Rname = $(this).parent().find('#name').val();
+
+            var lat = parseFloat($(this).parent().find('#Latitude').val());
+            var lng = parseFloat($(this).parent().find('#Longitude').val());
+
+            var memberid = $(this).parent().find('#memberid').val();
+
+            @*openwindow('@Url.Action("RestaurantMap","MemberArea")'+'?RestaurantName='+Rname+'&lat='+lat+'&lng='+lng, "map",800, 800);*@
+
+            openwindow('@Url.Action("RestaurantMap","MemberArea")' + '?Memberid=' + memberid, "map", 700, 700);
+        })
+
+            @*var JsonData = JSON.stringify({ "RestaurantName":Rname, "lat": lat, "lng": lng });
+            $.ajax({
+                url: '@Url.Action("Restaura ntMap","MemberArea")',
+                type: 'GET',
+                contentType: 'application/json',
+                data: JsonData,
+                success: function (datas) {
+
+                }
+            })*@
+
+            //刪除我的最愛
+        $('body').on('click', 'button[name="deletefav"]', function () {
+
+            if (confirm("確定要取消我的最愛嗎?")) {
+
+
+                var memberid = parseInt(@Request.Cookies["MemberID"].Value);
+                var restid = $(this).parent().prev().find('#restid').val();
+
+                var JsonData = JSON.stringify({ "memberid": memberid, "restid": restid });
+
+                $.ajax({
+                    url: '@Url.Action("deleteFav","MemberArea")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData,
+                    success: function () {
+                        alert("取消成功")
+                        @*var abc = "@Url.Action("MyFavouriteRestaurant", "MemberArea")"
+                        $(location).attr('href', abc)*@
+                        //重整頁面
+                        location.reload();
+
+                    }
+                })
+            }
+
+        })
+
+
+
+
+
+
+    </script>
+    }

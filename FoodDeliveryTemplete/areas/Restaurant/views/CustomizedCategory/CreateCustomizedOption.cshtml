@@ -1,0 +1,206 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <br />
+        @Html.Label("加入客製化選項的分類名稱：")
+    </div>
+    <div class="col-lg-12 CostoaddCategory">
+        <div class="col-lg-12  col-md-12 col-sm-12">
+            <nav id="Costonav">
+                <select id="Costose1" class="form-control" style="font-size:20px;"></select>
+            </nav>
+        </div>
+    </div>
+    <hr />
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        @Html.Label("此分類客製化選項：")
+        <input type="button" value="新增選項欄位" id="AddOptionControl" style="float:right;font-size:20px;" class="btn btn-success" />
+        <br /><br /><br />
+    </div>
+    <div class="col-lg-12  col-md-12 col-sm-12 form-group">
+        <div class="row addOptionControl">
+            <div class="col-lg-6">
+                @Html.Label("選項名稱")
+                @Html.TextBox("options", null, new { @class = "form-control options", placeholder = "輸入選項名稱",style="font-size:20px;" })
+            </div>
+            <div class="col-lg-6" id="clearoption">
+                @Html.Label("客製化額外支付金額")
+                <input type="number" placeholder="產品客製化後需要額外支付的金額" min="0" class="form-control payforOption" value="0" style="font-size:20px;"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12  col-md-12 col-sm-12" style="margin-top:0px">
+        <input type="button" class="sendCostomizedOption btn btn-warning" value="新增客製化選項" style="font-size:20px;"/>
+        @Html.Label(" ", new { @class = "Createsuccess" })
+
+        @*@Html.CheckBox("closeAlert", false, new { @class = "closeAlert", id = "closeAlert" })
+        <label for="closeAlert">關閉新增成功提醒</label>*@
+
+    </div>
+    <div class="col-lg-12  col-md-12 col-sm-12">
+       <br />
+    </div>
+</div>
+
+
+    <script>
+        $(document).ready(function () {
+            //新增客製化選項
+            //---------------------------------------------------------------------------------------
+            //取得客製化名稱開始
+            $.getJSON('@Url.Action("GetCostomizedParentIsNull", "Json",null)', function (datas) {
+                $('~ div', $(this).parent().parent()).remove('div')
+                var divNav = $('#Costose1');
+                //divNav.empty();
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    var option = $('<option></option>').attr('value', category.CustomizedCategoryID)
+                                                        .attr('id', 'first')
+                                                        .append(category.CustomizedCategoryName)
+                    //.attr('data-CostomerParentid',category.ParentID);
+                    docFrag.append(option);
+                })
+                divNav.append(docFrag);
+            })//取得客製化分類名稱結束
+            //---------------------------------------------------------------------------------------
+            $('#Costose1').on('change', function () {
+                $('~ div', $(this).parent().parent()).remove('div')
+                $('.Createsuccess').text(' ');
+                //取得子分類
+                var nextCategoryID = $(this).val()
+                console.log(nextCategoryID)
+                if (nextCategoryID != 0) {
+                    $.getJSON('@Url.Action("GetCostomizedParentSec", "Json")' + '?CategoryID=' + nextCategoryID, function (datas) {
+                        //分類有資料才做
+                        if (datas.length > 1) {
+                            $('.CostoaddCategory').append(' <div class="col-lg-12 Costocomboboxdiv">')
+                            $('.CostoaddCategory div:last-child').append('<nav class="navCategory"></nav>')
+
+                            $('.CostoaddCategory div:last-child nav').append('<select id="Costose2" class="form-control Costocomboboxse2" style="font-size:20px;"></select>')
+
+                            $.each(datas, function (idx, category) {
+                                $('.CostoaddCategory div:last-child nav:last-child>select').append('<option style="font-size:20px;"></option>')
+                                $('.CostoaddCategory div:last-child nav:last-child>select option:last-child')
+                                                                .attr('value', category.CustomizedCategoryID)
+                                                                .attr('data-parentid', category.ParentID)
+                                                                .append(category.CustomizedCategoryName);
+                            })
+                            //-----------------------------------------------------------------------------------------
+                            add();
+                        }//each結束
+                    })//取得子分類結束
+                }
+
+            })
+            function add() {
+                $('.Costocomboboxse2').on('change', function () {
+                    //除去this以下選項
+                    $('~ div', $(this).parent().parent()).remove('div')
+                    //取得子分類
+                    var nextCategoryID = $(this).val()
+                    //console.log(nextCategoryID)
+                    $.getJSON('@Url.Action("GetCostomizedParentSec", "Json")' + '?CategoryID=' + nextCategoryID, function (datas) {
+                        //分類有資料才做
+                        if (datas.length > 1) {
+                            $('.CostoaddCategory').append('<div class="col-lg-12 Costocomboboxdiv">')
+                            $('.CostoaddCategory div:last-child').append('<nav class="navCategory"></nav>')
+
+                            $('.CostoaddCategory div:last-child nav').append('<select id="Costose2" style="font-size:20px;" class="form-control Costocomboboxse2"></select>')
+
+                            $.each(datas, function (idx, category) {
+                                $('.CostoaddCategory div:last-child nav:last-child>select').append('<option style="font-size:20px;"></option>')
+                                $('.CostoaddCategory div:last-child nav:last-child>select option:last-child')
+                                                                .attr('value', category.CustomizedCategoryID)
+                                                                .attr('data-parentid', category.ParentID)
+                                                                .append(category.CustomizedCategoryName);
+                            })
+                            //-----------------------------------------------------------------------------------------
+                        }//each結束
+                        $('.Costocomboboxse2').unbind('change');
+                        add();
+                    })//取得子分類結束
+                })
+            }
+
+            //---------------------------------------------------------------------------------------
+            //新增要設定Option的控制項
+            $('#AddOptionControl').on('click', function LoadProduct() {
+                $('.addOptionControl:last-child').append(' <div class="col-lg-6">@Html.TextBox("options", null, new { @class = "form-control options", placeholder = "輸入選項名稱",style="font-size:20px;" })</div><div class="col-lg-6"><input type="number" placeholder="產品客製化後需要額外支付的金額" min="0" class="form-control payforOption" value="0" style="font-size:20px;"/></div>')
+            })
+            //}//取得商品名稱方法結束
+            //---------------------------------------------------------------------------------------
+
+
+            //確定送出新增Option資料
+            $('.sendCostomizedOption').on('click', function () {
+                CreateCostomizedOption();
+                //var pp = $('.add').find(':selected').length;//.add中 有幾個select控制項
+                //console.log(pp)
+            })//新增套餐click結束
+            //---------------------------------------------------------------------------------------
+            //新增套餐方法開始
+            function CreateCostomizedOption() {
+                var strUrl = '@Url.Action("CreateCustomizedOption", new { controller = "CustomizedCategory" })';
+                //最後一項分類ID == 0，最後一個有分類ID的
+                var fCustomizedCategoryID = $('.CostoaddCategory>div:last-child').find('select').val();
+                if (fCustomizedCategoryID == 0)
+                {
+                    fCustomizedCategoryID = $('.CostoaddCategory>div:last-child').prev().find('select').val();
+                }
+                //沒選擇客製化分類
+                console.log(fCustomizedCategoryID)
+                if (fCustomizedCategoryID == undefined || fCustomizedCategoryID < 1) {
+                    $('.Createsuccess').text('請選擇客製化分類!!')
+                }
+                else
+                {
+                    //console.log(fCustomizedCategoryID)
+                    $('.addOptionControl').find('.options').each(function () {
+                        var OptionName = $(this).val()
+                        var PayforOption = $(this).parent().next().find('input').val()
+                        if ($(this).val() != 0) {
+                            var strJsonData = JSON.stringify({
+                                "fCustomizedOptionID": "",
+                                "fCustomizedCategoryID": fCustomizedCategoryID,
+                                "fCustomizedOptionName": OptionName,
+                                "fPrice": PayforOption,
+                            });
+                            console.log(strJsonData)//測試Json資料是否正確
+                            $.ajax({
+                                url: strUrl,
+                                type: 'POST',
+                                data: strJsonData,
+                                contentType: "application/json; charset=utf-8",
+                                success: function () {
+                                    $('.Createsuccess').text('新增完畢!!')
+                                    //清除控制項的文字
+                                    $('.addOptionControl input').val("")
+                                    $('#clearoption input').val("0")
+                                },
+                                error: function () {
+                                    $('.Createsuccess').text('新增失敗!!')
+                                }
+                            })
+                        }
+                    })//each結束
+                }
+              
+                //新增完清除控制項
+                $('~div', '#clearoption').remove('div')
+                
+                //沒設定選項按下新增
+                console.log($('.addOptionControl input').val())
+                if ($('.addOptionControl input').val() == "")
+                { $('.Createsuccess').text('請輸入選項名稱') }
+               
+            }//新增套餐方法結束
+            
+            //---------------------------------------------------------------------------------------
+            //更改套餐名稱選項 清除顯示"套餐新增成功"
+            $('#Costonav select').on('change', function () {
+                $('.Createsuccess').text(' ');
+            })
+        })
+    </script>
+    

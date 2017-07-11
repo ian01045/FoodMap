@@ -1,0 +1,22 @@
+﻿@model FoodDeliveryTemplete.Models.tAdvertisement_Article
+@{
+    ViewBag.Title = "test";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminIndexPage.cshtml";
+}
+<div class="container">
+    <h2>廣告內容</h2>
+    <h2>@Model.fSubject</h2>
+    <p>@Html.Raw(Model.fContentText)</p>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+
+
+
+
+
+
+

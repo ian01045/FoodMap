@@ -1,0 +1,1094 @@
+﻿@model FoodDeliveryTemplete.ViewModels.RestaurantBlogViewModels
+
+<!--主版-->
+@{
+    ViewBag.Title = "食速列車-餐廳部落格";
+    Layout = "~/Areas/Member/Views/Blog/_BlogPage.cshtml";
+}
+@section style
+{
+
+    <link href="~/css/blog/default.css" rel="stylesheet" />
+    <link href="~/css/blog/component.css" rel="stylesheet" />
+    <link href="~/css/blog/blogtab.css" rel="stylesheet" />
+    <link href="~/Content/MessageBoard/Index.css" rel="stylesheet" />
+    <link href="~/css/blog/comment.css" rel="stylesheet" />
+    <style>
+        .cart h1, h2, h3, h4, h5, h6 {
+            font-family: '標楷體';
+            padding-left: 10px;
+        }
+
+        .cart-footer {
+            background-color: white;
+        }
+
+        .btn-warning {
+            font-family: '標楷體';
+            font-size: 18px;
+        }
+
+        .panel-body {
+            padding-left: 5px;
+            padding-right: 5px;
+            background-color: white;
+        }
+
+        .cart {
+            background: #fcf0de;
+            border: 2px solid #fca037;
+            margin-left: 20px;
+            width: 100%;
+        }
+
+        .checkout-hr-border {
+            color: #fca037;
+            background: #fca037;
+        }
+
+        .cart-footer {
+            background: #ffffff;
+        }
+
+        .panel-heading {
+            background: #ffffff;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        label {
+            display: block;
+            cursor: pointer;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 39px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        }
+
+        .profile {
+            min-height: 355px;
+            display: inline-block;
+        }
+
+        figcaption.ratings {
+            margin-top: 20px;
+        }
+
+            figcaption.ratings a {
+                color: #f1c40f;
+                font-size: 11px;
+            }
+
+                figcaption.ratings a:hover {
+                    color: #f39c12;
+                    text-decoration: none;
+                }
+
+        .emphasis:hover {
+            border-top: 4px solid #1abc9c;
+        }
+
+        .emphasis h2 {
+            margin-bottom: 0;
+        }
+
+        span.tags {
+            background: #1abc9c;
+            border-radius: 2px;
+            color: #f5f5f5;
+            font-weight: bold;
+            padding: 2px 4px;
+        }
+
+        .dropdown-menu {
+            background-color: #34495e;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            width: 250px;
+            margin-left: -125px;
+            left: 50%;
+        }
+
+            .dropdown-menu .divider {
+                background: none;
+            }
+
+            .dropdown-menu > li > a {
+                color: #f5f5f5;
+            }
+
+        .dropup .dropdown-menu {
+            margin-bottom: 10px;
+        }
+
+            .dropup .dropdown-menu:before {
+                content: "";
+                border-top: 10px solid #34495e;
+                border-right: 10px solid transparent;
+                border-left: 10px solid transparent;
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                margin-left: -10px;
+                z-index: 10;
+            }
+
+        #panel-tab3 {
+            border: 2px solid #fca037;
+            border-radius: 4px;
+        }
+
+        #blogimg {
+            height: 250px;
+            width: 300px;
+        }
+
+        .review-block-name {
+            font-size: 12px;
+            margin: 10px 0;
+        }
+
+        .review-block-date {
+            font-size: 12px;
+        }
+
+        .review-block-rate {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .review-block-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .review-block-description {
+            font-size: 13px;
+        }
+
+        .blogShort {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .btn-blog {
+            color: #ffffff;
+            background-color: #fca037;
+            border-color: #ffd800;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+            .btn-blog:hover,
+            .btn-blog:focus,
+            .btn-blog:active,
+            .btn-blog.active {
+                color: white;
+                background-color: #fa401e;
+                border-color: #ff6a00;
+            }
+
+        #foodimage {
+            height: 70px;
+            width: 90px;
+            border: solid 2px #ffbd8e;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #restaurantname > p {
+            font-family: '標楷體';
+        }
+
+        /*#foodshow {
+                border:2px solid#fca037;
+                border-radius:5px;
+            }*/
+        #cartindexdiv div {
+            color: black;
+            font-family: 'Microsoft YaHei';
+        }
+
+        html > /**/ body #fFoodImage {
+            height: 300px !important;
+        }
+
+        .captionshow {
+            max-height: 146px;
+            overflow: auto;
+        }
+
+        #cartindexdiv div {
+            color: black;
+            font-family: 'Microsoft YaHei';
+        }
+
+        #cartindexdiv img {
+            height: 100px;
+        }
+
+        .captionshow {
+            max-height: 146px;
+            overflow: hidden;
+        }
+        /*數量*/
+        /*.container {
+            margin-top: 50px;
+            margin-left: 50px;
+        }*/
+
+        /*button.qty-change {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1px solid #e3e3e3;
+        }
+
+        .qty-input {
+            height: 30px;
+            width: 80px;
+            text-align: center;
+        }*/
+        #loading {
+            display: none;
+        }
+
+        .alink {
+            font-family: '標楷體';
+            color: #0094ff;
+            font-size: 16px;
+        }
+
+        #wait {
+            display: none;
+            position: absolute;
+            height: 95%;
+            width: 89%;
+            background-color: rgba(167, 153, 153, 0.44);
+            z-index: 9999;
+        }
+
+            #wait img {
+                left: 45%;
+                z-index: 100000;
+                top: 45%;
+                position: absolute;
+            }
+
+        #messagesTable > .list-group-item {
+            margin-bottom: 1%;
+            border: 1px solid #FFC107;
+            border-radius: 4px;
+        }
+
+        #msgshow > span {
+            font-family: '標楷體';
+            color: #fca037;
+            font-size: 18px;
+            font-weight: 800;
+            padding-left: 0;
+        }
+
+        #timeshow {
+            font-family: '標楷體';
+            color: #139808;
+            font-size: 14px;
+            font-weight: 500;
+            padding-left: 10px;
+        }
+
+        .msgdiv {
+            background: #fcf0de;
+            border: 2px solid #f39c12;
+            margin-left: 20px;
+            width: 100%;
+        }
+
+        #txtmsg {
+            max-width: 100%;
+            background-color: rgba(245, 179, 116, 0.49);
+            font-family: '標楷體';
+        }
+
+        .fFoodImage {
+            width: 130px;
+            height: 100px;
+        }
+
+        .sub-Item {
+            width: 48%;
+            display: inline-block;
+        }
+
+        .modal-body hr {
+            margin: 0;
+        }
+
+        .showrestaurantstardiv {
+            font-family: '標楷體';
+            color: #fa401e;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .shitstardiv {
+            margin-top: 5px;
+            font-family: '標楷體';
+            color: #ee473c;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        /* Rating Star Widgets Style */
+        .rating-stars ul {
+            list-style-type: none;
+            padding: 0;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+            .rating-stars ul > li.star {
+                display: inline-block;
+            }
+
+                /* Idle State of the stars */
+                .rating-stars ul > li.star > i.fa {
+                    font-size: 1.5em; /* Change the size of the stars */
+                    color: #ccc; /* Color on idle state */
+                }
+
+                /* Hover state of the stars */
+                .rating-stars ul > li.star.hover > i.fa {
+                    color: #FFCC36;
+                }
+
+                /* Selected state of the stars */
+                .rating-stars ul > li.star.selected > i.fa {
+                    color: #FF912C;
+                }
+
+        .text-message > span {
+            font-family: '標楷體';
+            font-size: 16px;
+            color: #fa401e;
+        }
+
+        .topicfood > .topicspan1 {
+            font-family: '標楷體';
+            font-size: 18px;
+            color: #FF912C;
+            font-weight: 800;
+            padding-left: 0;
+        }
+
+        .topicfood > .topicspan2 {
+            font-family: '標楷體';
+            font-size: 14px;
+            color: #35b90e;
+            font-weight: 800;
+            padding-left: 5px;
+        }
+    </style>
+
+}
+
+
+<div class="container" style="margin-top:50px;margin-bottom: 100px;">
+    <a href="@Url.Action("Index","Blog",new {Area="Member" })" class="btn btn-danger">回到部落格搜尋</a><div class="panel with-nav-tabs panel-warning" style="border:none">
+        <h3 style="padding-left:10px; font-size:16px">目前正在" @Model.fRestaurantName "的部落格</h3>
+        <div class="panel-heading">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab1warning" data-toggle="tab">餐廳美食</a>
+                </li>
+                <li>
+                    <a href="#tab2warning" data-toggle="tab">訂單評價</a>
+                </li>
+                <li>
+                    <a href="#tab3warning" data-toggle="tab">餐廳資訊</a>
+                </li>
+                <li>
+                    <a href="#tab4warning" data-toggle="tab">餐廳留言板</a>
+                </li>
+                <li>
+                    <a href="#tab5warning" data-toggle="tab">餐廳消息板</a>
+                </li>
+            </ul>
+        </div><!--Tab1-->
+        <div class="panel-body" style="background-color:rgb(255, 255, 255);padding-right:5px;padding-left: 0px;">
+            <div class="col-md-9" style="padding-left: 0px;">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1warning">
+                        <div class="col-md-3 col-sm-4" style="padding-left: 0px;">
+                            <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left cbp-spmenu-open" id="cbp-spmenu-s1">
+                                <h3>菜單類別</h3>
+                                @Html.Action("Nav", "Cart", new { _fRestaurantID = Model.fRestaurantID })
+                            </nav>
+                        </div>
+                        <div id="foodshow" class="col-md-9 col-sm-8">
+                            <!--放置餐點-->
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab2warning">
+                        <div class="col-md-12 col-sm-12" style="padding-left:0;padding-right:0;">
+                            <div class="panel panel-warning" style="margin-bottom:0">
+                                <div class="panel-heading"><h3 style="margin-top:5px;margin-bottom:5px;">@Model.fRestaurantName</h3></div>
+                                <div id="showcomment" class="panel-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--Tab2-->
+                    <div class="tab-pane fade" id="tab3warning">
+                        <!--Tab3-->
+                        <div class="panel-body" id="panel-tab3">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-sm-12">
+                                    <div id="restaurantname" class="col-xs-6 col-sm-6">
+                                        <h3 style="padding-left:0; font-size:20px">@Model.fRestaurantName  資訊</h3>
+                                        <p>
+                                            <strong>公休日: </strong> @Model.fRoutine_RestDay_per_week_
+                                        </p>
+                                        <p>
+                                            <strong>付款方式: </strong> 貨到付款、電子錢包
+                                        </p>
+                                        <p>
+                                            <strong>給您的星星吧: </strong>
+                                            <div class='rating-stars' id="showmembercomment">
+                                                <!--評價星星的地方-->
+                                            </div>
+                                            <div class='success-box'>
+                                                <div class='clearfix'></div>
+                                                <div class='text-message'></div>
+                                                <div class='clearfix'></div>
+                                            </div>
+                                        </p>
+                                        @*<p>
+                                                <strong>Skills: </strong>
+                                                <span class="tags">html5</span>
+                                                <span class="tags">css3</span>
+                                                <span class="tags">jquery</span>
+                                                <span class="tags">bootstrap3</span>
+                                            </p>*@
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 text-center">
+                                        <figure>
+                                            <img id="blogimg" class="img-thumbnail img-responsive" src="@Url.Action("GetBlogImage","Blog",new {id=Model.fPhotoID })" />
+                                            <figcaption id="ratingspost" class="ratings">
+                                                <!--放置評價-->
+                                            </figcaption>
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 divider text-center">
+                                    <div id="divshowlike" class="col-xs-4 col-sm-4 emphasis">
+
+                                    </div>
+                                    <div id="divshowfav" class="col-xs-4 col-sm-4 emphasis">
+
+                                    </div>
+                                    <div id="divchatwith" class="col-xs-4 col-sm-4 emphasis">
+                                        <h3 style="color:skyblue">
+                                            <strong> 聊天囉</strong>
+                                        </h3>
+                                        <button class="btn btn-success btn-block" id="chatwithrestaurant" name="@Model.fRestaurantName" value="@Model.fRestaurantID">跟店家說悄悄話</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab4warning">
+                        <!--Tab3-->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="panel msgdiv">
+                                    <div class="panel-body" id="wait">
+                                        <img src="http://i.stack.imgur.com/FhHRx.gif" />
+                                    </div>
+                                    <div class="panel-heading">
+                                        <div class="panel-title">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <h4>
+                                                        <span class="glyphicon glyphicon-comment"></span> 訪客留言
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="" class="panel-body">
+                                        <div class="col-xs-12">
+                                            <textarea id="txtmsg" placeholder="寫下您的留言吧" style="overflow-y:hidden; height:100px;" onpropertychange="this.style.height=this.scrollHeight + 'px'" oninput="this.style.height=this.scrollHeight + 'px'"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer cart-footer">
+                                        <div class="row text-center">
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <button class="btn btn-block btn-warning" id="btnsendmsg">
+                                                    送出留言
+                                                </button>
+                                                <button class="btn btn-block btn-danger" id="wangmsg">
+                                                    阿育王
+                                                </button>
+                                                <button class="btn btn-block btn-success" id="currymsg">
+                                                    Curry
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div id="messagesTable"></div>
+                            </div>
+                        </div>
+                    </div>
+                    @*濠銘用的*@
+                    <div class="tab-pane fade newsboard" id="tab5warning">
+                        <div class="col-md-12 col-sm-12" style="padding-left:0;padding-right:0;">
+                            <div class="col-sm-12">
+                                <div class="col-sm-3 newsnav" id="newstype">
+                                    @Html.Action("NavCategoryForBlog", "RestaurantNews", new { Area = "Restaurant", id = Model.fRestaurantID })
+                                </div>
+                                <div class="col-sm-9 manynews" id="news">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel cart">
+                    <div class="panel-body" id="wait">
+                        <img src="http://i.stack.imgur.com/FhHRx.gif" />
+                    </div>
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h4>
+                                        <span class="glyphicon glyphicon-shopping-cart"></span> 您的餐點
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="blogorders" class="panel-body">
+                            <!--購物車-->
+
+
+                        </div>
+                    </div><!--包div的-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--我的最愛分類選項表單-->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="padding-top:200px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">想將 " @Model.fRestaurantName " 想加入哪個類別呢?</h4>
+            </div>
+            <div class="modal-body">
+                <select id="selectmyfav">
+                    <!--不好意思，我有點懶，直接寫死-->
+                    <option value="1">中式料理</option>
+                    <option value="2">日式料理</option>
+                    <option value="4">異國料理</option>
+                    <option value="5">燒烤類</option>
+                    <option value="6">鍋類</option>
+                    <option value="7">速食料理</option>
+                    <option value="9">咖啡、簡餐、茶</option>
+                    <option value="8">素食</option>
+                    <option value="10">早餐</option>
+                    <option value="11">家庭聚餐</option>
+                    <option value="13">朋友聚會</option>
+                    <option value="14">其他</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning addmyfav" data-dismiss="modal">加入我的最愛</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section script
+{
+    <script>
+        $(function () {
+
+            var path = location.pathname;
+            //Blog初始載入評價
+            $('#showcomment').load("@Url.Action("ShowCommentandStar", "Blog",new {id = Model.fRestaurantID})")
+            //Blog裡面購物車初始載入頁面
+            $('#blogorders').load("@Url.Action("PartialCartList", "Cart", new { Area = "Member" })?fCartID=" + '@ViewBag.fCartID');
+            //Blog初始載入讚數
+            $('#divshowlike').load("@Url.Action("ConditionLike", "Blog",new {Area="Member", id = Model.fRestaurantID })")
+            //Blog載入我的最愛
+            $('#divshowfav').load("@Url.Action("ConditionMyFavorite", "Blog",new {Area="Member",id=Model.fRestaurantID})")
+            //Blog載入該餐廳之平均評價
+            $('#ratingspost').load("@Url.Action("GiveStars", "Blog",new {Area="Member",id=Model.fRestaurantID})")
+            //Blog載入客戶給予評價或否
+            $('#showmembercomment').load("@Url.Action("MemberGiveStarsCondition", "Blog",new {Area="Member",id=Model.fRestaurantID})")
+            //小紅的餐點--PartialView餐點載入
+            var cid = 11;
+            var d = "N";
+            $('#foodshow').load('@Url.Action("Indexx","Cart",new {Area="Member" })/'+cid+'?IsMeal='+d+'');
+                   
+          
+
+            //濠銘
+            @*$('#newstype').load("@Url.Action("NavCategoryForBlog","RestaurantNews",new { Area = "Restaurant", id = Model.fRestaurantID })")*@
+
+            $('#news').load('@Url.Action("NewsForblog", "RestaurantNews",new { Area = "Restaurant", id = Model.fRestaurantID })'+'/?categoryid=' + $('#ligroup>li:eq(0)').addClass('active').attr('data-categoryid'));
+
+            $('#newstype').on('click', 'li', function () {
+                var categoryid = $(this).data("categoryid");
+
+                var strUrl = '@Url.Action("NewsForblog", "RestaurantNews", new { Area= "Restaurant",id= Model.fRestaurantID})'+'?categoryid='+"navid"
+                strUrl=strUrl.replace("navid",categoryid);
+
+                $('#news').load(strUrl);
+                $('#ligroup>li').removeClass('active');
+                $(this).addClass("active");
+            })
+
+            //給星星
+            $('#showmembercomment').on('mouseover','#stars li', function(){
+                var onStar = parseInt($(this).data('value'), 10);
+                $(this).parent().children('li.star').each(function(e){
+                    if (e < onStar) {
+                        $(this).addClass('hover');
+                    }
+                    else {
+                        $(this).removeClass('hover');
+                    }
+                });
+
+            }).on('mouseout','#stars li', function(){
+                $(this).parent().children('li.star').each(function(e){
+                    $(this).removeClass('hover');
+                });
+            });
+            //點擊星星後，顯示幾個星星
+            $('#showmembercomment').on('click','#stars li', function(){
+                var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+                var stars = $(this).parent().children('li.star');
+
+
+                for (i = 0; i < stars.length; i++) {
+                    $(stars[i]).removeClass('selected');
+                }
+
+                for (i = 0; i < onStar; i++) {
+                    $(stars[i]).addClass('selected');
+                }
+                //將給予的評價寫入資料庫
+                var starnum = $(this).data('value')
+                var GiveStar = "@Url.Action("MemberGiveStars", "Blog", new { Area = "Member" })";
+                var JsonData = JSON.stringify({"id":starnum,"restID":@Model.fRestaurantID});
+                $.ajax({
+                    url: GiveStar,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                }).done(function (data) {
+                    $('#showcomment').load("@Url.Action("ShowCommentandStar", "Blog",new {id = Model.fRestaurantID})")
+                    $('#ratingspost').load("@Url.Action("GiveStars", "Blog",new {Area="Member",id=Model.fRestaurantID})")
+                });
+
+                //告知評價
+                var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+                var msg = "";
+                if (ratingValue > 1) {
+                    msg = "謝謝您! 給予 " + ratingValue + " 顆星";
+                }
+                else {
+                    msg = "我們會再接再厲，您給了 " + ratingValue + " 顆星";
+                }
+                responseMessage(msg);
+            });
+
+
+
+            //購物車數字改變
+            //註冊a的click事件，並寫數量減少的事件
+            $("#blogorders").on("click", ".quanminus", function (e) {
+                var qua = $(this).siblings('input');
+                var intqua = parseInt(qua.val());
+                if (intqua > 1) {
+                    qua.val(intqua - 1);
+                }
+                $('#wait').show();
+                var quantity = $(this).siblings('.qant').attr('name');
+                var Modified = "@Url.Action("PartialModifiedQuan", "Cart", new { Area = "Member" })";
+                var JsonData = JSON.stringify({ "fRecordID": quantity, "quantity": qua.val() });
+                $.ajax({
+                    url: Modified,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                }).done(function (data) {
+                    var cartID = data._fCartID;
+                    $('#wait').hide(1000);
+                    $('#blogorders').load("@Url.Action("PartialCartList", "Cart",new {Area="Member" })?fCartID=" + cartID)
+                });
+
+            });
+            //數量增加
+            $("#blogorders").on("click", ".quanplus", function () {
+                var qua = $(this).siblings('input');
+                var intqua = parseInt(qua.val());
+                qua.val(intqua + 1);
+                var quantity = $(this).siblings('.qant').attr('name');
+                var Modified = "@Url.Action("PartialModifiedQuan", "Cart", new { Area = "Member" })";
+                var JsonData = JSON.stringify({ "fRecordID": quantity, "quantity": qua.val() });
+                $('#wait').show();
+                $.ajax({
+                    url: Modified,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                }).done(function (data) {
+                    var cartID = data._fCartID;
+                    $('#wait').hide(1000);
+                    $('#blogorders').load("@Url.Action("PartialCartList", "Cart", new { Area = "Member" })?fCartID=" + cartID)
+                });
+            });
+            //註冊刪除事件
+            $('#blogorders').on("click", ".deletefood", function () {
+                $('#wait').show();
+                var deleteID = $(this).attr("name");
+                var Delete = "@Url.Action("PartialDelete", "Cart", new { Area = "Member" })";
+                var JsonData = JSON.stringify({ "fRecordID": deleteID });
+                $.ajax({
+                    url: Delete,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                }).done(function (data) {
+                    var cartID = data._fCartID;
+                    $('#wait').hide(1500);
+                    $('#blogorders').load("@Url.Action("PartialCartList", "Cart", new { Area = "Member" })?fCartID=" + cartID)
+                });
+            });
+            //套餐
+            $('#cbp-spmenu-s1').on("click",".linkformeal",function(){
+                $('#foodshow').fadeOut(1000, function () {
+                    $('#foodshow').load('@Url.Action("Indexx","Cart",new {Area="Member",IsMeal="Y"})', function () {
+                        $('#foodshow').fadeIn(1000);
+                    });
+                });
+            })
+
+
+            //NavBar先取消事件
+            //NavBar先取消事件
+            $('#cbp-spmenu-s1').on('click',".ohmygod", function () {
+                var id = $(this).attr("id");
+                var n = "N";
+                console.log(id)
+                $('#foodshow').fadeOut(500, function () {
+                    $('#foodshow').load('@Url.Action("Indexx","Cart",new {Area="Member" })/'+id+'?IsMeal='+n+'', function () {
+                        $('#foodshow').fadeIn(500);
+                    });
+                });
+            });
+            ///小紅的購物車購買選擇數量的事件
+            $("#foodshow").on("click",".quantity-right-plus", function (e) {
+                var ID = $(this).parents(".input-group").children(".quantity");
+                var quantity = parseInt(ID.val());
+                ID.val(quantity + 1);
+                console.log(ID.val())
+            });
+            $("#foodshow").on("click",".quantity-left-minus", function (e) {
+                var ID = $(this).parents(".input-group").children(".quantity");
+                var quantity = parseInt(ID.val());
+                if (quantity > 0) { ID.val(quantity - 1); }
+                console.log(ID.val())
+            });
+            var cartID
+            $("#foodshow").on("click",".gotoCart", function (e) {
+
+                //將food顯示在blogorders上
+                var Cart = '@Url.Action("AddToCart","Cart",new {Area="Member"})';
+                var quan = $(this).siblings('.fooddetailcontainer').find("input").val();
+                var CCID = $(this).parents(".gotocartcontainer").find("select > option:selected").val();//客製化選項(select下拉選單)
+                if(CCID!=null){
+                    var IntCCID = parseInt(CCID);
+                }
+                else{
+                    var IntCCID = 0;
+                }
+
+                console.log(IntCCID);
+                var JsonData = JSON.stringify({ "fFoodID": $(this).val(),"id":quan,"CCID":IntCCID});
+                $.ajax({
+                    url: Cart,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                }).done(function (data) {
+                    cartID = data._fCartID;
+                    $('#blogorders').load('@Url.Action("PartialCartList", "Cart",new {Area="Member" })'+"?fCartID=" + cartID)
+                });//ajax結束
+            });
+
+            //Demo鍵
+            $('#wangmsg').click(function(){
+                $('#txtmsg').val('東西真的好好吃唷');
+            });
+            $('#currymsg').click(function(){
+                $('#txtmsg').val('阿阿阿阿 太正點啦，我說的是食物阿!!')
+            })
+
+
+            //留言送出
+            $('#btnsendmsg').click(function () {
+                var sendMsg = "@Url.Action("SendMessage", "Message",new {Area="Member" })"
+                var JsonData = JSON.stringify({ "content": $('#txtmsg').val(),"id":@Model.fRestaurantID});
+                $.ajax({
+                    url: sendMsg,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                }).done(function () {
+                    $('#txtmsg').val("")
+                })
+            })
+
+            //留言刪除
+            $('#messagesTable').on("click", ".deletemsg", function () {
+                console.log($(this));
+            })
+
+            //給讚
+            $('#divshowlike').on("click", ".givelike", function () {
+                var givelike = "@Url.Action("GiveLike", "Blog",new {Area="Member" })"
+                var JsonData = JSON.stringify({ "id": @Model.fRestaurantID});
+                $.ajax({
+                    url: givelike,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+
+                }).done(function (data) {
+                    if(data =="成功")
+                        $('#divshowlike').load("@Url.Action("ConditionLike", "Blog",new {Area="Member",id=Model.fRestaurantID})")
+                });
+            });
+            //收回讚
+            $('#divshowlike').on("click", ".takebacklike", function () {
+                var givelike = "@Url.Action("DeleteLike", "Blog",new {Area="Member" })"
+                var JsonData = JSON.stringify({ "id": @Model.fRestaurantID});
+                $.ajax({
+                    url: givelike,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+
+                }).done(function (data) {
+                    if(data =="成功")
+                        $('#divshowlike').load("@Url.Action("ConditionLike", "Blog",new {Area="Member",id=@Model.fRestaurantID })")
+                });
+            });
+
+            //加到我的最愛
+            $('.addmyfav').click(function(){
+                var Love = "@Url.Action("AddMyFav", "Blog",new {Area="Member" })"
+                var myid =  $('#selectmyfav :selected').val()
+                var JsonData = JSON.stringify({ "id": @Model.fRestaurantID,"content":myid});
+                //console.log(myid)
+                $.ajax({
+                    url: Love,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+
+                }).done(function (data) {
+                    if(data =="成功")
+                        $('#divshowfav').load("@Url.Action("ConditionMyFavorite", "Blog",new {Area="Member",id=Model.fRestaurantID})")
+                });
+            })
+            //取消我的最愛
+            $('#divshowfav').on("click",".cancelmyfav",function(){
+                var deletelove = "@Url.Action("DeleteLove", "Blog",new {Area="Member" })"
+                var JsonData = JSON.stringify({ "id": @Model.fRestaurantID});
+                $.ajax({
+                    url: deletelove,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+
+                }).done(function (data) {
+                    if(data =="成功")
+                        $('#divshowfav').load("@Url.Action("ConditionMyFavorite", "Blog",new {Area="Member",id=Model.fRestaurantID})")
+                });
+            });
+
+            var notifications = $.connection.messagesHub;
+
+            //debugger;
+            // Create a function that the hub can call to broadcast messages.
+            notifications.client.updateMessages = function () {
+                getAllMessages()
+                ChatMessages(_ID)
+                UnReadMsg()
+
+            };
+            // Start the connection.
+            $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+                getAllMessages();
+                ChatMessages(_ID);
+                UnReadMsg()
+            }).fail(function (e) {
+                alert(e);
+            });
+            var _ID = 0
+            //點擊與誰聊天
+            $("#chatwithrestaurant").on("click", function () {
+                //抓聊天對象的參數
+                var id = $(this).val();
+                var name = $(this).attr('name');
+                _ID = id;
+                //點擊後顯示已讀
+                var maketrue = "@Url.Action("ReadMessage", "Chat")/" + _ID + "";
+                $.ajax({
+                    url: maketrue,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function () {
+
+                });//點擊顯示已讀結束
+
+
+                $("#chatnameshow").text(name);
+                var notifications = $.connection.messagesHub;
+                notifications.client.updateMessages = function () {
+                    GoChatMessages()
+                };
+                // Start the connection.
+                $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+                    GoChatMessages()
+                }).fail(function (e) {
+                    alert(e);
+                });
+                function GoChatMessages() {
+                    var msgURL = "@Url.Action("GetMessages", "Chat")/" + id;
+                    var tbl = $('#takechatcontentin');
+                    $.ajax({
+                        url: msgURL,
+                        contentType: 'application/html ; charset:utf-8',
+                        type: 'GET',
+                        dataType: 'html'
+                    }).success(function (result) {
+                        tbl.empty().append(result);
+                        $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+                    }).error(function () {
+
+                    });
+                }  //點擊與誰聊天結束
+
+
+                //傳送訊息
+                $(".inputpanelchat").on("click", "#btn-chat", function () {
+                    var showcon = $(this).parents().find("#btn-input");
+                    var content = $(this).parents().find("#btn-input").val();
+                    var msgURL = "@Url.Action("SendMesseages", "Chat",new {Area="Member" })"
+                    console.log(content)
+                    var JsonData = JSON.stringify({ "resid": _ID, "content": content });
+                    console.log(_ID);
+                    $.ajax({
+                        url: msgURL,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JsonData
+                    }).done(function () {
+                        showcon.val("");
+                        showcon.focus();
+                    })
+                });
+            });
+        });
+
+        function getAllMessages()
+        {
+            var msgURL = "@Url.Action("GetMessages", "Message",new { Area="Member" })";
+            var tbl = $('#messagesTable');
+            $.ajax({
+                url: msgURL,
+                contentType: 'application/html ; charset:utf-8',
+                type: 'GET',
+                dataType: 'html'
+            }).success(function (result) {
+                tbl.empty().append(result);
+            }).error(function () {
+
+            });
+
+        }
+        function ChatMessages(id) {
+            var msgURL = "@Url.Action("GetMessages", "Chat",new {Area="Member" })/" + id;
+            var tbl = $('#takechatcontentin');
+            $.ajax({
+                url: msgURL,
+                contentType: 'application/html ; charset:utf-8',
+                type: 'GET',
+                dataType: 'html'
+            }).success(function (result) {
+                tbl.empty().append(result);
+                $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+            }).error(function () {
+
+            });
+        }
+
+        function UnReadMsg() {
+            var msgURL = "@Url.Action("GetUnReadMessages", "Chat")";
+            var tbl = $('.showunreadmsg');
+            $.ajax({
+                url: msgURL,
+                contentType: 'application/html ; charset:utf-8',
+                type: 'GET',
+                dataType: 'html'
+            }).success(function (result) {
+                tbl.empty().append(result);
+            }).error(function () {
+
+            });
+        }
+
+        function responseMessage(msg) {
+            $('.success-box').fadeIn(200);
+            $('.success-box div.text-message').html("<span>" + msg + "</span>");
+        }
+    </script>
+}

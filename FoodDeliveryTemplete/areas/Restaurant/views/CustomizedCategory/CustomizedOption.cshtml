@@ -1,0 +1,84 @@
+﻿
+
+@model IEnumerable<FoodDeliveryTemplete.Models.tFood_CustomizedOption>
+
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10 ">
+        <div class="col-lg-4">
+            @Html.Label("客製化分類名稱")
+            <br />
+            @Html.LabelFor(c => c.First().tRestaurant_FoodCustomizedCategory.fCustomizedCategoryName)
+        </div>
+        <div class="col-lg-8">
+            @*@{
+                    var select = new SelectList(ViewBag.Product, "FfoodID", "FfoodName");
+                    var meallist = ViewBag.Meal;
+                }*@
+            @Html.Label("套餐內容")
+            @foreach (var option in Model)
+            {
+                <div class="row">
+                    <div class="col-lg-8" id="foodidnumber">
+                        @Html.TextBox("OptionName", option.fCustomizedOptionName, new { @class = "form-control", palceholder = "請輸入選項名稱" })
+                    </div>
+                    <div class="col-lg-2 " name="div Update">
+                        <input type="button" class="updatebtn btn btn-warning" value="修改" />
+                    </div>
+                    <div class="col-lg-2">
+                        @Html.ActionLink("刪除", "DeletCustomizedOption", new { id = option.fCustomizedOptionID }, new { @class = "btn btn-danger" })
+                        @Html.LabelFor(c=>option.fCustomizedOptionID)
+                        @Html.CheckBox("刪除", false)
+                    </div>
+                </div>
+            }
+            <input type="button" id="deletoptionbtn" value="刪除選中"/>
+        </div>
+
+
+
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //刪除
+        $('.deletebtn').on('click', function () {
+
+        })
+        @*//修改
+            $('.updatebtn').on("click", function () {
+                var strUrl = '@Url.Action("UpdateMeal", "Meal")';
+                var mealid = @Model.First().tRestaurant_Foods.fFoodID;//套餐ID
+                var foodid = $(this).parent().prev().find("option:selected").val()//要改變的商品ID
+                var foodname = $(this).parent().prev().find('option:selected').text()//要改變的商品名稱
+                var getid = $(this).parent().prev().find('.getid').val()//此商品的fid
+
+                //console.log(getid)
+                if(getid!=null)
+                {
+                    var strJsonData = JSON.stringify({
+                        "fID":getid,
+                        "fMealID": mealid,
+                        "fFoodID": foodid
+                    });
+
+                    //寫入資料
+                    $.ajax({
+                        url: strUrl,
+                        type: 'POST',
+                        data: strJsonData,
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            $('#Createsuccess').text('新增完畢!!')
+                        },
+                        error: function () {
+                            $('#Createsuccess').text('新增失敗!!')
+                        }
+                    })
+                }
+
+            })*@
+    })
+</script>

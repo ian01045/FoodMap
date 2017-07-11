@@ -1,0 +1,292 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurant_Foods>
+
+@section style{
+    <style>
+         body {
+            background:linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+            background:-moz-linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+            background:-webkit-linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+            font-size:200%;
+          
+        }
+        .Createsuccess {
+            color: red;
+        }
+    </style>
+
+}
+
+<form action='@Url.Action("CreateMeal", "Meal")' method="post">
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-md-3">
+            <h2 style="margin:100px;">套餐內容設定</h2>
+        </div>
+        <div class="col-lg-6 col-md-6 col-md-6">
+            <div class="row"style="margin-left:50px;">
+                <div class="col-lg-12">
+                    @Html.Label("套餐名稱：",new {style = "margin-top:50px; font-size:150%" })
+                </div>
+                <div class="col-lg-12">
+                    <nav id="nav">
+                        <select id="se1" class="form-control" style="font-size:100%;"></select>
+                    </nav>
+                </div>
+                <hr />
+                <div class="col-lg-12 ">
+                    @Html.Label("加入套餐的商品分類：", new { style = "margin-top:20px; font-size:150%" })
+                    <div id="wontcategory">
+                        <select class="form-control" id="foodcategory" style="font-size:100%"></select>
+                    </div>
+                   
+                    <input type="button" value="套餐清單" class="AddMeal btn btn-warning" style="margin-top:50px; font-size:100%;"/>
+                   
+                    <br />
+                    @Html.Label("套餐內容：", new { style = "margin-top:20px; font-size:150%" })
+                    <br />
+                </div>
+                <div class="col-lg-12 add">
+                    <nav id="nav2">
+                        <input type="hidden" class="hiddenMeals" name="hiddenMeals" value="222" />
+                    </nav>
+                </div>
+                <div class="col-lg-12"style="margin-top:30px;">
+                    @*<input type="button" class="SendSubMit" value="新增套餐商品" />*@
+                    <input type="button" class="sendMealsId btn btn-warning" value="送出新增資料"style="margin-top:30px; font-size:100%;" />
+                    @Html.Label(" ",new { @class= "Createsuccess" })
+
+                    @Html.CheckBox("closeAlert",false,new {@class="closeAlert",id= "closeAlert"})
+                    <label for="closeAlert">關閉新增成功提醒</label>
+
+                </div>
+                <div class="col-lg-12">
+                    @Html.ActionLink("回上一頁","Index","Meal")
+                    @*@Html.ActionLink("返回餐廳首頁", "Index", "Home", null, new { @class = "btn btn-info" })*@
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-md-3">
+
+        </div>
+    </div>
+</form>
+@section script{
+    <script>
+        $(document).ready(function () {
+            //---------------------------------------------------------------------------------------
+            //取得商品分類
+            $.getJSON('@Url.Action("GetRestaurantCategorys", "Json")', function (datas) {
+                var divNav = $('#foodcategory');
+                //divNav.empty();
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    var option = $('<option></option>').attr('value', category.CategoryId)
+                                                        .append(category.CategoryName);
+                    docFrag.append(option);
+                })
+                divNav.append(docFrag);
+            })//取得分類名稱結束
+
+            //----------------------------------------------------------------------------------------
+            //分類變化產生下層分類
+            $("#foodcategory").on('change', function () {
+                $('.Createsuccess').text('  ')//清掉成功加入提示
+                var selectcategoryid = $(this).val();
+                //console.log(selectcategoryid);
+                //取得分類控制項
+                getcategory(selectcategoryid);
+                
+                //清除大分類以下的控制項
+                $('~select', $(this)).remove('select')
+                $('~input', $(this)).remove('input')
+
+                //$('#wontcategory').append("<input type='button' value='取消分類' class='btn btn-danger deletecon' style='float:right;margin-bottom:15px;'/>");
+            })
+            //---------------------------------------------------------------------------------------
+            function getcategory(selectcategoryid) {
+                $.getJSON('@Url.Action("GetSECCategory", "Json")' + "?CategoryID=" + selectcategoryid, function (datas) {
+                    if (datas.length > 0) {
+                        $('#wontcategory').append("<select class='form-control seccategory'  style='font-size:100%;'></select>")
+                                          
+                        var divNav = $('#wontcategory select:last-child')
+                        //divNav.empty();
+                        var docFrag = $(document.createDocumentFragment());
+
+                        $.each(datas, function (idx, category) {
+                            var option = $('<option></option>').attr('value', category.CategoryId)
+                                                                .append(category.CategoryName);
+                            docFrag.append(option);
+                        })
+                       
+                        divNav.append(docFrag)
+                    }
+                    $('#wontcategory>select').next().remove('input')
+                    $('#wontcategory>select').after("<input type='button' value='取消分類' class='btn btn-danger deletecon' style='float:right;margin-bottom:15px;'/>");
+
+                    $("~select", $(this)).remove("select");
+                    
+                    $('.seccategory').on("change", function () {//次分類change事件
+                       $('.seccategory').unbind('change');
+                       $(this).next().remove('input')
+                       var selectcategoryid = $(this).val();
+                       getcategory(selectcategoryid)
+                       $('~select', $(this)).remove('select')
+                    })
+                    
+                    $('.deletecon').on('click', function () {
+                        if ($('#wontcategory>select').length > 1)
+                        {
+                            $(this).prev().remove('select')
+                            $(this).remove('input')
+                        }
+                       
+                    })
+                    
+                })//取得分類名稱結束
+            }
+            //---------------------------------------------------------------------------------------
+            //取得套餐名稱開始
+            $.getJSON('@Url.Action("getMeals", "Meal")', function (datas) {
+                var divNav = $('#se1');
+                //divNav.empty();
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    var option = $('<option></option>').attr('value', category.FoodId)
+                                                        .attr('id', 'first')
+                                                        .append(category.MealName);
+                    docFrag.append(option);
+                })
+                divNav.append(docFrag);
+            })//取得套餐名稱結束
+            //---------------------------------------------------------------------------------------
+            $('.SendSubMit').on('click', function () {
+                //console.log($('#product:selected').val)
+            })
+
+            //---------------------------------------------------------------------------------------
+            //$(document).ready(LoadProduct());//網頁載入 馬上呼叫LoadProduct()
+            //$(document).ready(LoadProduct());
+            //取得商品名稱方法開始
+            //function LoadProduct() {
+            //取得商品名稱開始
+            $('.AddMeal').on('click', function LoadProduct() {
+                var sele = $('#wontcategory select:last').val();
+                //console.log(sele);
+          
+                $.getJSON('@Url.Action("getProducts", "Meal")' + "?categoryid=" + sele, function (datas) {
+                    if (datas.length > 0) {
+                        //console.log("有資料")
+                        //console.log($('.add>nav select:last-child').length)
+                        if ($('.add>nav select:last-child').length == 0) {
+                            $('.add nav:last-child').append('<select name="selec"  style="font-size:100%;"></select>')
+                        }
+                        //else {
+                        //    $('.add').append('<nav></nav>')
+                        //    $('.add nav:last-child').append('<select name="selec"></select>')
+                        //}
+                        $('.add>nav select:last-child').attr('class', 'form-control AddMealsName')
+                        //find LastOption
+                        LastOption = $('.add>nav>select option:last-child');
+                        LastSelect = $('.add>nav select:last-child');
+                        FinalSelect = $('.add>nav:last-child>select:last-child');
+
+                        //取消套餐按鈕
+                        $(".AddMealsName").next().remove('input')
+                        $(".AddMealsName").after("<input type='button' value='取消內容' class='btn btn-danger deleteOption' style='float:right;margin-bottom:15px;'/>");
+                        $('.deleteOption').on('click', function () {
+                            $(this).prev().remove('select')
+                            $(this).remove('input')
+                        })
+                        $.each(datas, function (idx, Mealid) {
+
+                            //console.log(Mealid.FoodId)
+                            if (LastOption.length == 0) {
+                                LastSelect.append('<option name="ssss"></option>')
+                            }
+                            else {
+                                FinalSelect.append('<option name="ssss"></option>')
+                            }
+                            var q = $('.add>nav:last-child select:last option:last').attr('name')
+                            console.log(q)
+                            $('.add>nav:last select:last option:last').attr('value', Mealid.fFoodID)
+                                                                    .attr('id', 'product')
+                                                                    //.attr('name','AddMealsName')
+                                                                    .append(Mealid.fFoodName);
+                        })
+
+                    }
+                    else
+                    {
+                        //console.log("沒資料")
+                    }
+                   
+                    //---------------------------------------------------------------------------------------
+              
+                    
+                   //有更改套餐內容選項 清除顯示"套餐新增成功"
+                    $('.add select').on('change', function () {
+                        $('.Createsuccess').text(' ')
+                    })
+                })
+
+            })//取得商品名稱結束
+            //}//取得商品名稱方法結束
+            //---------------------------------------------------------------------------------------
+            //開始新增套餐內容
+            $('.sendMealsId').on('click', function () {
+                CreateMeal();
+                //var pp = $('.add').find(':selected').length;//.add中 有幾個select控制項
+                //console.log(pp)
+            })//新增套餐click結束
+            //新增套餐方法開始
+            function CreateMeal() {
+                var strUrl = '@Url.Action("CreateMeal", new { controller = "Meal" })';
+                $('.add').find(':selected').each(function () {
+                    if ($(this).val() != 0)
+                    {
+                        var strJsonData = JSON.stringify({
+                            "fMealID": $('#se1').val(),
+                            "fFoodID": $(this).val()
+                        });
+                        console.log(strJsonData)
+                        $.ajax({
+                            url: strUrl,
+                            type: 'POST',
+                            data: strJsonData,
+                            contentType: "application/json; charset=utf-8",
+                        })
+                    }
+                })
+                //如果沒勾選不顯示提示>>>執行
+                if ($('.closeAlert:checked').length == 0) {
+                    if ($("#se1").val() == 0)
+                    {
+                        alert("請選擇套餐名稱!!")
+                    }
+                    else{
+                        alert($('#nav>select :selected').text() + "的套餐內容設定完畢!!")
+                    }
+                    
+                }
+                //顯示新增成果
+                $('.Createsuccess').text('新增完畢!!')
+                if ($("#se1").val() == 0)
+                {
+                    $('.Createsuccess').text('請選擇套餐名稱')
+                }
+            }//新增套餐方法結束
+            //---------------------------------------------------------------------------------------
+            //更改套餐名稱選項 清除顯示"套餐新增成功"
+            $('#nav select').on('change', function () {
+                $('.Createsuccess').text(' ');
+            })
+
+
+        })
+    </script>
+}

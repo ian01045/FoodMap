@@ -1,0 +1,702 @@
+﻿
+
+@{
+    ViewBag.Title = "Index2";
+}
+
+@*@model IEnumerable<FoodDeliveryTemplete.Areas.yuwang.ViewModel.RestaurantSelect>*@
+
+@section style{
+
+    <style>
+        /*.thumb {
+            width: 150px;
+            height:240px;
+        }*/
+
+        /*置頂樣式*/
+        #toTop {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+            display: none;
+        }
+        /*固定右半邊*/
+        #search_leftside {
+            /*position: fixed;*/
+            /*display: block;*/
+        }
+    </style>
+}
+
+@section script{
+
+@*使用jquery cookies套件*@
+<script src="~/Areas/yuwang/Content/carhartl-jquery-cookie-92b7715/jquery.cookie.js"></script>
+
+    <script>
+
+
+
+        $(document).ready(function () {
+
+
+            document.cookie = "adv_search=true; path=/";
+
+            var restaurant_name = "";
+            var low_price = "";
+            var high_price = "";
+            var res_categoryID = "";
+            var food_categoryID = "";
+
+            //find_res_lists(restaurant_name, low_price, high_price, res_categoryID);
+
+
+
+           var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+            //url = Replace(url, "&amp;", "&"
+
+            var mapObj = {
+                rn: restaurant_name,
+                lp: low_price,
+                hp: high_price,
+                rc: res_categoryID,
+                fc: food_categoryID,
+                '&amp;': '&'
+            };
+            url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                return mapObj[matched];
+            });
+
+            //var url2 = url.replace("&amp;", "&");
+            //var url3 = url2.replace("&amp;", "&");
+            //alert(url);
+
+
+            @*$('#foodshow').fadeOut(1000, function () {
+                $('#foodshow').load('@Url.Action("Indexx","Cart")/' + id + '?IsMeal=' + n + '', function () {
+                    $('#foodshow').fadeIn(2000);
+                });
+            });*@
+
+
+            $('#restList').fadeOut(800, function () {
+                //載入partialview
+                $('#restList').load(url, function () {
+
+                    $('#restList').fadeIn(800);
+
+                    //寫入距離到cookies
+                    $('a.distance_cal').hover(function () {
+                        //alert($(this).next().val())
+                        // $.cookie("distance", null, { path: "/" });
+                        $.cookie('distance', $(this).next().val(), { path: "/" });
+
+                    })
+
+                    //顯示菜單、參與的活動
+                    $('[data-toggle="popover"]').popover({ trigger: 'click' })
+
+                    //置頂按鈕
+                    $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span>置頂</div>');
+                    $(window).scroll(function () {
+                        if ($(this).scrollTop() != 0) {
+                            $('#toTop').fadeIn();
+                        } else {
+                            $('#toTop').fadeOut();
+                        }
+                    });
+                    $('#toTop').click(function () {
+                        $("html, body").animate({ scrollTop: 0 }, 600);
+                        return false;
+                    });
+
+
+                    //重新定位的滑移效果
+                    $('#reLocation_btn').click(function () {
+                        //$.removeCookie('current_latitude', { path: '/' });
+                        //$.removeCookie('current_longitude', { path: '/' });
+                        $('#reLocation_lbl').text("請重新搜尋目前位置!")
+                        $("html, body").animate({ scrollTop: 0 }, 600);
+                        document.cookie = "adv_search=true; path=/";
+                        document.cookie = "restaurant_name=; path=/";
+                        document.cookie = "low_price=; path=/";
+                        document.cookie = "high_price=; path=/";
+                        document.cookie = "res_categoryID=; path=/";
+                        document.cookie = "food_categoryID=; path=/";
+                        return false;
+                    })
+
+
+                    //收折菜色分類
+                    $('ul.child-ul').hide();
+
+                    $('button.food_category_btn').each(function () {
+                        if ($(this).parent().children('ul.child-ul').children().val() == undefined) {
+                            $(this).remove();
+                        }
+                    })
+
+                    $('button.food_category_btn').click(function () {
+
+                        //console.log($(this).parent().children('ul.child-ul').children());
+                        if ($(this).hasClass('glyphicon-plus')) {
+                            $(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');
+                        }
+                        else {
+                            $(this).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+                        }
+
+                        $(this).parent().children('ul.child-ul').toggle(300);
+                    });
+
+
+                    //是否開啟進階搜尋
+                    $('#adv_search').change(function () {
+                        bool = $(this).is(":checked")
+                        //alert(bool);
+                        if (!bool) {
+                            document.cookie = "adv_search=false; path=/";
+                            document.cookie = "restaurant_name=; path=/";
+                            document.cookie = "low_price=; path=/";
+                            document.cookie = "high_price=; path=/";
+                            document.cookie = "res_categoryID=; path=/";
+                            document.cookie = "food_categoryID=; path=/";
+                            $('#select_res_string').val('');
+                            $('#select_res_low_price').val('');
+                            $('#select_res_high_price').val('');
+                        }
+                        else
+                        {
+                            document.cookie = "adv_search=true; path=/";
+                            document.cookie = "restaurant_name=; path=/";
+                            document.cookie = "low_price=; path=/";
+                            document.cookie = "high_price=; path=/";
+                            document.cookie = "res_categoryID=; path=/";
+                            document.cookie = "food_categoryID=; path=/";
+                            $('#select_res_string').val('');
+                            $('#select_res_low_price').val('');
+                            $('#select_res_high_price').val('');
+                        }
+                    })
+
+
+                    //顯示全部餐廳
+                    $('#show_all_res').click(function () {
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        //alert(restaurant_name);
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+                        
+                        })
+                    })
+
+                    //搜尋餐廳名或菜色名
+                    $('#res_search_btn').click(function () {
+
+
+                        var restaurant_name = $('#select_res_string').val();
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        //alert(restaurant_name);
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+                        
+                        })
+
+                    })
+
+
+                    //搜尋客單價
+                    $('#avg_cost_btn').click(function () {
+                        var restaurant_name = "";
+                        var low_price = $('#select_res_low_price').val();
+                        var high_price = $('#select_res_high_price').val();
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+
+                    })
+
+
+                    //搜尋餐廳類別
+                    $('.res_category_li').mouseenter(function () {
+                        //alert('b')
+                        $(this).css('cursor', 'pointer');
+                        //$(this).css('class', 'list-group-item list-group-item-danger res_category_li');
+
+                    })
+                    $('.res_category_li').click(function () {
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = $(this).val();
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+
+                    })
+
+
+                    //搜尋食物類別
+                    $('.food_category_li').mouseenter(function () {
+                        //alert('b')
+                        $(this).css('cursor', 'pointer');
+                        //$(this).css('class', 'list-group-item list-group-item-danger res_category_li');
+
+                    })
+                    $('.food_category_li').click(function (event) {
+                        event.stopPropagation();
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = $(this).val();
+                        //alert(food_categoryID);
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+                    })
+
+
+
+
+                    //排序
+                    $('.orderby').mouseenter(function () {
+                        $(this).css('cursor', 'pointer');
+
+                    })
+
+                    //最新日期
+                    $('#opendate').click(function () {
+
+                        var cookies = "orderby=opendate; path=/";
+                        document.cookie = cookies;
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+
+                    })
+
+                    //銷售熱門
+                    $('#sales').click(function () {
+
+                        var cookies = "orderby=sales; path=/";
+                        document.cookie = cookies;
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+
+                    })
+
+                    //最多收藏
+                    $('#collection').click(function () {
+
+                        var cookies = "orderby=collection; path=/";
+                        document.cookie = cookies;
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+
+                    })
+
+                    //最高星等
+                    $('#stars').click(function () {
+
+                        var cookies = "orderby=stars; path=/";
+                        document.cookie = cookies;
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+                    })
+
+
+                    //最多收藏
+                    $('#collection').click(function () {
+
+                        var cookies = "orderby=collection; path=/";
+                        document.cookie = cookies;
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+
+                    })
+
+                    //最多按讚
+                    $('#likes').click(function () {
+
+                        var cookies = "orderby=likes; path=/";
+                        document.cookie = cookies;
+                        var restaurant_name = "";
+                        var low_price = "";
+                        var high_price = "";
+                        var res_categoryID = "";
+                        var food_categoryID = "";
+
+                        var url="@Url.Action("Restaurants_Select_Outcome", "Select", new { Area="yuwang", restaurant_name = "rn", low_price="lp", high_price="hp", res_categoryID="rc", food_categoryID = "fc" })"
+
+                        var mapObj = {
+                            rn: restaurant_name,
+                            lp: low_price,
+                            hp: high_price,
+                            rc: res_categoryID,
+                            fc: food_categoryID,
+                            '&amp;':'&'
+                        };
+                        url = url.replace(/rn|lp|hp|rc|fc|&amp;/gi, function (matched) {
+                            return mapObj[matched];
+                        });
+
+                        $('#restList').load(url, function () {
+                            //顯示菜單
+                            $(document).ready(function () {
+                                $('[data-toggle="popover"]').popover({ trigger: 'click' })
+                            })
+
+                        })
+                    })
+
+                    @*$('.add_myfav').click(function () {
+                        var res_memID = $(this).parent().next().val();
+                        var like_btn = $(this);
+                        var url = "@Url.Action("Add_Like", "Select", new { Area= "yuwang"})";
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: { res_memID: res_memID, memID: 1021 },
+                            success: function (result) {
+                                console.log(result);
+                                if (result == "已按讚") {
+                                    like_btn.text('已按讚!')
+                                }
+                                if(result=="收回讚")
+                                {
+                                    like_btn.text('收回讚!')
+                                }
+                            },
+                            cache: false
+                        });
+                    })*@
+
+
+                    })
+            })
+
+
+
+
+        });
+
+
+
+    </script>
+}
+
+
+
+
+<div class="container">
+
+    <div class="row" id="start">
+
+        <div class="col-lg-3" id="search_leftside">
+
+            <div class="panel panel-warning" style="padding:5px">
+                <div class="panel-heading">
+                    <h4 class="panel-title">餐廳進階搜尋</h4>
+                </div>
+                <div class="alert alert-info" role="alert">
+                    <label id="reLocation_lbl">目前位置: @ViewBag.current_address</label>
+                    <button id="reLocation_btn" class="btn btn-info">重新定位</button>
+                </div>
+                <div class="alert alert-success" role="alert">
+                        <h4 style="display:inline">進階搜尋  </h4>
+                        <label for="adv_search">
+                            開啟
+                            <input type="checkbox" name="adv_search" id="adv_search" checked>
+                        </label>
+                        <button id="show_all_res" class="btn btn-success">顯示全部餐廳</button>
+                </div>
+
+
+                <div class="alert alert-warning" role="alert">
+                        <input type="text" id="select_res_string" name="select_res_string" placeholder="請輸入餐廳名或菜色名" class="form-control" style="background-color:white" value="@ViewBag.select_res_string">
+                        <br />
+                        <button id="res_search_btn" type="button" class="btn btn-warning">餐廳搜尋</button>
+                </div>
+
+                    <div class="alert alert-danger" role="alert">
+                        <div>客單價搜尋</div>
+                        從
+                        <input type="text" id="select_res_low_price" name="select_res_low_price" placeholder="最低價" class="" value="@ViewBag.select_res_low_price">
+                        <br />
+                        至
+                        <input type="text" id="select_res_high_price" name="select_res_high_price" placeholder="最高價" class="" value="@ViewBag.select_res_high_price">
+                        <br />
+                        <button type="button" class="btn btn-danger" id="avg_cost_btn">平均消費搜尋</button>
+                    </div>
+
+                @*叫用餐廳分類*@
+                @Html.Action("RestaurantCategorySelect2")
+
+                @*叫用菜色分類*@
+                @Html.Action("CateogrySelect2")
+
+                @*<p>@ViewBag.message</p>*@
+
+
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-9" >
+            <div style="margin-left:100px">
+                <ul class="nav nav-pills" >
+                    <li role="presentation" id="opendate"   class="orderby btn-warning btn-lg">最新開店</li>
+                    <li role="presentation" id="sales"      class="orderby btn-warning btn-lg">熱銷排行</li>
+                    <li role="presentation" id="collection" class="orderby btn-warning btn-lg">最多收藏</li>
+                    <li role="presentation" id="stars"      class="orderby btn-warning btn-lg">最高星等</li>
+                    <li role="presentation" id="likes"      class="orderby btn-warning btn-lg">最多按讚</li>
+                    @*<li role="presentation" id="times"      class="orderby btn-warning btn-lg">最快送達</li>*@
+                </ul>
+            </div>
+            
+            @*<span class="alert alert-success" role="alert" style="display:inline"><h3>最新開店</h3></span>
+            <div class="alert alert-success" role="alert" style="display:inline"><h3>熱銷排行</h3></div>
+            <div class="alert alert-success" role="alert" style="display:inline"><h3>最多收藏</h3></div>
+            <div class="alert alert-success" role="alert" style="display:inline"><h3>最高星等</h3></div>*@
+
+            <div id="restList">
+
+            </div>
+        </div>
+            @*@Html.Action("Restaurants_Select_Outcome","Select",new { Area="yuwang",res=Model})*@
+    </div>
+</div>

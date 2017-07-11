@@ -1,0 +1,321 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminIndexPage.cshtml";
+}
+@section style
+{
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    @*<style>
+            body {
+                background-image:url(@Url.Action("RestaurantBackImage", "Json",new { opacity = 0.3 }));
+                /*background-image: url('../../image/Wood.jpg');*/
+                /*opacity:0.3;*/
+            }
+
+        </style>*@
+    <style>
+        body {
+            background: linear-gradient(top,rgba(224, 224, 0,0.3),rgba(255, 176, 97,1));
+            background: -moz-linear-gradient(top,rgba(224, 224, 0,0.3),rgba(255, 176, 97,1));
+            background: -webkit-linear-gradient(top,rgba(224, 224, 0,0.3),rgba(255, 176, 97,1));
+            font-size: 180%;
+            font-family: "標楷體";
+            text-align: center;
+        }
+
+        #restaurantheader {
+            font-size: 200%;
+            font-family: "標楷體";
+        }
+
+        .hbtn {
+            font-size: 130%;
+            font-family: "標楷體";
+        }
+
+        #tabs a {
+            background-color: #FF9224;
+        }
+    </style>
+}
+<h2>PhotoIndex</h2>
+
+@model IEnumerable<FoodDeliveryTemplete.Areas.Restaurant.Models.photo>
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-7">
+        <div class="panel-body">
+            <div class="bd-example">
+                <div id="tabs" style="margin-top:50px;margin-left:10px;background-color:#FFD1A4">
+                    <ul style="background-color:#FFD1A4">
+                        <li><a href="#tabs-4" id="only">無主人的圖片</a></li>
+                        <li><a href="#tabs-1" id="product">會員</a></li>
+                        <li><a href="#tabs-2" id="mealsProduct">餐廳</a></li>
+                        <li><a href="#tabs-3" id="UnAvailableProduct">餐廳商品</a></li>
+                        @*<li><a href="#tabs-4" id="UnAvailableMeal">下架套餐</a></li>*@
+                        @*<li><input type="button" value="刪除選中" id="delectcheck" class="btn btn-danger btn-lg  glyphicon glyphicon-trash" /></li>
+                    <li><input type="button" value="上/下架選中" id="ablecheck" class="btn btn-warning btn-lg  glyphicon glyphicon-sort" /></li>*@
+                    </ul>
+                    <div id="tabs-4">
+                        @*無主圖片*@
+                    </div>
+                    <div id="tabs-1">
+                        @*會員*@
+                    </div>
+                    <div id="tabs-2">
+                        @*餐廳*@
+                    </div>
+                    <div id="tabs-3">
+                        @*餐廳商品*@
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+        </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3 "style="margin:50px;">
+        <input type="button" value="新增/修改" id="updatepic" class="btn btn-group-lg btn-info"style="margin:10px;"/>
+
+        <br />
+        <label for="">照片ID</label>
+        @Html.TextBox("PhotoIDpic")
+        <br />
+        <label for="MemberID">會員ID</label>
+        @Html.TextBox("MemberIDpic")
+        <br />
+        <label for="ResaturantID">餐廳ID</label>
+        @Html.TextBox("ResaturantIDpic")
+        <br />
+        <label for="FoodID">產品ID</label>
+        @Html.TextBox("FoodIDpic")
+        <br />
+
+        <input type='file' class="upl">
+        @Html.Label("修改後商品圖片:")
+        <br /><br />
+        <img name="pic" id="pic" class="preview" style="width:250px;">
+        <div class="size"></div>
+    </div>
+</div>
+
+ @section script{
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        //修改照片
+        $("#updatepic").on("click", function () {
+            var image = $('#pic').attr("src");
+            image = image.replace('data:image/jpeg;base64,', '')//將base64前面的字串去除掉(用''取代)
+            image = image.replace('data:image/jpg;base64,', '')//將base64前面的字串去除掉(用''取代)
+            image = image.replace('data:image/png;base64,', '')//將base64前面的字串去除掉(用''取代)
+            image = image.replace('data:image/gif;base64,', '')//將base64前面的字串去除掉(用''取代)
+            //純新增照片
+            if (image != " ") {
+                if ($("#MemberIDpic").val() == " " && $("#ResaturantIDpic").val() == " " && $("#FoodIDpic").val() == " ") {
+
+                }
+            }
+            if (image != " ")
+            {
+                if ($("#MemberIDpic").val() != "") {
+                    var strUrl = '@Url.Action("CUMemberPhoto")';
+                    console.log($("#MemberIDpic").val())
+                    console.log($("#fPhotoID").val())
+                    var strJsonData = JSON.stringify({
+                        "img": image,
+                        "fMemberID": $("#MemberIDpic").val(),
+                        //"fPhotoID": $("#fPhotoID").val(),
+                    });
+                    $.ajax({
+                        url: strUrl,
+                        type: 'POST',
+                        data: strJsonData,
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            alert("OK")
+                            $('#tabs-1').load('@Url.Action("MemberPhotos", "Photoes",new { page = 1})');
+                        },
+                        error: function () {
+                            alert("失敗")
+                        }
+                    })
+                }
+                else if ($("#ResaturantIDpic").val() != "") {
+                    var strUrl = '@Url.Action("CUResataurantPhoto")';
+                    console.log($("#ResaturantIDpic").val())
+                    var strJsonData = JSON.stringify({
+                        "img": image,
+                        "fRestaurantID": $("#ResaturantIDpic").val(),
+                        //"fPhotoID": $("#fPhotoID").val(),
+                    });
+                    $.ajax({
+                        url: strUrl,
+                        type: 'POST',
+                        data: strJsonData,
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            alert("OK")
+                            $('#tabs-2').load('@Url.Action("RestaurantPhotos", "Photoes", new { page = 1 })');
+                        },
+                        error: function () {
+                            alert("失敗")
+                        }
+                    })
+                }
+                else if ($("#FoodIDpic").val() != "") {
+                    var strUrl = '@Url.Action("CUFoodPhoto")';
+                    console.log($("#FoodIDpic").val())
+                    var strJsonData = JSON.stringify({
+                        "img": image,
+                        "fFoodID": $("#FoodIDpic").val(),
+                        //"fPhotoID": $("#fPhotoID").val(),
+                    });
+                    $.ajax({
+                        url: strUrl,
+                        type: 'POST',
+                        data: strJsonData,
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            alert("OK")
+                            $('#tabs-3').load('@Url.Action("FoodPhotos", "Photoes", new { page = 1 })');
+                        },
+                        error: function () {
+                            alert("失敗")
+                        }
+                    })
+                }
+                else {
+                    console.log()
+                    var strUrl = '@Url.Action("addNewPhoto")';
+                    var strJsonData = JSON.stringify({
+                        "img": image,
+                        "fPhotoID": $('#PhotoIDpic').val()
+                    });
+                    $.ajax({
+                        url: strUrl,
+                        type: 'POST',
+                        data: strJsonData,
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            alert("OK")
+                            $('#tabs-4').load('@Url.Action("OnlyPhotos", "Photoes", new { page = 1 })');
+                        },
+                        error: function () {
+                            alert("失敗")
+                        }
+                    })
+                }
+            }
+
+        })
+        $(function () {
+            //--------------------------------------------------------------------------------------------------
+            //顯示照片
+            $("body").on("change", ".upl", function () {
+                //$('#response').text(' ')//清空新增完畢提示
+                preview(this);
+            })
+            function preview(input) {
+                // 若有選取檔案
+                if (input.files && input.files[0]) {
+                    // 建立一個物件，使用 Web APIs 的檔案讀取器(FileReader 物件) 來讀取使用者選取電腦中的檔案
+                    var reader = new FileReader();
+                    // 事先定義好，當讀取成功後會觸發的事情
+                    reader.onload = function (e) {
+                        //console.log(e);
+                        // 這裡看到的 e.target.result 物件，是使用者的檔案被 FileReader 轉換成 base64 的字串格式，
+                        // 在這裡我們選取圖檔，所以轉換出來的，會是如 『data:image/jpeg;base64,.....』這樣的字串樣式。
+                        // 我們用它當作圖片路徑就對了。
+                        $('.preview').attr('src', e.target.result);
+                        // 檔案大小，把 Bytes 轉換為 KB
+                        var KB = format_float(e.total / 1024, 2);
+                        $('.size').text("檔案大小：" + KB + " KB");
+                    }
+                    // 因為上面定義好讀取成功的事情，所以這裡可以放心讀取檔案
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            function format_float(num, pos) {
+                var size = Math.pow(10, pos);
+                return Math.round(num * size) / size;
+            }
+            //---------------------------------------------------------------------------------------------------
+            //產品上/下架
+            $("#ablecheck").on('click', function () {
+                var strUrl = '@Url.Action("AvailableCheckedProduct", new { controller = "Restaurant" })';
+                $(":checked").each(function () {
+                    console.log($(this).next().next().val())//FOODID
+                    var foodidtodelet = $(this).next().next().val();
+                    if (foodidtodelet > 0) {
+                        var strJsonData = JSON.stringify({
+                            "fFoodID": foodidtodelet,
+                        });
+                        $.ajax({
+                            url: strUrl,
+                            type: 'POST',
+                            data: strJsonData,
+                            contentType: "application/json; charset=utf-8",
+                            success: function () {
+                                //alert("修改完成")
+                                //$('#response').text('修改完畢!!')
+                                //重新整理所有產品
+                                loadallproduct();
+                            },
+                            error: function () {
+                                //$('#response').text('修改失敗!!')
+                                alert("修改失敗")
+                            }
+                        })
+                    }
+                })
+
+            })
+            //---------------------------------------------------------------------------------------------------------------
+
+            var tabs = $("#tabs").tabs();
+            tabs.find(".ui-tabs-nav").sortable({
+                axis: "x",
+                stop: function () {
+                    tabs.tabs("refresh");
+                }
+            });
+            loadallproduct();
+            function loadallproduct() {
+                $('#tabs-4').load('@Url.Action("OnlyPhotos", "Photoes", new { page = 1 })');
+                $('#tabs-1').load('@Url.Action("MemberPhotos", "Photoes",new { page = 1})');
+                $('#tabs-2').load('@Url.Action("RestaurantPhotos", "Photoes", new { page = 1 })');
+                $('#tabs-3').load('@Url.Action("FoodPhotos", "Photoes", new { page = 1 })');
+            }
+            //-----------------------------------------------------------------------------------------------------------
+
+            //-----------------------------------------------------------------------------------------------------------
+            //上架套餐
+            $('#product,#mealsProduct,#UnAvailableProduct,#UnAvailableMeal').on('click', function () {
+                var findclick = $(this).attr("id")
+                //console.log(findclick)
+                var findpage= $('#findpage>a').text()
+                //console.log(findpage)
+                $('#data').val(findclick)
+                $("input[type='checkbox']").attr("checked", false);
+            })
+
+            $('#product').on('click', function () {
+                $('#tabs-1').load('@Url.Action("MemberPhotos", "Photoes", new { page = 1})');
+            })
+            $('#mealsProduct').on('click', function () {
+                $('#tabs-2').load('@Url.Action("RestaurantPhotos", "Photoes", new { page = 1 })');
+            })
+            $('#UnAvailableProduct').on('click', function () {
+                $('#tabs-3').load('@Url.Action("FoodPhotos", "Photoes", new { page = 1 })');
+            })
+            $('#only').on('click', function () {
+                $('#tabs-4').load('@Url.Action("OnlyPhoto", "Photoes", new { page = 1 })');
+            })
+
+        });
+
+    </script>
+}
+

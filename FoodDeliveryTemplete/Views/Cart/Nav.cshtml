@@ -1,0 +1,10 @@
+﻿@model  IEnumerable<FoodDeliveryTemplete.ViewModels.FoodNameContentViewModel>
+
+<a class="linkformeal" style="font-family:'標楷體';cursor:pointer">精選套餐</a>
+@foreach (var name in Model)
+{
+    //用fCategoryID到菜色詳細資料
+    <a class="ohmygod active" id="@name.fCategoryID" style="font-family:'標楷體';cursor:pointer">@name.fCategoryName</a>
+  
+}
+

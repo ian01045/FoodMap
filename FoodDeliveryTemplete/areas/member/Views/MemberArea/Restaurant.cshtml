@@ -1,0 +1,42 @@
+﻿@model FoodDeliveryTemplete.ViewModel.MyFavoriteRestaurantCategoryViewModel
+
+<div class="row">
+    @foreach (var restaurant in Model.myfavoriteRestaurant)
+            {
+        <div class="thumbnail col-lg-4">
+            <img src="@Url.Action("GetImageByte","MemberArea",new { id=restaurant.tRestaurant.fMemberID})" class="img-thumbnail" style="width:300px;height:200px">
+            <div>
+                <h3>@restaurant.tRestaurant.tMemeber.fMemeberName</h3>
+                <div class="caption" style="height:80px;overflow-y:scroll">
+                    <p >@restaurant.tRestaurant.fDescription</p>
+                </div>
+                <br />
+                <center>
+                    <p>
+                        @Html.ActionLink("前往餐廳部落格", "RestaurantBlog", "Blog", new { Area = "Member", id = restaurant.fRestaurantID }, new { @class = "btn btn-warning" })
+                        <button class="btn btn-warning " name="mapinfo">餐廳的地圖位置</button>
+                        <input type="hidden" value="@restaurant.tRestaurant.fMemberID" id="memberid" />
+                        <input type="hidden" value="@restaurant.fRestaurantID" id="restid" />
+                        @*<input type="hidden" value="@restaurant.tRestaurant.tMemeber.fMemeberName" id="name" />
+                        <input type="hidden" value="@restaurant.tRestaurant.tMemeber.fLatitude" id="Latitude" />
+                        <input type="hidden" value="@restaurant.tRestaurant.tMemeber.fLongitude" id="Longitude" />*@
+                    </p>
+                </center>
+                <center>
+                    <button class="btn btn-danger" name="deletefav">取消我的最愛</button>
+                </center>
+            </div>
+        </div>      
+    }
+</div>
+<script src="~/js/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+      
+       
+        })
+    
+</script>
+
+
+

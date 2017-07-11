@@ -1,0 +1,49 @@
+﻿
+@model FoodDeliveryTemplete.Models.tMemeber
+
+
+
+
+@{
+    var citys = new SelectList(ViewBag.citys, "fCityID", "fCityName");
+}
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="members_register_chart" class="chart"></div>
+        </div>
+        <div class="col-lg-12">
+            <div id="bar_chart_sales" class="chart"></div>
+        </div>
+        <div class="col-lg-12">
+            <div id="semi_circle_chart" class="chart"></div>
+        </div>
+        <div class="form-group" style="border:solid;color:orange;height:55px">
+            <div class="col-lg-3">
+                <h3 >請選擇欲比較的縣市</h3>
+            </div>
+            <div class="col-lg-9">
+                @Html.DropDownListFor(m => m.tMember_Area.tMember_City.fCityID, citys, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div id="pie_chart" class="chart"></div>
+        </div>
+        <div class="col-lg-6">
+            <div id="pie_chart_member" class="chart"></div>
+        </div>
+
+    </div>
+    
+</div>

@@ -1,0 +1,380 @@
+﻿
+@{
+    ViewBag.Title = "CreateCustomizedCategory";
+}
+@{
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+<h2>CreateCustomizedCategory</h2>
+
+@model FoodDeliveryTemplete.Models.tRestaurant_FoodCustomizedCategory
+@section style{
+    <style>
+        body {
+            background-color: #525252;
+        }
+
+        .givemargin {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .formcolor {
+            background-color: #f7decd;
+           
+        }
+
+        .cssForName {
+            font-size: larger;
+        }
+
+        .CategoryNamesText {
+            background-color: #fcfa97;
+            font-size: 15px;
+            font-weight: 300;
+        }
+
+        /*輸入的分類控制項*/
+        .nav1text, .nav2text {
+            position: absolute;
+            /*top:0px;
+            left:0px;*/
+            z-index: 3;
+            width: 380px;
+            height: 30px;
+        }
+        /*大分類+中分類*/
+        .comboboxse1, .comboboxse2 {
+            position: absolute;
+            /*top:0px;
+            left:0px;*/
+            width: 400px;
+            height: 30px;
+            z-index: 2;
+        }
+
+        .comboboxdiv {
+            margin-bottom: 40px;
+        }
+        /*--------------------------------------------------------------------------------------------------*/
+    </style>
+}
+
+@*<form method="post" action='@Url.Action("CreateCustomizedCategory","CustomizedCategory")'>*@
+
+    <div class="row cssForName">
+        <div class="col-lg-1 col-md-1 col-sm-1"></div>
+        <div class="col-lg-5 col-md-5 col-sm-4 formcolor ">
+
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>CategoryCreate</h2>
+                <input type="button" id="costomerbtn" value="設定客製化選項開關" class="btn btn-info" style="float:right"/>
+                <br />
+                @Html.Label("新增分類預覽:")
+                @*顯示所有選中分類*@
+                <div class="col-lg-12 CategoryNamesText form-control">
+                </div>
+            </div>
+
+            @*--------------------------------------------------------------------------------------------*@
+            <div class="col-lg-12 col-md-12 col-sm-12 givemargin form-control">
+                @*分類名稱標題*@
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.Label("輸入新增的分類:")
+                    <input class="addController btn btn-success" type="button" value="新增分類欄位" />
+                </div>
+                @*分類下拉式選項*@
+                <div class="col-lg-9 col-md-9 col-sm-9 addCategory ">
+                    <div class="col-lg-12 comboboxdiv" id="clearcategory">
+                        <nav id="nav">
+                            <input type="text" class="nav1text" value="請選擇" />
+                            @*text右邊三角形符號*@
+                            @*<span class="ui-button-icon ui-icon ui-icon-triangle-1-s comboboxright"></span>*@
+                            <select id="se1" class="form-control comboboxse1"></select>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            @*--------------------------------------------------------------------------------------------*@
+            <br /><br /><br />
+            <div class="col-lg-12 givemargin">
+               @Html.TextAreaFor(c=>c.fCategoryDescription)
+            </div>
+            @*<div class="col-lg-12 givemargin">
+            @Html.Label("分類說明:")
+            @Html.TextAreaFor(c => c.fCategoryDescription, 5, 65, new { @class = "cssForName" })
+        </div>*@
+            <div class="col-lg-12 givemargin">
+                <input type="button" class="submitbtn btn btn-warning" value="新增客製化分類" />
+                @Html.Label(" ", new { id = "Createsuccess" })
+
+                @*<input type="button" value="測試" id="textchangetext"/>*@
+            </div>
+            <div class="col-lg-12 givemargin">
+                <a href="@Url.Action("Index","Restaurant")">返回餐廳頁面</a>
+                @Html.HiddenFor(c => c.fCustomizedCategoryID)
+                @Html.HiddenFor(c => c.fCustomizedCategoryName)
+                @Html.HiddenFor(c=>c.fRestaurantID)
+            </div>
+        </div>
+        <div class="col-lg-1">
+            
+        </div>
+        @*新增客製化選項*@
+        
+        <div class="col-lg-4 col-md-5 col-sm-5" id="CustomizedOption">
+            
+        </div>
+        <div class="col-lg-1 col-md-5 col-sm-5">
+            
+        </div>
+
+       
+     
+    </div>
+
+@*</form>*@
+
+@section script
+    {
+    <script>
+        $(document).ready(function () {
+            //------------------------------測試button
+            //取得大分類開始
+            $.getJSON('@Url.Action("DataCount", "Json", new { CategoryID = 0 })', function (datas) {
+                var divNav = $('#se1');
+                divNav.empty();
+                divNav.removeClass('text');
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    var option = $('<option></option>').attr('value', category.CustomizedCategoryID)
+                                                       .attr('data-parentid', category.ParentID)
+                                                       .attr('id', 'first')
+                                                       .append(category.CustomizedCategoryName);
+                    //$(".saveParentid").attr(value = category.CategoryId)
+                    docFrag.append(option);
+                })
+                divNav.append(docFrag);
+            })//取得大分類結束
+            //------------------------------------------------------------------------------------------------------
+            //主分類名稱改變時
+            $('#se1').on('change', function () {
+                //清除新增成功/失敗
+                $('#Createsuccess').text(' ')
+                //選擇到的名稱填入textbox
+                $(this).prev('input').val($("option:selected", this).text());
+                $(this).prev('input').attr("data-parentid", $("option:selected", this).val());//存入parentid
+                $(this).prev('input').attr("name", "newCategory");
+
+                //除去this以下選項
+                $('~ div', $(this).parent().parent()).remove('div')
+
+                var nextCategoryID = $(this).val();
+                addCategoryControll(nextCategoryID);
+                //清空麵包屑
+                $('.CategoryNamesText').text(" ")
+                //找出所有textbox的選項加入麵包屑
+                $('.CategoryNamesText').html('<ol></ol>');
+                $('.CategoryNamesText>ol').attr('class', 'newol breadcrumb')
+
+                var CategoryNamesTextli = $('.CategoryNamesText>ol');
+                var lastli = $('.newol>li:last-child');
+                $('.addCategory').find('input').each(function () {
+                    var lastliName = $(this).val()
+                    $('.newol').append('<li></li>')
+                    $('.newol>li:last-child').append(lastliName)
+                })//each結束
+
+
+                //$('#se1').unbind('change');
+                //AddBreadAndtextboxChange();
+            })
+            //----------------------------------------------------------------------------------------------------------
+            //預設先隱藏大分類
+            //$("#se1").toggle();
+            //---------------------------------------------------------------------------------------------------------
+            //按下按鈕新增分類欄位
+            $('.addController').on('click', function () {
+                //新增下層分類
+                var nextCategoryID = $('.addCategory:last-child div:last-child nav:last-child>input').data("parentid");
+                addCategoryControll(nextCategoryID);
+                AddBreadAndtextboxChange();
+            })//動態新增分類結束
+            //---------------------------------------------------------------------------------------------------------
+            //新增欄位方法
+            function addCategoryControll(nextCategoryID) {
+                //console.log(nextCategoryID)
+
+                $('.addCategory:last-child').append(' <div class="col-lg-12 comboboxdiv">')
+                $('.addCategory:last-child div:last-child').append('<nav class="navCategory"></nav>')
+
+                $('.addCategory:last-child div:last-child nav').append('<input type="text" class="nav2text" value="請選擇" />')
+                .append('<select id="se2" class="form-control comboboxse2"></select>')
+
+                if (nextCategoryID > 0)//如果有分類
+                {
+                    $.getJSON('@Url.Action("GetCostomizedParentSec", "Json")' + '?CategoryID=' + nextCategoryID, function (datas) {
+                        //分類有資料才做
+                        //if (datas.length > 1) {
+
+                        $.each(datas, function (idx, category) {
+                            $('.addCategory:last div:last nav:last>select').append('<option></option>')
+                            $('.addCategory:last div:last nav:last>select option:last')
+                                                            .attr('value', category.CustomizedCategoryID)
+                                                            .attr('data-parentid', category.ParentID)
+                                                            .append(category.CustomizedCategoryName);
+                        })//each結束
+                    })//getJson結束
+                    AddBreadAndtextboxChange();
+                    //自動生成下層分類
+                    $('.comboboxse2').on('change', function () {
+                        //除去this以下選項
+                        $('~ div', $(this).parent().parent()).remove('div')
+                        var secnextCategoryID = $(this).val();
+                        addCategoryControll(secnextCategoryID);
+                        $('.comboboxse2').unbind('change');
+                        AddBreadAndtextboxChange();
+                    })
+                }
+            }
+
+            //--------------------------------------------------------------------------------------------
+            //開始新增分類(寫入資料庫)
+            $(".submitbtn").on("click", function () {
+                CreateMeal();
+                function CreateMeal() {
+
+                    var strUrl = '@Url.Action("CreateCustomizedCategory", "CustomizedCategory")';
+                    $('.addCategory').find('input').each(function () {
+                        var number = $(this).data("parentid")//取得分類ID
+                        var text = $(this).val()//選到的中文
+                        var parentsid = $(this).parent().parent().prev('div').find('input').data('parentid');//要繼承的parenatID
+                        var description = $("#fCategoryDescription").val();
+                        var restaurantID = @Request.Cookies["RestaurantID"].Value;
+                        //console.log(description)
+                        //console.log("number="+number)
+                        //console.log("text="+text)
+                        //console.log("parentsid=" + parentsid)
+                        //要傳的資料(Json格式)
+                        if (text != "請選擇") {
+                            var strJsonData = JSON.stringify({
+                                "fCustomizedCategoryID": number,
+                                "fCustomizedCategoryName": text,
+                                "fParentID": parentsid,
+                                "fCategoryDescription": description,
+                                "fRestaurantID": restaurantID
+                                });
+                            //console.log(checkthis)
+                            //寫入資料
+
+                            $.ajax({
+                                url: strUrl,
+                                type: 'POST',
+                                data: strJsonData,
+                                contentType: "application/json; charset=utf-8",
+                                async: false,
+                                success: function () {
+                                    $('#Createsuccess').text('新增完畢!!')
+                                },
+                                error: function () {
+                                    $('#Createsuccess').text('新增失敗!!')
+                                }
+                            })
+                            $('~ div', '.comboboxdiv').remove('div')
+                            //清空麵包屑
+                            $('.CategoryNamesText').text(" ")
+
+                        }
+                    })
+                    if ($('.addCategory').find('input:first-child').val() == "請選擇")
+                    { $('#Createsuccess').text("請輸入有效的分類名稱") }
+                    $('~div', '#clearcategory').remove('div')
+                    $('#fCategoryDescription').val("")
+                    loadCustomizedOption();
+                }//新增套餐方法結束
+            })
+            //開啟設定Option表單
+            $('#costomerbtn').on('click', function () {
+                loadCustomizedOption();
+                $('#CustomizedOption').toggle()
+            })
+            function loadCustomizedOption() {
+                //$('#CustomizedOption').empty('div')
+                $('#CustomizedOption').addClass('formcolor');
+                $('#CustomizedOption').load('@Url.Action("CreateCustomizedOption", "CustomizedCategory")');
+            }
+        })
+        //預設設定Option視窗隱藏
+        $('#CustomizedOption').toggle()
+        //------------------------------------------------------------------------------------------------------
+        //AddBreadAndtextboxChange();
+        //------------------------------------------------------------------------------------------------------
+        //新增麵包屑+textbox名稱改變時處理
+        function AddBreadAndtextboxChange() {
+            //combobox選擇改變時
+            $('.comboboxse2').on("change", function () {
+                //選擇到的名稱填入textbox
+                $(this).prev('input').val($("option:selected", this).text());
+                $(this).prev('input').attr("data-parentid", $("option:selected", this).val());//存入parentid
+                $(this).prev('input').attr("name", "newCategory");
+                //清空麵包屑
+                $('.CategoryNamesText').text("")
+                //找出所有textbox的選項加入麵包屑
+                $('.CategoryNamesText').html('<ol></ol>');
+                $('.CategoryNamesText>ol').attr('class', 'newol breadcrumb')
+
+                var CategoryNamesTextli = $('.CategoryNamesText>ol');
+                var lastli = $('.newol>li:last-child');
+                $('.addCategory').find('input').each(function () {
+                    var lastliName = $(this).val()
+                    $('.newol').append('<li></li>')
+                    $('.newol>li:last-child').append(lastliName)
+                })
+
+
+            })
+
+
+            //輸入分類text改變時
+            $('.addCategory :input').on('blur', function () {
+                ////找出所有textbox的選項加入麵包屑
+                $('.CategoryNamesText').html('<ol></ol>');
+                $('.CategoryNamesText>ol').attr('class', 'newol breadcrumb')
+
+                var CategoryNamesTextli = $('.CategoryNamesText>ol');
+                var lastli = $('.newol>li:last-child');
+                $('.addCategory>div>nav>input').each(function () {
+                    var lastliName = $(this).val()
+                    $('.newol').append('<li></li>')
+                    $('.newol>li:last-child').append(lastliName)
+
+                })
+                //選擇到的名稱填入textbox
+                var number = $(this).data("parentid")//取得分類ID
+                var text = $(this).val()//選到的中文
+                //var parentsid = $(this).parent().parent().prev('div').find('input').data('parentid');//要繼承的parenatID
+
+                $(this).prev('input').val($("option:selected", this).text());
+                //---------------------------------------------------------------------------------------------------------12:00
+                var parentsid = $(this).next('select').find(':selected').val();//下拉式選單選到的值(CategoryID)給下層繼承的ParentID
+                var comboboxtext = $(this).next('select').find(':selected').text();//下拉式選單選到的文字
+                if (text == comboboxtext) {
+                    $(this).attr('data-parentid', parentsid)
+                }
+                else {
+                    $(this).attr('data-parentid', 0);//改parentid == 0
+                }
+
+                $(this).prev('input').attr("name", "newCategory");
+
+            })
+            //--------------------------------------------------------------------------------------
+
+        }
+
+
+    </script>
+}

@@ -1,0 +1,20 @@
+﻿@model FoodDeliveryTemplete.Models.tAdvertisement_Article
+@{
+    ViewBag.Title = "test";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminIndexPage.cshtml";
+}
+<div class="container">
+    <h2>廣告內容</h2>
+    <h2>@Model.fSubject</h2>
+    <p>@Html.Raw(Model.fContentText)</p>
+
+
+    <div>
+
+        @*@Html.ActionLink("Back to List", "Index","Home",)*@
+
+        <a class="btn btn-warning" href="@Url.Action("Index","Home",new { Area=""})">返回首頁</a>
+        <a class="btn btn-danger" href="@Url.Action("RestaurantBlog","Blog",new { Area="",id=Model.fRestaurantID,distance=0})">前往餐廳</a>
+    </div>
+</div>
+

@@ -1,0 +1,169 @@
+﻿
+@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<FoodDeliveryTemplete.Models.tMember_City>
+
+<div class="row" id="outest">
+    <div class="col-lg-6">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="display:inline">城市地區管理</h3>
+                <button class="btn btn-warning " data-toggle="modal" data-target="#add_ciity">新增<span class="glyphicon glyphicon-plus"></span></button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="add_ciity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">請輸入城市名稱</h4>
+                            </div>
+                            <div class="modal-body">
+                                <label>名稱:</label>
+                                <input type="text" placeholder="請輸入城市名稱" class="new_city_name" />
+                            </div>
+                            <div class="modal-footer">
+                                <label class="add_label"></label>
+                                <button type="button" class="btn btn-warning btn_city_add">新增</button>
+                                <button type="button" class="btn btn-danger " data-dismiss="modal">關閉</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <table class="table table-bordered table-hover" id="city_table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label>城市</label>
+                            </th>
+                            <th>
+                                <label>編輯</label>
+                            </th>
+                            <th>
+                                <label>刪除</label>
+                            </th>
+                            <th>
+                                <label>區域編輯</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var city in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(c => city.fCityName)
+                                    @*@Html.HiddenFor(c=>city.fCityID)*@
+                                    <input type="hidden" class="cityid" value="@city.fCityID" style="color:transparent" />
+                                    @foreach (var area in city.tMember_Area)
+                                    {
+                                        <input type="text" class="hidden area" value="@area.fAreaName" id="@area.fAreaID" />
+                                    }
+                                </td>
+                                <td>
+                                    <button class="btn btn-warning btn_edit" data-toggle="modal" data-target="#@city.fCityID"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    @*<a href="@Url.Action("MemberModifyForm","MemberArea",new { Area="Member",id=member.fMemberID})" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></a>*@
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="@city.fCityID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">請修改城市名稱</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label>原名稱:</label>
+                                                    <input type="text" value="@city.fCityName" readonly="readonly" class="city_name" />
+                                                    <label>修改後名稱:</label>
+                                                    <input type="text" placeholder="請輸入修改後名稱" class="after_edit_name" />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <label class=" edit_label"></label>
+                                                    <button type="button" class="btn btn-warning btn_city_edit">修改</button>
+                                                    <button type="button" class="btn btn-danger btn_city_close" data-dismiss="modal">關閉</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @*<a href="" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>*@
+                                    <button class="btn btn-warning btn_city_delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                </td>
+                                <td>
+                                    @*<a href="" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>*@
+                                    <button class="btn btn-warning btn_city_open_area"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+                <div id="myPager">
+                    @Html.PagedListPager(Model, page => Url.Action("City_Area_Manage", "Manage", new { Area = "yuwang", page }), PagedListRenderOptions.Classic)
+                </div>
+
+            </div>
+
+            @*@Html.PagedListPager(Model.mem, page => Url.Action("Mem_Mange", "Manage", new { page, Area = "yuwang", id = 0 }), PagedListRenderOptions.Classic)*@
+            
+        </div>
+
+        <div class="alert alert-danger" role="alert" id="show_edit_areas"></div>
+    </div>
+
+
+    <div class="col-lg-6">
+
+        <div class="panel panel-danger" id="areas">
+            <div class="panel-heading">
+                <h3 class="panel-title cityname" style="display:inline"></h3>
+                <button class="btn btn-danger " data-toggle="modal" data-target="#add_area">新增<span class="glyphicon glyphicon-plus"></span></button>
+                @*<div class="alert alert-danger" role="alert" id=area_lbl style="height:40px;"></div>*@
+                <!-- Modal -->
+                <div class="modal fade" id="add_area" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">請輸入區域名稱</h4>
+                            </div>
+                            <div class="modal-body">
+                                <label>名稱:</label>
+                                <input type="text" placeholder="請輸入區域名稱" class="new_area_name" />
+                            </div>
+                            <div class="modal-footer">
+                                <label class="add_label"></label>
+                                <button type="button" class="btn btn-warning btn_area_add">新增</button>
+                                <button type="button" class="btn btn-danger " data-dismiss="modal">關閉</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover" id="areas_detail">
+                    <thead>
+                        <tr>
+                            <th><label>區域名稱</label></th>
+                            <th><label>刪除</label></th>
+                            @*<th><label>修改</label></th*@
+                        </tr>
+                    </thead>
+                    <tbody id="body"></tbody>
+                </table>
+
+
+            </div>
+            <button id="area_edit_all" class="btn btn-danger" style="width:425px;margin-left:15px;margin-right:15px;margin-bottom:10px"><h3 style="color:white">修改全部</h3></button>
+        </div>
+
+    </div>
+</div>

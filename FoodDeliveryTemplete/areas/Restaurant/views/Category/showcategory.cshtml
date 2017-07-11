@@ -1,0 +1,108 @@
+﻿
+@using FoodDeliveryTemplete.Models
+
+@model   FoodDeliveryTemplete.Areas.yuwang.ViewModel.FoodCategorySelect
+
+@*遞迴方法*@
+@helper  FindAllChild(IEnumerable<tCategory> child_food_cateogry, int parentId)
+{
+    <ul class="list-group child-ul">
+        @foreach (var foodcateogry in child_food_cateogry)
+        {
+            if (foodcateogry.fParentID == parentId)
+            {
+
+                <li class="list-group-item list-group-item-success child-li">
+                    <button class="glyphicon glyphicon-plus food_category_btn "></button>
+                    @Html.Label(foodcateogry.fCategoryName)
+                    @FindAllChild(child_food_cateogry, foodcateogry.fCategoryID)
+                </li>
+            }
+        }
+    </ul>
+}
+
+
+<div class="alert alert-warning" role="alert">
+    <h5>菜色風格分類</h5>
+    <ul class="list-group">
+        @*先產生父類別*@
+        @foreach (var parent_food_category in Model.parent_food_category)
+        {
+
+            <li class="list-group-item list-group-item-success">
+                <button class="glyphicon glyphicon-plus food_category_btn"></button>
+                @Html.Label(parent_food_category.fCategoryName)
+
+                @*在遞迴內產生子類別*@
+                @FindAllChild(Model.child_food_cateogry, parent_food_category.fCategoryID)
+            </li>
+        }
+    </ul>
+
+
+
+</div>
+
+<script>
+    //去除顯示分類多餘的空白
+    $('button.food_category_btn').each(function () {
+        if ($(this).parent().children('ul.child-ul').children().val() == undefined) {
+            $(this).remove();
+        }
+    });
+    //收折菜色分類
+    $('ul.child-ul').hide();
+
+    $('button.food_category_btn').each(function () {
+        if ($(this).parent().children('ul.child-ul').children().val() == undefined) {
+            $(this).remove();
+        }
+    });
+    $('button.food_category_btn').click(function () {
+
+        //console.log($(this).parent().children('ul.child-ul').children());
+        if ($(this).hasClass('glyphicon-plus')) {
+            $(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        }
+        else {
+            $(this).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        }
+
+        $(this).parent().children('ul.child-ul').toggle(300);
+    });
+</script>
+
+@*餐廳分類*@
+@*<div class="row">
+        <label>餐廳類型</label><br />
+        <div class="well" >
+            <ul class="nav nav-list">
+                <li>
+                    <label class="tree-toggler nav-header">日式</label>
+                    <ul class="nav nav-list tree">
+                        <li><a href="#">居酒屋</a></li>
+                        <li><a href="#">串燒</a></li>
+                        <li><a href="#">拉麵</a></li>
+                    </ul>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <label class="tree-toggler nav-header">中式</label>
+                    <ul class="nav nav-list tree">
+                        <li><a href="#">台菜熱炒</a></li>
+                        <li><a href="#">港式飲茶</a></li>
+                        <li><a href="#">雲南菜</a></li>
+                    </ul>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <label class="tree-toggler nav-header">韓式</label>
+                    <ul class="nav nav-list tree">
+                        <li><a href="#">石鍋拌飯</a></li>
+                        <li><a href="#">韓式炸雞</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>*@

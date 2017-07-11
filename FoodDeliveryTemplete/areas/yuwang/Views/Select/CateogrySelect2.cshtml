@@ -1,0 +1,49 @@
+﻿
+@using FoodDeliveryTemplete.Models
+
+@model   FoodDeliveryTemplete.Areas.yuwang.ViewModel.FoodCategorySelect
+
+@*遞迴方法*@
+@helper  FindAllChild(IEnumerable<tCategory> child_food_cateogry, int parentId)
+{
+    <ul class="list-group child-ul">
+        @foreach (var foodcateogry in child_food_cateogry)
+        {
+            if (foodcateogry.fParentID == parentId)
+            {
+
+                <li class="list-group-item list-group-item-danger child-li food_category_li" value="@foodcateogry.fCategoryID">
+                    <button class="glyphicon glyphicon-plus food_category_btn "></button>
+                    @*@Html.ActionLink(foodcateogry.fCategoryName, "Index", "Select", new { restaurant_categoryID = 0, sortby = 0, food_categoryID = foodcateogry.fCategoryID }, new { @class = "" })*@
+                    @foodcateogry.fCategoryName
+                    @*在遞迴內持續產生後代類別*@
+                    @FindAllChild(child_food_cateogry, foodcateogry.fCategoryID)
+                </li>
+            }
+        }
+    </ul>
+}
+
+
+<div class="alert alert-danger" role="alert">
+    <h5>菜色風格分類</h5>
+    <ul class="list-group">
+        @*先產生父類別*@
+        @foreach (var parent_food_category in Model.parent_food_category)
+        {
+
+            <li class="list-group-item list-group-item-danger food_category_li" value="@parent_food_category.fCategoryID">
+                <button class="glyphicon glyphicon-plus food_category_btn"></button>
+                @*@Html.ActionLink(parent_food_category.fCategoryName, "Index", "Select", new { restaurant_categoryID = 0, sortby = 0, food_categoryID = parent_food_category.fCategoryID }, new { @class = "" })*@
+                @parent_food_category.fCategoryName 
+                @*在遞迴內產生子類別*@
+                @FindAllChild(Model.child_food_cateogry, parent_food_category.fCategoryID)
+            </li>
+        }
+    </ul>
+
+
+
+</div>
+
+

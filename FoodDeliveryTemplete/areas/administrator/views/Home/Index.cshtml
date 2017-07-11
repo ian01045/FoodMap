@@ -1,0 +1,1058 @@
+﻿@using FoodDeliveryTemplete.Areas.yuwang.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminIndexPage.cshtml";
+}
+
+
+
+@section style{
+
+<link href="~/Areas/yuwang/Content/PagedList.css" rel="stylesheet" />
+
+    <style>
+        .chart {
+            width: 85%;
+            height: 350px;
+        }
+
+        /*img.thumb {
+        width: 80px;
+        height:75px;
+        }*/
+
+        /*.thumbnail{
+          float:right;
+          position:absolute;
+          top:100px;
+          left:800px;
+
+            
+        }*/
+        .listadv > li {
+            width:80px;
+        }
+        
+    </style>
+}
+
+@section script{
+
+@*使用jquery cookies套件*@
+<script src="~/Areas/yuwang/Content/carhartl-jquery-cookie-92b7715/jquery.cookie.js"></script>
+
+
+    @*highchart連網路或自己*@
+    <script src="~/Areas/yuwang/Scripts/highcharts(js)/highcharts.js"></script>
+    @*<script src="http://code.highcharts.com/highcharts.js"></script>
+
+    @*使用pagedlist樣式*@
+    <link href="~/Areas/yuwang/Content/PagedList.css" rel="stylesheet" />
+
+    <script>
+        var members_register_chart;
+        var pie_chart;
+        var pie_chart_member;
+        var bar_chart_sales;
+        var semi_circle_chart;
+        $(document).ready(function (e) {
+
+
+            //把超連結做成按鈕，要避免超連結轉頁的預設
+            //$('#nav_bar_btn').find('a').click(function (e) {
+            //        alert('ss');
+            //        e.preventDefault();
+            //    });
+
+
+            //非同步叫用註冊會員資料
+            function GetRegisteredMembers() {
+                $.ajax({
+                    url: "@Url.Action("GetRegisteredMembers","Manage",new { Area="yuwang"})",
+                    type: 'POST',
+                    //成功之後，會收到Server端返回的資料，也就是自訂的型別ReportData
+                    //有兩個屬性可以用
+                    success: function (result) {
+                        members_register_chart.series[0].setData(result.consumers_per_month);
+                        members_register_chart.series[1].setData(result.restaurants_per_month);
+                    },
+                    cache: false
+                });
+            }
+
+
+            //非同步回傳各城市餐廳每月銷售總金額長條圖
+            function GetResSalesAmount_ByCitys_PerMonth() {
+                $.ajax({
+                    url: "@Url.Action("GetResSalesAmount_ByCitys_PerMonth", "Manage",new { Area="yuwang"})",
+                    type: 'POST',
+                success: function (result) {
+                    bar_chart_sales.series[0].setData(result[0].data);
+                    bar_chart_sales.series[1].setData(result[1].data);
+                    bar_chart_sales.series[2].setData(result[2].data);
+                    bar_chart_sales.series[3].setData(result[3].data);
+
+                    bar_chart_sales.series[0].update({ name: result[0].name }, false);
+                    bar_chart_sales.series[1].update({ name: result[1].name }, false);
+                    bar_chart_sales.series[2].update({ name: result[2].name }, false);
+                    bar_chart_sales.series[3].update({ name: result[3].name }, false);
+                    bar_chart_sales.redraw();
+
+                },
+                cache: false
+            });
+            }
+
+
+            //非同步回傳各城市銷售總金額圖依會員年齡分組的資料
+            function GetPortion_ByAgeGroup_PerCity(cityID)
+            {
+                $.ajax({
+                    url: "@Url.Action("GetPortion_ByAgeGroup_PerCity", "Manage",new { Area="yuwang"})",
+                    type: 'POST',
+                    data: { cityID: cityID },
+                    success: function (result) {
+                        //console.log(result)
+                        semi_circle_chart.series[0].setData(result);
+                },
+                cache: false
+            });
+            }
+            //非同步回傳台北市的餐廳所在的區資料
+            function GetResAreas(cityID) {
+                $.ajax({
+                    url: "@Url.Action("GetResAreas","Manage",new { Area="yuwang"})",
+                    type: 'POST',
+                    data: { cityId: cityID },
+                    success: function (result) {
+                        //console.log(result);
+                        pie_chart.series[0].setData(result);
+
+                    },
+                    cache: false
+                });
+            }
+
+
+            //非同步回傳台北市的會員所在的區資料
+            function GetMemAreas(cityID) {
+                $.ajax({
+                    url: "@Url.Action("GetMemAreas","Manage",new { Area="yuwang"})",
+                    type: 'POST',
+                    data: { cityId: cityID },
+                    success: function (result) {
+                        //console.log(result);
+                        pie_chart_member.series[0].setData(result);
+                    },
+                    cache: false
+                });
+            }
+
+
+
+
+
+            //管理員報表
+            $('#report').click(function () {
+                //只有右半邊產品的部分重新載入，就不會全部螢幕都閃
+                $('#main').load('@Url.Action("GetReport", "Manage",new { Area="yuwang"})', function () {
+
+                    //document.getElementById('tMember_Area_tMember_City_fCityID').selectedIndex = 0;
+                    document.getElementById("tMember_Area_tMember_City_fCityID").value = 1;
+                    var city_name_first_in = $('#tMember_Area_tMember_City_fCityID').find('option:selected').text();
+                    //alert(city_name);
+                    $('#tMember_Area_tMember_City_fCityID').change(function () {
+                        var cityID = $(this).val();
+                        var city_name= $(this).find('option:selected').text();
+                        //alert(city_name);
+                        GetSelectedCity_MembersResidentAreas_Distributoin(cityID, city_name);
+                        GetSelectedCity_ResMembersResidentAreas_Distribution(cityID, city_name);
+                        GetSalesAmountPortion_ByAgeGroup_PerCity(cityID, city_name)
+                    })
+
+
+                    //註冊會員趨勢圖
+                    members_register_chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'members_register_chart',
+                            defaultSeriesType: 'areaspline',
+                            events: {
+                                //圖表載入後執行GetReportData這個Function
+                                load: GetRegisteredMembers
+                            }
+                        },
+                        title: {
+                            text: '每月會員註冊數'
+                        },
+                        //自訂X軸座標，也可以從Server塞資料進來
+                        xAxis: {
+                            categories: ["一月", "二月", "三月","四月"]
+                        },
+                        yAxis: {
+                            title: {
+                                text: '註冊會員數'
+                            }
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                //這地方有什麼資料可用可以開FireBug來看
+                                //也可以從後端傳進來
+                                return '一般會員:' + this.points[0].y + '<br/>餐廳會員:' + this.points[1].y;
+
+                            },
+                            shared: true,
+                            crosshairs: true
+                        },
+                        //兩份資料，一開始都是空的
+                        series: [{
+                            name: '一般會員',
+                            data: [],
+                            fillOpacity: 0.5
+                        }, {
+                            name: '餐廳會員',
+                            data: [],
+                            fillOpacity: 0.4
+                        }]
+                    });
+
+
+                    //熱門城市城市餐廳每月銷售總金額長條圖
+                    bar_chart_sales = Highcharts.chart('bar_chart_sales', {
+                        chart: {
+                            type: 'column',
+                            events: {
+
+                                load: GetResSalesAmount_ByCitys_PerMonth()
+                            }
+                        },
+                        title: {
+                            text: '熱門城市餐廳每月銷售總金額'
+                        },
+                        subtitle: {
+                            text: '以長條圖呈現'
+                        },
+                        xAxis: {
+                            categories: ["一月", "二月", "三月", "四月"]
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: '每月銷售金額( 單位:元)'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.1f} 元</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        //series: [{}]
+                        //series: [{
+                        //    name: '台北市',
+                        //    //name: '',
+                        //    data: []
+
+                        //}, {
+                        //    name: '新北市',
+                        //    //name: '',
+                        //    data: []
+
+                        //}, {
+                        //    name: '桃園市',
+                        //    //name: '',
+                        //    data: []
+
+                        //}, {
+                        //    name: '基隆市',
+                        //    //name: '',
+                        //    data: []
+
+                        //}]
+                        series: [{
+                            name: '',
+                            data: []
+
+                        }, {
+                            name: '',
+                            data: []
+
+                        }, {
+                            name: '',
+                            data: []
+
+                        }, {
+                            name: '',
+                            data: []
+                        }]
+                    });
+
+                    //各城市餐廳銷售總金額依會員年齡分組的比例半圓圖
+                    function GetSalesAmountPortion_ByAgeGroup_PerCity(cityID, city_name)
+                    {
+                        semi_circle_chart = Highcharts.chart('semi_circle_chart', {
+                            chart: {
+                                plotBackgroundColor: null,
+                                plotBorderWidth: 0,
+                                plotShadow: false,
+                                width: 800,
+                                events: {
+
+                                    load: GetPortion_ByAgeGroup_PerCity(cityID)
+                                }
+                            },
+                            title: {
+                                text: city_name + '銷售總金額<br>依會員年齡分組<br>2017',
+                                align: 'center',
+                                verticalAlign: 'middle',
+                                y: 40
+                            },
+                            tooltip: {
+                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                            },
+                            plotOptions: {
+                                pie: {
+                                    dataLabels: {
+                                        enabled: true,
+                                        distance: -50,
+                                        style: {
+                                            fontWeight: 'bold',
+                                            color: 'black'
+                                        }
+                                    },
+                                    startAngle: -90,
+                                    endAngle: 90,
+                                    center: ['50%', '75%']
+                                }
+                            },
+                            series: [{
+                                type: 'pie',
+                                name: '所占比例',
+                                innerSize: '60%',
+                                data: [
+                                    [],
+                                    {
+                                        name: 'Proprietary or Undetectable',
+                                        y: 0.2,
+                                        dataLabels: {
+                                            enabled: false
+                                        }
+                                    }
+                                ]
+                            }]
+                        });
+                    }
+
+
+                    // 一般會員數依照區域分類的圓餅圖
+                    function GetSelectedCity_MembersResidentAreas_Distributoin(cityID, city_name)
+                    {
+
+
+                        pie_chart_member = new Highcharts.chart('pie_chart_member', {
+                            chart: {
+                                plotBackgroundColor: null,
+                                plotBorderWidth: null,
+                                plotShadow: false,
+                                type: 'pie',
+                                events: {
+                                    //圖表載入後執行GetReportData這個Function
+                                    load: GetMemAreas(cityID)
+                                }
+                            },
+                            title: {
+                                text: city_name+'一般會員區域分布'
+                            },
+                            tooltip: {
+                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                            },
+                            plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    showInLegend: true
+                                }
+                            },
+                            series: [{
+                                name: '比例',
+                                colorByPoint: true,
+                                data: []
+                            }]
+                        });
+                    }
+
+                    //餐廳店家數依照區域分類的圓餅圖
+                    function GetSelectedCity_ResMembersResidentAreas_Distribution(cityID, city_name)
+                    {
+
+                        pie_chart = new Highcharts.chart('pie_chart', {
+                            chart: {
+                                plotBackgroundColor: null,
+                                plotBorderWidth: null,
+                                plotShadow: false,
+                                type: 'pie',
+                                events: {
+                                    //圖表載入後執行GetReportData這個Function
+                                    load: GetResAreas(cityID)
+                                }
+                            },
+                            title: {
+                                text: city_name+'餐廳會員區域分布'
+                            },
+                            tooltip: {
+                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                            },
+                            plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    showInLegend: true
+                                }
+                            },
+                            series: [{
+                                name: '比例',
+                                colorByPoint: true,
+                                data: []
+                            }]
+                        });
+                    }
+
+                    //啟動時要叫用兩張圓餅圖
+                    //var city_text = $('#tMember_Area_tMember_City_fCityID').child().next().text();
+                    //alert(city_text);
+                    GetSelectedCity_MembersResidentAreas_Distributoin(1, city_name_first_in);
+                    GetSelectedCity_ResMembersResidentAreas_Distribution(1, city_name_first_in);
+                    GetSalesAmountPortion_ByAgeGroup_PerCity(1, city_name_first_in)
+
+
+
+
+
+                    //bar_chart_sales = new Highcharts.Chart({//chart1就是這個圖表本身，可以在建立完成後操作
+                    //    chart: {
+                    //        renderTo: 'bar_chart_sales',//目標的div
+                    //        type: 'bar'//圖表的種類,
+                    //    },
+                    //    title: {
+                    //        text: 'Fruit Consumption'//標題
+                    //    },
+                    //    xAxis: {//x軸
+                    //        categories: ['Apples', 'Bananas', 'Oranges']
+                    //    },
+                    //    yAxis: {//y軸
+                    //        title: {
+                    //            text: 'Fruit eaten'
+                    //        }
+                    //    },
+                    //    series: [{//這裡是圖表的資料
+                    //        name: 'Jane',
+                    //        data: [1, 0, 4]
+                    //    }, {
+                    //        name: 'John',
+                    //        data: [5, 7, 3]
+                    //    }]
+                    //})
+
+                })
+            })
+
+            //活動管理
+            $('#res_category_manage').click(function () {
+
+
+            })
+
+
+
+            //一般會員管理
+
+            $('#mem_manage').click(function () {
+
+                mem_manage(1,0);
+
+            })
+
+            function mem_manage(page,order) {
+                //var current_latitude = $.cookie("current_latitude");
+                //$.cookie("sortby", null, { path: "/" });
+                if (page == "«") {
+                    page = 1;
+                }
+                if (page == "»") {
+                    var last_page = parseInt($('ul.pagination>li').length) - 2;
+                    //alert(last_page)
+                    page = last_page;
+                }
+
+
+                //alert(order);
+                var ii = order;
+
+                var url = '@Url.Action("Mem_Mange","Manage",new {Area="yuwang",id="id",page="pg"})'
+                var url2 = url.replace("id", ii);
+                var url3 = url2.replace("pg", page)
+                //alert(url);
+
+                $('#main').load(url3, function () {
+
+                    //$('a.prevent').click(function (e) {
+                    //    e.preventdefault();
+                    //})
+
+                    var thumb = $('.thumbnail');
+                    $('#member_table>tbody>tr').mouseenter(function () {
+                        
+                        var MemberName = $(this).find("td:nth-child(2)").text();
+                        //var Photo_sticker = $(this).find("img").attr("src");
+                        var Email = $(this).find('#member_fEmail').val();
+                        var Address = $(this).find('#member_fAddress').val();
+                        var Credit = $(this).find('#member_fCreditAccount').val();
+                        var Tel = $(this).find('#member_fTel').val();
+                        var src = '@Url.Action("GetImageByte", "Select", new { Area= "yuwang", id = "memID"})';
+                        var memID = parseInt($(this).find('td.memID').text());
+                        //alert(memID);
+                        src = src.replace("memID", memID)
+                        var url_member_detail = '@Url.Action("MemberModifyForm", "Manage", new { Area = "yuwang",id="md"})';
+                        url_member_detail = url_member_detail.replace("md", memID);
+                        //alert(url_member_detail);
+                        var url_wallet = '@Url.Action("MemberWallet", "MemberArea", new { Area = "Member",memid="md"})';
+                        url_wallet = url_wallet.replace("md", memID);
+                        //alert(url_wallet);
+
+                       // var url_my_fav = '@Url.Action("MemberModifyForm", "MemberArea", new { Area = "Member",id="md"})';
+                        //url_my_fav = url_my_fav.replace("md", memID);
+                        //alert(url)
+                        thumb.find("img").attr('src', src);
+                        thumb.find('h3').text("會員姓名: " + MemberName);
+                        thumb.find('#email').text("帳號: " + Email);
+                        thumb.find('#address').text("地址: " + Address);
+                        thumb.find('#credit').text("信用卡號: " + Credit);
+                        thumb.find('#tel').text("聯絡電話: " + Tel);
+
+                        //thumb.remove('#member_detail');
+                        //thumb.remove('#wallet')
+                        //thumb.remove('#my_fav')   
+                        $('#btn_area').empty();
+                        $('#btn_area').append("<div style='text-align:center'><a href='" + url_member_detail + "' class='btn btn-danger' id='member_detail'>基本資料</a></div><div style='text-align:center'><a href='" + url_wallet + "' class='btn btn-danger' id='member_wallet'>電子錢包</a></div><div style='text-align:center'><a href='"  + "' class='btn btn-danger' id='member_myfav'>我的最愛</a></div>")
+    
+                    })
+
+                    //會員依編號排序
+                    $('#fMemberID').click(function () {
+                        var page = $('li.active').find('a').text();
+                        mem_manage(page,1);
+                    })
+
+                    //會員依姓名排序
+                    $('#fMemeberName').click(function () {
+                        var page = $('li.active').find('a').text();
+                        mem_manage(page,2);
+                    })
+
+                    //會員依性別排序
+                    $('#fGender').click(function () {
+                        var page = $('li.active').find('a').text();
+                        mem_manage(page,3);
+                    })
+
+                    //會員依城市排序
+                    $('#city').click(function () {
+                        var page = $('li.active').find('a').text();
+                        mem_manage(page,4);
+                    })
+
+                    //會員依生日排序
+                    $('#fBirth').click(function () {
+                        var page = $('li.active').find('a').text();
+                        mem_manage(page, 5);
+                    })
+
+                    //會員依入會日期排序
+                    $('#fJoinDate').click(function () {
+                        var page = $('li.active').find('a').text();
+                        mem_manage(page,6);
+                    })
+
+                    //會員依電子錢包餘額排序
+                    $('#fWalletTotalMoney').click(function () {
+                        var page = $('li.active').find('a').text();
+                        mem_manage(page,7);
+                    })
+
+                    //刪除會員
+                    $('button.delete').click(function () {
+                        var memID = parseInt($(this).parent().parent().find('td.memID').text());
+                        //alert(memID);
+                        var url = "@Url.Action("Remove_Member", "Manage", new { Area= "yuwang"})";
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: { id: memID },
+                            success: function (result) {
+                                console.log(result);
+                                if (result == "刪除完成") {
+                                    var page = $('li.active').find('a').text();
+                                    mem_manage(page,8);
+                                }
+                            },
+                            cache: false
+                        });
+                    })
+
+                    //pagelist
+                    $('#myPager').on('click', 'a', function (e) {
+
+                        e.preventDefault();
+                        var page = $(this).text()
+                        //alert(page)
+                        //問題在這
+                        //var id = $('#order_id').val()
+                        //alert(id)
+                        mem_manage(page, 8)
+                    });
+
+                    //編輯會員
+                    @*$('.btn_edit').click(function () {
+                        var memID = parseInt($(this).parent().parent().find('td.memID').text());
+                        var url = "@Url.Action("Member_Pesonal_Edit", "Manage", new { Area= "yuwang"},)";
+                        $('#main').load(url, function () {
+
+                        })
+
+                    })*@
+                })
+            }
+
+
+
+            //餐廳會員管理
+
+            $('#res_manage').click(function () {
+
+                res_manage(1,0);
+
+            })
+
+
+            function res_manage(page,order) {
+
+                if (page == "«") {
+                    page = 1;
+                }
+                if (page == "»") {
+                    var last_page = parseInt($('ul.pagination>li').length) - 2;
+                    //alert(last_page)
+                    page = last_page;
+                }
+
+                var ii = order;
+                var url = '@Url.Action("Res_Mange","Manage",new { Area="yuwang",id="id", page = "pg" })'
+                var url2 = url.replace("id", ii);
+                var url3= url2.replace("pg",page)
+                //alert(url);
+
+                $('#main').load(url3, function () {
+
+                    //$('a.prevent').click(function (e) {
+                    //    e.preventdefault();
+                    //})
+
+                    var thumb = $('.thumbnail');
+                    $('#member_table>tbody>tr').mouseenter(function () {
+                        var MemberName = $(this).find("td:nth-child(2)").text();
+                        //var Photo_sticker = $(this).find("img").attr("src");
+                        var Email = $(this).find('#restaurant_tMemeber_fCreditAccount').val();
+                        var City = $(this).find("#restaurant_tMemeber_tMember_Area_tMember_City_fCityName").text();
+                        var Area = $(this).find("#restaurant_tMemeber_tMember_Area_fAreaName").text();
+                        var Address = City + Area + $(this).find('#restaurant_tMemeber_fAddress').val();
+
+                        var AverageCost = $(this).find('#restaurant_fAveragePricePerGuest').val();
+                        var OpenTime = $(this).find('#restaurant_fOpenTime').val();
+                        var CloseTime = $(this).find('#restaurant_fCloseTime').val();
+                        var Description = $(this).find('#restaurant_fDescription').val();
+                        var RestDay_PerWeek = $(this).find('#restaurant_fRoutine_RestDay_per_week_').val();
+
+                        var Tel = $(this).find('#restaurant_tMemeber_fTel').val();
+                        var Password = $(this).find('#restaurant_tMemeber_fPassword').val();
+                        var src = '@Url.Action("GetImageByte", "Select", new {Area= "yuwang", id = "memID"})';
+                        var memID = parseInt($(this).find('td.memID').text());
+                        //alert(memID);
+                        src = src.replace("memID", memID)
+
+
+                        var url_res_mem_detail = '@Url.Action("InformationRestaurantModifyForm", "Restaurant", new { Area = "Restaurant", id="md"})';
+                        url_res_mem_detail = url_res_mem_detail.replace("md", memID);
+
+                        thumb.find("img").attr('src', src);
+                        thumb.find('h3').text("餐廳名稱: " + MemberName);
+                        thumb.find('#email').text("帳號: " + Email);
+                        thumb.find('#password').text("密碼: " + Password);
+                        thumb.find('#address').text("地址: " + Address);
+                        thumb.find('#tel').text("聯絡電話: " + Tel);
+                        thumb.find('#average_cost').text("平均客單價: " + AverageCost);
+                        thumb.find('#time').text("營業時間: " + OpenTime+" ~ "+CloseTime);
+                        thumb.find('#restday_per_week').text("公休日: " + RestDay_PerWeek);
+                        thumb.find('#description').text("餐廳描述: " + Description);
+
+
+                        $('#btn_area').empty();
+                        $('#btn_area').append("<div style='text-align:center'><a href=" + url_res_mem_detail + " class='btn btn-danger' id='member_detail'>基本資料</a></div>")
+                    })
+
+                    //會員依編號排序
+                    $('#fMemberID').click(function () {
+                        var page = $('li.active').find('a').text();
+                        //var id = $('#order_id').val()
+                        //if (id != 1)
+                        //{
+                        //    id = 1;
+                        //}
+
+                        res_manage(page, 1);
+                    })
+
+                    //會員依名稱排序
+                    $('#fMemeberName').click(function () {
+                        var page = $('li.active').find('a').text();
+                        //var id = $('#order_id').val()
+                        //if (id != 2) {
+                        //    id = 2;
+                        //}
+                        res_manage(page, 2);
+                    })
+
+                    //會員依城市排序
+                    $('#city').click(function () {
+                        var page = $('li.active').find('a').text();
+                        //var id = $('#order_id').val()
+                        //if (id != 3) {
+                        //    id = 3;
+                        //}
+                        res_manage(page, 3);
+                    })
+
+                    //會員依創店時間排序
+                    $('#fBirth').click(function () {
+                        var page = $('li.active').find('a').text();
+                        //var id = $('#order_id').val()
+                        //if (id != 4) {
+                        //    id = 4;
+                        //}
+                        res_manage(page, 4);
+                    })
+
+                    //會員依入會日期排序
+                    $('#fJoinDate').click(function () {
+                        var page = $('li.active').find('a').text();
+                        //var id = $('#order_id').val()
+                        res_manage(page, 5);
+                    })
+
+
+                    //刪除會員
+                    $('button.delete').click(function () {
+                        var memID = parseInt($(this).parent().parent().find('td.memID').text());
+                        //alert(memID);
+                        var url = "@Url.Action("Remove_Member", "Manage", new { Area= "yuwang"})";
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: { id: memID },
+                            success: function (result) {
+                                console.log(result);
+                                if (result == "刪除完成") {
+                                    var page = $('li.active').find('a').text();
+                                    var id = $('#order_id').val()
+                                    res_manage(page, 6);
+                                }
+                            },
+                            cache: false
+                        });
+                    })
+
+                    //pagelist
+                    $('#myPager').on('click', 'a', function (e) {
+
+                        e.preventDefault();
+                        var page = $(this).text()
+                        //alert(page)
+                        //問題在這
+                        //var id = $('#order_id').val()
+                        //alert(id)
+                        res_manage(page,6)
+                    });
+
+                })
+            }
+
+
+            //城市地區管理
+            $('#city_area_manage').click(function () {
+
+                city_area_manage(1,1,'');
+            })
+
+            function city_area_manage(page, cityID,edit_area_info) {
+
+                if (page == "«") {
+                    page = 1;
+                }
+                if (page == "»") {
+                    var last_page = parseInt($('ul.pagination>li').length) - 2;
+                    //alert(last_page)
+                    page = last_page;
+                }
+
+                var url = '@Url.Action("City_Area_Manage", "Manage",new { Area="yuwang",page="pg"})'
+                url = url.replace("pg", page);
+                $('#main').load(url, function () {
+
+                    var areas_part = $("#areas");
+                    $('#show_edit_areas').text(edit_area_info);
+
+
+                    $('#city_table>tbody>tr button.btn_city_open_area').click(function () {
+                        var CityID = parseInt($(this).parent().parent().find("input.cityid").val());
+                        //alert(CityID)
+                        cityID = CityID;
+                        //alert(cityID)
+                        var CitName = $(this).parent().prev().prev().find('input.city_name').val();
+                        var title = $(areas_part.find('h3.cityname'));
+                        title.text(CitName + "  ");
+
+                        $('#body').empty();
+
+                        $(this).parent().prev().prev().prev().find('input.area').each(function (idx, value) {
+                            //console.log(idx)
+                            //console.log(value)
+                            var input = '<tr><td><input type=text class="area_name" value="' + value.value +'"id="'+value.id+
+                                         ' " ></td><td><button class="btn btn-danger btn_delete_area"><span class="glyphicon glyphicon-trash"></span></button><input type=hidden value="'+value.id+'"></td></tr>'
+                            $('#body').append(input);
+
+
+                        })
+                        //刪除區域
+                        $('button.btn_delete_area').click(function () {
+                            //var area = $(this).parent().parent().find("#" + value.id);
+                            var area = $(this).next().val();
+                            var area_id = parseInt(area);
+                            //var area_id = parseInt(area.id);
+                            console.log(area_id)
+                            var url = "@Url.Action("Area_Delete", "Manage", new { Area= "yuwang"})";
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: { areaID: area_id },
+                                success: function (result) {
+                                    var page = $('li.active').find('a').text();
+                                    city_area_manage(page, cityID,'');
+                                },
+                                cache: false
+                            });
+                        })
+
+                        //區域全部修改
+                        $('#area_edit_all').click(function () {
+
+                            var areas = $(this).prev().find('input.area_name');
+                            areas.each(function (idx,value) {
+                                //console.log(idx)
+                                //console.log(value)
+                                var area_name = value.value;
+                                var area_id = value.id
+                                //console.log(area_name)
+                                //console.log(area_id)
+                                var url = "@Url.Action("Area_Edit", "Manage", new { Area= "yuwang"})";
+                                $.ajax({
+                                    url: url,
+                                    type: 'POST',
+                                    async:false,
+                                    data: { area_name: area_name, areaID: area_id },
+                                    success: function (result) {
+                                        //console.log(result);
+                                    },
+                                    cache: false
+                                });
+                            })
+                            //$('#area_lbl').text("全部已修改!")
+                            //alert('全部區域已修改!');
+                            $('#show_edit_areas').text('全部區域已修改!');
+                            var edit_area_info = $('#show_edit_areas').text();
+                            var page = $('li.active').find('a').text();
+                            city_area_manage(page, cityID, edit_area_info);
+                        })
+
+                    })
+
+                    //新增區域
+                    $('button.btn_area_add').click(function () {
+                        var new_name = $(this).parent().prev().find('input.new_area_name').val();
+                        alert(new_name)
+
+                        var lbl_add = $(this).prev();
+
+                        var url = "@Url.Action("Area_Add", "Manage", new { Area= "yuwang"})";
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            async:false,
+                            data: { area_name: new_name, cityID: cityID },
+                            success: function (result) {
+                                //console.log(result);
+                                if (result == "已新增") {
+                                    lbl_add.text("已完成新增!")
+                                }
+                            },
+                            cache: false
+                        });
+                    })
+
+
+                        $('#outest').on('hidden.bs.modal', function () {
+                            var page = $('li.active').find('a').text();
+                            //alert(page)
+                            //alert($(this).val())
+                            city_area_manage(page, 0,'')
+                        })
+
+                        //新增城市
+                        $('button.btn_city_add').click(function () {
+                            var new_name = $(this).parent().parent().find('input.new_city_name').val();
+                            //alert(new_name)
+
+                            var lbl_add = $(this).parent().find('label.add_label');
+
+                            var url = "@Url.Action("City_Add", "Manage", new { Area= "yuwang"})";
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: { city_name: new_name },
+                                success: function (result) {
+                                    console.log(result);
+                                    if (result == "已新增") {
+                                        lbl_add.text("已完成新增!")
+                                    }
+                                },
+                                cache: false
+                            });
+                        })
+
+                        //修改城市
+                        $('button.btn_city_edit').click(function () {
+                            var new_name = $(this).parent().parent().find('input.after_edit_name').val();
+                            //alert(new_name)
+                            var cityID = $(this).parent().parent().parent().parent().parent().parent().find('input.cityid').val();
+                            //alert(cityID);
+                            var lbl_edit = $(this).parent().find('label.edit_label');
+
+                            var url = "@Url.Action("City_Edit", "Manage", new { Area= "yuwang"})";
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: { city_name: new_name, cityID: cityID },
+                                success: function (result) {
+                                    //console.log(result);
+                                    if (result == "已修改") {
+                                        lbl_edit.text("已完成修改!")
+                                    }
+                                },
+                                cache: false
+                            });
+                        })
+
+                        //刪除城市
+                        $('button.btn_city_delete').click(function () {
+
+                            var cityID = $(this).parent().parent().find('input.cityID').val();
+                            //alert(cityID);
+                            var url = "@Url.Action("City_Delete", "Manage", new { Area= "yuwang"})";
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: { cityID: cityID },
+                                success: function (result) {
+                                    console.log(result);
+                                    if (result == "已刪除") {
+                                        var page = $('li.active').find('a').text();
+                                        city_area_manage(page, 0,'')
+                                    }
+                                },
+                                cache: false
+                            });
+                        })
+
+                        //pagelist
+                        $('#myPager').on('click', 'a', function (e) {
+
+                            e.preventDefault();
+                            var page = $(this).text()
+                            //alert(page)
+                            city_area_manage(page, 0)
+                        });
+
+                        if (cityID != 0) {
+                            $("#" + cityID).parent().next().next().find('button.btn_city_open_area').click();
+                        }
+                })
+            }
+        })
+    </script>
+}
+
+
+
+
+<div class="container" >
+    <h2>後臺管理</h2>
+
+    <div class="row">
+
+        <div class="col-lg-2" id="leftside">
+            <div class="list-group listadv">
+                <ul class="nav nav-pills nav-stacked" id="nav_bar_btn">
+
+                    <li><a class="list-group-item" id="report">報表管理</a> </li>
+                    <li><a class="list-group-item" id="city_area_manage">城市地區管理</a></li>
+                    <li><a class="list-group-item" id="mem_manage">一般會員管理</a></li>
+                    <li><a class="list-group-item" id="res_manage">餐廳會員管理</a></li>
+                    <li><a href="@Url.Action("Index", "AdvertisementClientPanel", new { Area="advertisement"})" class="list-group-item" id="advertisement">廣告管理</a></li>
+                    @*<li><button class="btn alert" id="res_category_manage">平台活動管理</button></li>*@
+                    @*<li><a href="@Url.Action("Index", "RestaurantOrder", new { Area="yuwang",resID=10})" class="btn alert" id="advertisement">餐廳訂單管理</a></li>*@
+                    @*<li><a href="#" class="warning" id="report">報表管理</a></li>*@
+
+                    @*<li><a href="@Url.Action("Index", "RestaurantActivities", new { Area="yuwang",resID=8})" class="btn alert" id="advertisement">餐廳活動管理</a></li>
+
+
+                <li><a href="@Url.Action("Index", "RestaurantReport", new { Area="yuwang",resID=10})" class="btn alert" id="res_report">餐廳報表</a></li>*@
+                    @*<li><a href="#" class="warning" id="member">一般會員管理</a></li>
+                <li><a href="#" class="warning" id="restaurant">餐廳會員管理</a></li>*@
+
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="col-lg-10" id="main">
+
+        </div>
+        
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,93 @@
+﻿@model FoodDeliveryTemplete.ViewModels.CartListViewModel
+@{
+
+    Layout = "~/Views/Blog/_BlogPage.cshtml";
+}
+@section style{
+    <style>
+        .table-bordered,
+        .table-bordered > thead > tr > th,
+        .table-bordered > tbody > tr > td {
+            border: 1px solid;
+        }
+
+        #OrderTable > tbody > tr > td:first-child {
+            text-align: left;
+        }
+    </style>
+}
+<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">訂單生效通知</h3>
+        </div>
+        @*<form action="/Cart/SendOrderList" method="post">*@
+        @using (Html.BeginForm("SendOrderList", "Cart", FormMethod.Post))
+        {
+            decimal SumTotal = 0;
+            <div class="panel-body">
+                <p>感謝您使用FoodTrain訂餐 食指大丼 正在製作您的餐點</p>
+                <div class="alert alert-info" style="text-align: center;">
+                    <h4>預計抵達時間: @DateTime.Now.Add(Model.FoodNameShowViewModels.FirstOrDefault().fDeliveryTime).ToString("HH:mm:ss")</h4>
+                    <p>訂單編號 @Model.fOrderID</p>
+                    <b>顧客資訊  @Model.fMemeberName</b>
+                    <input type="hidden" name="fMemeberName" value="@Model.fMemeberName" />
+                    <p>地址:@Model.fAddress</p>
+                    <b>訂單資訊:</b>
+                    <table id="OrderTable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>菜色名稱</th>
+                                <th>價格</th>
+                                <th>數量</th>
+                                <th>小計</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var food in Model.FoodNameShowViewModels)
+                            {
+                                decimal total = food.fPrice * food.fQuantity;
+                                if (food.fIsMeal)
+                                {
+                                    <tr>
+                                        <td>
+                                            @food.fFoodName
+                                            <ul>
+                                                @foreach (var fx in food.SubDishCategories)
+                                                {
+                                                    <li> @fx.fFoodName &nbsp;&nbsp;(@fx.fCustomizedCategoryName)</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td>@food.fPrice</td>
+                                        <td>@food.fQuantity</td>
+                                        <td>@total</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@food.fFoodName &nbsp;&nbsp;(@food.fCustomizedCategoryName)</td>
+                                        <td>@food.fPrice</td>
+                                        <td>@food.fQuantity</td>
+                                        <td>@total</td>
+                                    </tr>
+                                }
+                                SumTotal += total;
+                            }
+                        </tbody>
+                    </table>
+                    <div><b>總額 @SumTotal</b></div>
+                    @if (Model.newSurplus != -1)
+                    {
+                        <div><b>電子錢包餘額：@Model.newSurplus&nbsp;元</b></div>
+                    }
+                    <br />
+                    @*<h6>付款方式:貨到付款</h6>*@
+                    <button type="submit" class="btn btn-warning">確認</button>
+                </div>
+            </div>
+        }
+        @* </form>*@
+    </div>
+</div>

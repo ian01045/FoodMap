@@ -1,0 +1,180 @@
+﻿@{
+    Layout = "~/Areas/Restaurant/Views/Shared/_RestaurantIndexPage.cshtml";
+}
+@model FoodDeliveryTemplete.Models.tCategory
+@section css{
+    <style>
+        body {
+            background-color: #525252;
+        }
+
+        .formcolor {
+            background-color: #f7decd;
+        }
+
+        .cssForName {
+            font-size: larger;
+            /*margin-top: 10px;
+            margin-right: 10px;*/
+            /*width:200px;*/
+        }
+        .CategoryNamesText {
+            background-color:#fcfa97;
+            font-size:15px;
+            font-weight:300;
+        }
+        #nav,#nav2{
+            margin:10px;
+        }
+    </style>
+}
+
+<form method="post" action='@Url.Action("CategoryCreateFunction","Category")'>
+    <div class="row cssForName ">
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-6 formcolor">
+            <div class="col-lg-12">
+                <h2>CategoryCreate</h2>
+            </div>
+            @*顯示所有選中分類*@
+            <div class="col-lg-12 CategoryNamesText form-control">
+
+            </div>
+            @*--------------------------------------------------------*@
+            @*分類名稱標題*@
+            <div class="col-lg-3">
+                @Html.DisplayNameFor(c => c.fCategoryName)
+            </div>
+            @*分類下拉式選項*@
+            <div class="col-lg-9">
+                <div class="col-lg-6">
+                    <nav id="nav">
+                        <select id="se1" class="form-control"></select>
+                    </nav>
+                </div>
+                <div class="col-lg-6">
+                    <nav id="nav2">
+                        <select id="se2" class="form-control"></select>
+                    </nav>
+                </div>
+            </div>
+           
+            @*--------------------------------------------------------*@
+            @*分類描述*@
+            @Html.TextAreaFor(c => c.fCategoryDescription, 5, 50, new { @class = "cssForName" })
+            <br />
+            @*--------------------------------------------------------*@
+            @*送出*@
+            <input type="submit" />
+            
+            <input type="button" class="submitbtn" value="確定新增"/>
+            @Html.Hidden("fCategoryName",null,new { @class= "fCategoryName",name= "fCategoryName" })
+            @Html.Hidden("fParentID", null, new { @class = "fParentID",name = "fParentID" })
+
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+</form>
+
+@section script
+    {
+    <script>
+        $(document).ready(function () {
+            //取得大分類開始
+            $.getJSON('@Url.Action("GetFirstCategoryData", "test", new { CategoryID = 0 })', function (datas) {
+                var divNav = $('#se1');
+                divNav.empty();
+                divNav.removeClass('text');
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    //console.log(category.CategoryId)
+                    //console.log(category.CategoryName)
+                    //console.log(category.CategoryParent)
+                    var option = $('<option></option>').attr('value', category.CategoryId)
+                                                       .attr('data-parentid', category.CategoryParent)
+                                                       .attr('id', 'first')
+                                                       .append(category.CategoryName);
+                    docFrag.append(option);
+                })
+                divNav.append(docFrag);
+            })//取得大分類結束
+
+            //取得次分類開始
+            $('#se1').on('change', function () {
+                var pa = $(this).val();
+                $.getJSON('@Url.Action("GetSECCategoryData", "test")' + '?CategoryID=' + pa, function (datas) {
+                    var divNav = $('#se2')
+                    divNav.empty();
+                    var docFrag = $(document.createDocumentFragment());
+                    console.log()
+                    $.each(datas, function (idx, category) {
+                        //console.log(category.CategoryId)
+                        //console.log(category.CategoryName)
+                        //console.log(category.CategoryParent)
+
+                        var option = $('<option></option>').prop('value', category.CategoryId)
+                                                              .prop('data-parentid', category.CategoryParent)
+                                                              .prop('id', 'sel2')
+                                                              .text(category.CategoryName);
+                        docFrag.append(option);
+                    })
+                    divNav.append(docFrag);
+
+                    //如果沒有子項目  則不顯示"請選擇"的字 並除去fParentID的value
+                    if ($('#se2>option:nth-child(2)').length == 0)
+                    {
+                        $('#se2>option:nth-child(1)').text('')
+                        $('.fParentID').attr('value', null)
+                    }
+
+                    //如果選到"請選擇的選項"將選中的分類清空    選到分類，將分類輸出在下面的TextBox
+                    //大項目麵包屑顯示分類
+                    //$('.CategoryNamesText').val($('#se1>:selected').text())
+                    //console.log($('#se1>:selected').text())//取文字
+                    //console.log($('#se1>:selected').val())//取值
+                    var addol = $('.CategoryNamesText').html('<ol></ol>');
+                    $('.CategoryNamesText>ol').attr('class', 'newol breadcrumb').html('<li></li>')
+                    $('.CategoryNamesText>ol>li').append($('#se1>:selected').text())
+                        //.attr('data-value', $('#se1>:selected').val())
+                   
+                    $('.fCategoryName').attr('value', $('#se1>:selected').text())
+                    
+                })
+            })//取得次分類結束
+
+            //次項目麵包屑顯示分類
+            $('#se2').on('change', function () {
+                //console.log("1561561")
+                if ($('#se2>:selected').text() == "請選擇")
+                { $('.CategoryNamesText').val("") }
+                else
+                {
+                    //如果顯示的第二個項目不在則執行
+                    if ($('.newol>li:nth-child(2)').length == 0) {
+                        $('.newol').append('<li></li>')
+                        $('.newol>li:nth-child(2)').append($('#se2>:selected').text())
+                        //.attr('data-value2', $('#se2>:selected').val)
+                        //var show1 = $('')
+                        //console.log($('.newol>li:first-child').data('value'))
+                        //console.log($('.newol>li:nth-child(2)').data('value2'))
+                        //console.log($('#se1>:selected').val())
+                    }
+                    //有第二個項目再更改text
+                    else {
+                        $('.newol>li:nth-child(2').text('')
+                        $('.newol>li:nth-child(2)').append($('#se2>:selected').text())
+                    }
+                    //選擇完第二類別 fParentID的value加入大項的FoodID
+                    $('.fParentID').attr('value', $('#se1>:selected').val())
+                }
+            })
+           
+        })
+       
+    </script>
+}

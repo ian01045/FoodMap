@@ -1,0 +1,107 @@
+﻿@model FoodDeliveryTemplete.ViewModels.Haoming.RestaurantNewsViewModel
+@{
+    ViewBag.Title = "CreateNews";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+<h2>CreateNews</h2>
+
+<div class="container">
+    <div class="row centered-form">
+        <div class="row">
+            @*<div class="col-md-6 col-md-offset-3 col-sm-4 col-sm-offset-0" style="z-index:1001">*@
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h2 style="font-size:20px;text-align:center" class="panel-title">發布消息</h2>
+                    </div>
+                    <div class="panel-body self-control">
+
+                        @using (Html.BeginForm("CreateNews", "RestaurantNews", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(n => n.fNewsTypeID, new { @class = "col-sm-2 control-label", style = "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @{
+                                        var categories = new SelectList(ViewBag.datas, "fNewsTypeID", "fNewsTypeName");
+                                    }
+                                    @Html.DropDownListFor(n => n.fNewsTypeID, categories, "請選擇", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(n => n.fNewsTypeID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(n => n.fPublishedDate, new { @class = "col-sm-2 control-label", style = "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(n => n.fPublishedDate, new { htmlAttributes = new { @class = "form-control", placeholder = "發布時間" } })
+                                    @Html.ValidationMessageFor(n => n.fPublishedDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(n => n.fTitle, new { @class = "col-sm-2 control-label", style = "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(n => n.fTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "消息標題" } })
+                                    @Html.ValidationMessageFor(n => n.fTitle, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(n=>n.fNews, new { @class = "col-sm-2 control-label", style = "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(n => n.fNews, new { htmlAttributes = new { @class = "form-control", placeholder = "News" } })
+                                    @Html.ValidationMessageFor(n => n.fNews, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button type="submit" class="btn btn-info" style="width:100%;">發布</button>
+                                </div>
+                            </div>
+                        }
+
+                        <button type="button" class="btn btn-success" id="demo1">demo 新菜色</button>
+                        <button type="button" class="btn btn-success" id="demo2">demo 最新消息</button>
+                        <button type="button" class="btn btn-success" id="demo3">demo 優惠活動</button>
+                        <button type="button" class="btn btn-success" id="demo4">demo 新菜色2</button>
+                    </div>
+                </div>
+            @*</div>*@
+        </div>
+    </div>
+</div>
+
+@section script{  
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+   <script>
+       $(document).ready(function () {
+           CKEDITOR.replace('fNews', {
+               height: 700
+           })
+
+
+
+           $('#demo1').click(function () {
+               CKEDITOR.instances.fNews.setData('<p>三月限定，泰式椒麻雞腿寶套餐！<br />檸檬香茅、大花椒、精選醃製雞腿肉！<br />一口咬下，真是「泰」好吃了！</p><p><a href="https://zh-tw.facebook.com/hashtag/%E6%B3%B0%E5%BC%8F%E6%A4%92%E9%BA%BB%E9%9B%9E%E8%85%BF%E5%A0%A1?source=feed_text&amp;story_id=622428694613785">＃泰式椒麻雞腿堡</a>&nbsp;<a href="https://zh-tw.facebook.com/hashtag/%E6%90%AD%E9%85%8D%E5%A4%A7%E6%9D%AF%E9%A3%B2%E5%93%8175%E6%91%B3%E6%91%B3?source=feed_text&amp;story_id=622428694613785">＃搭配大杯飲品75摳摳</a></p><p><a href="https://zh-tw.facebook.com/lungfengbreakfast/photos/a.320885771434747.1073741830.209817062541619/622428694613785/?type=3"><img alt="圖像裡可能有1 人、食物" src="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-0/s640x640/16864919_622428694613785_3335970011735386671_n.jpg?oh=f8369a4b0fac0d476eb54e78c2cd5ca8&amp;oe=59818960" style="height:638px; width:450px" /></a></p>');
+
+           })
+
+           $('#demo2').click(function () {
+               CKEDITOR.instances.fNews.setData('<p>即日起，任選兩款三明治＋中杯紅／奶茶，只要銅板價＄50呢！<br />龍鳳美而美用料實在、每日現做、價格實惠，你還在等什麼呢！？<br />活動到十二月底，趕快來店搶購吧！</p><p><a href="https://zh-tw.facebook.com/hashtag/%E9%8A%85%E6%9D%BF%E5%A5%97%E9%A4%90?source=feed_text&amp;story_id=583622268494428">#銅板套餐</a></p><p><a href="https://zh-tw.facebook.com/lungfengbreakfast/photos/a.320885771434747.1073741830.209817062541619/583622268494428/?type=3"><img alt="圖像裡可能有食物" src="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-0/p320x320/15220008_583622268494428_5552164952943479194_n.jpg?oh=9bd4ed1fd634e437525a3f162b7d30bd&amp;oe=59933F4F" style="height:318px; width:451px" /></a></p>')
+           })
+
+           $('#demo3').click(function () {
+               CKEDITOR.instances.fNews.setData('<p>十一月又是一個飽足感十足的銅板套餐，原味蛋餅加上煎餃搭配中杯紅\奶茶$50!!</p><p>這兩天以來已經有不少人點餐囉，感謝大家厚愛!你也趕快來試試吧!</p><p><a href="https://zh-tw.facebook.com/lungfengbreakfast/photos/a.320885771434747.1073741830.209817062541619/570964649760190/?type=3"><img alt="圖像裡可能有食物和文字" src="https://scontent-tpe1-1.xx.fbcdn.net/v/t31.0-0/p480x480/14883502_570964649760190_7370755443039311459_o.jpg?oh=25b508cc9f353e6c97b743409998ab73&amp;oe=595260A0" style="height:673px; width:477px" /></a></p><p>&nbsp;</p>')
+           })
+
+           $('#demo4').click(function () {
+               CKEDITOR.instances.fNews.setData('<p>新成員--北歐丹麥吐司!<br />五月份還有特價唷! 趕快還嘗鮮吧!</p><p>丹麥土司豐富的奶油夾層，外皮酥脆、內裡柔軟又香醇<br />想到都要口水了(滴口水</p><p><a href="https://zh-tw.facebook.com/lungfengbreakfast/photos/pcb.505765956280060/505764602946862/?type=3"><img alt="圖像裡可能有食物" src="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-0/s480x480/13233152_505764602946862_4270217458601036011_n.jpg?oh=b525648c22434baa09f9040867a1e42d&amp;oe=597EB981" style="height:357px; width:476px" /></a></p><p><a href="https://zh-tw.facebook.com/lungfengbreakfast/photos/pcb.505765956280060/505764612946861/?type=3"><img alt="圖像裡可能有食物" src="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-0/s480x480/13221578_505764612946861_1599868213329596294_n.jpg?oh=d9ee006e9b4995caa3171b095938f90f&amp;oe=5989F919" style="height:337px; width:476px" /></a></p><p>&nbsp;</p>')
+           })
+       })
+
+
+   </script>
+    
+}

@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminIndexPage.cshtml";
+}
+
+@model FoodDeliveryTemplete.Models.tAdvertisement
+@{
+    ViewBag.Title = "廣告新增";
+}
+
+@*@section A{
+        <h1>SectionA</h1>
+    }*@
+
+
+@using (Html.BeginForm("Create", "Advertisement", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @*餐廳編號下拉式樣選單*@
+    <div class="form-group">
+        @Html.LabelFor(p => p.fRestaurantID, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @{
+                var categories = new SelectList(ViewBag.res, "fRestaurantID", "fRestaurantName");
+            }
+            @Html.DropDownListFor(p => p.fRestaurantID, categories, "請選擇", new { @class = "form-control" })
+            @Html.ValidationMessageFor(p => p.fRestaurantID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+                //廣告投放起始日期
+                <div class="form-group">
+                    @Html.LabelFor(p => p.fAppliedDate, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(p => p.fAppliedDate, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入yyyy/mm/dd" } })
+                        @Html.ValidationMessageFor(p => p.fAppliedDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                //廣告投放結束日期
+                <div class="form-group">
+                    @Html.LabelFor(p => p.fDays, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(p => p.fDays, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入yyyy/mm/dd" } })
+                        @Html.ValidationMessageFor(p => p.fDays, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                @*//價格區域編號
+                <div class="form-group">
+                    @Html.LabelFor(p => p.fPriceRegionID, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(p => p.fPriceRegionID, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入1-10之間的數字" } })
+                        @Html.ValidationMessageFor(p => p.fPriceRegionID, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                //廣告區域編號下拉式樣選單
+                        <div class="form-group">
+                            @Html.LabelFor(p => p.fPriceRegionID, new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @{
+                                    var categories_price = new SelectList(ViewBag.priceregion, "fPriceReigonID", "fPriceReigon");
+                                }
+                                @Html.DropDownListFor(p => p.fPriceRegionID, categories_price, "請選擇", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(p => p.fPriceRegionID, "", new { @class = "text-danger" })
+                            </div>
+
+
+                        </div>
+
+
+                //廣告圖片
+                @*<div class="form-group">
+                        @Html.LabelFor(p => p.fAdvertisementPicture, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.EditorFor(p => p.fAdvertisementPicture, new { htmlAttributes = new { type = "file", @class = "form-control", placeholder = "廣告圖片" } })
+                            @Html.ValidationMessageFor(p => p.fAdvertisementPicture, "", new { @class = "text-danger" })
+                            <input type="file" name="ProductImage" class="form-control" />
+                            @ViewBag.message
+                        </div>
+                    </div>*@
+
+                //廣告文字描述
+                <div class="form-group">
+                    @Html.LabelFor(p => p.fMediaIntroduction, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(p => p.fMediaIntroduction, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入廣告文字描述" } })
+                        @Html.ValidationMessageFor(p => p.fMediaIntroduction, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">新增</button>
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                }
+
+<p></p>

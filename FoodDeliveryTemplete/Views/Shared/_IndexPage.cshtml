@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/Account.css" rel="stylesheet" />
+    <link href="~/Content/LoginForm.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.glide.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/MyIndexHeaderJavaScript.js"></script>
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/lightbox.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/presets/preset1.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet">
+    <link href="~/Content/sm-clean/sm-clean.css" rel="stylesheet" />
+    <link href="~/Content/sm-simple/sm-core-css.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href="~/css/loading/loading.css" rel="stylesheet" />
+    @RenderSection("style", false)
+
+
+</head>
+<body>
+    <div class="loader"></div>
+    <a id="menu-toggle" href="#" class="btn-dark btn-lp toggle">
+        <div id="btnLogin" class="fa">會員登入</div>
+    </a>
+
+
+    <!--廣告-->
+    <header id="home">
+        <div id="home-slider" class="carousel slide carousel-fade" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active" style="background-image: url(/images/Advertisement/steak.jpg)">
+                    <div class="caption">
+                        <h1 class="animated fadeInLeftBig">歡迎登入<span>食速列車</span></h1>
+                        <p class="animated fadeInRightBig">您訂外食的最好選擇</p>
+                        <a data-scroll class="btn btn-start animated fadeInUpBig" href="#portfolio">列車出發</a>
+                    </div>
+                </div>
+                <div class="item" style="background-image: url(/images/Advertisement/vegetable.jpg)">
+                    <div class="caption">
+                        <h1 class="animated fadeInLeftBig">即日起訂餐，即可享有<span>九折服務</span></h1>
+                        <p class="animated fadeInRightBig">累積點數換取更多優惠</p>
+                        <a data-scroll class="btn btn-start animated fadeInUpBig" href="#portfolio">列車出發</a>
+                    </div>
+                </div>
+                <div class="item" style="background-image: url(/images/Advertisement/vegetable2.jpg)">
+                    <div class="caption">
+                        <h1 class="animated fadeInLeftBig">網路下單，快速出單，<span>不外出即可用餐</span></h1>
+                        <p class="animated fadeInRightBig">趕快加入會員，享有迅速方便的服務</p>
+                        <a data-scroll class="btn btn-start animated fadeInUpBig" href="#portfolio">列車出發</a>
+                    </div>
+                </div>
+            </div>
+            <a class="left-control" href="#home-slider" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            <a class="right-control" href="#home-slider" data-slide="next"><i class="fa fa-angle-right"></i></a>
+            <a id="tohash" href="#portfolio"><i class="fa fa-angle-down"></i></a>
+        </div><!--/#home-slider-->
+        <!--功能頁面-->
+        <div class="main-nav">
+            <div class="container">
+                <nav role="navigation">
+                    <ul id="main-menu" class="sm sm-clean">
+                        <li>
+                            @Html.ActionLink("首頁", "Index", "Home", new { Area = "" }, null)
+                        </li>
+                        <li>
+                            <a href="#">尋找美食</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li>
+                                    <a href="#/">年度人氣</a>
+                                    @*<ul>
+                            <li><a href="#">About Vadikom</a></li>
+                        </ul>*@
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a style="cursor:pointer">遊走餐廳</a>
+                            <ul>
+                                <li>@Html.ActionLink("餐廳部落格", "Index", "Blog", new { Area = "" }, null)</li>
+                                <li><a href="#">找尋餐廳</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">美食搜尋</a>
+                        </li>
+                        <li><a href="#">餐廳搜尋</a></li>
+                        <li>
+                            <a style="cursor:pointer">會員專區</a>
+                            <ul>
+                                <li>@Html.ActionLink("登入會員", "LoginView", "Account", new { Area = "" }, null)</li>
+                                <li>
+                                    @Html.ActionLink("註冊會員", "Index", "Home", new { Area = "" }, null)
+                                    <ul>
+                                        <li>
+                                            @Html.ActionLink("一般會員", "Registed", "Register", new { Area = "" }, null)
+                                        </li>
+                                        <li>                                            
+                                            @Html.ActionLink("餐廳會員", "RestaurantRegisted", "Register", new { Area = "" }, null)
+                                        </li>
+                                    </ul>
+                            </li>
+                            <li>@Html.ActionLink("忘記密碼", "ForgotPassword", "Account", new { Area = "" }, null)</li>
+                            <li>@Html.ActionLink("重設密碼", "ResetPassword", "Account", new { Area = "" }, null)</li>
+                        </ul>
+                        </li>
+                        @*<li>
+                            <a  href="#">常見問題</a>
+                            <ul>
+                                <li><a href="#">Dummy item</a></li>
+                                <li><a href="#" class="disabled">Disabled menu item</a></li>
+                                <li>
+                                    <a href="#">more...</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">A</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">more...</a>
+                                            <ul>
+                                                <li><a href="#">Dummy item</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>*@
+                        <li>
+                            <a href="#contact">聯絡我們</a>
+                            @*<ul class="mega-menu">
+                <li>*@
+                            <!-- The mega drop down contents -->
+                            @*<div style="width:400px;max-width:100%;">
+                            <div style="padding:5px 24px;">
+                            </div>
+                        </div>
+                    </li>
+                </ul>*@
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header><!--/#home-->
+    @RenderBody()
+
+    <section id="contact">
+        <div id="contact-us" class="parallax">
+            <div class="container">
+                <div class="row">
+                    <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                        <h2>聯絡我們</h2>
+                        <p>對於食宿列車網站上的功能或者使用方式的任何問題都可以與我們連絡，我們非常樂意為您服務及解決您的問題</p>
+                    </div>
+                </div>
+                <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form id="main-contact-form" name="contact-form" method="post" action="#">
+                                <div class="row  wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" name="name" class="form-control" placeholder="Name" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control" placeholder="Email Address" required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="subject" class="form-control" placeholder="Subject" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="Enter your message" required="required"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-submit">Send Now</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="contact-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                <p>以下是我們的聯絡方式，或者您可以填寫意見涵並傳送給我們，我們隨時願意為您服務:</p>
+                                <ul class="address">
+                                    <li><i class="fa fa-map-marker"></i> <span> 地址:</span>106台北市大安區復興南路一段390號</li>
+                                    <li><i class="fa fa-phone"></i> <span> 電話:</span>0987-178-738</li>
+                                    <li><i class="fa fa-envelope"></i> <span> 信箱:</span><a href="mailto:henry0223@hotmail.com">henry0223@@hotmail.com</a></li>
+                                    <li><i class="fa fa-globe"></i> <span> 網站:</span> <a href="#">www.traintofood.com.tw</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#contact-->
+    <footer id="footer">
+        <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="container text-center">
+                <div class="footer-logo">
+                    <h3 style="color:white">與Food To Train互動</h3>
+                </div>
+                <div class="social-icons">
+                    <ul>
+                        <li><a class="envelope" href="#"><i class="fa fa-envelope"></i></a></li>
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>@DateTime.Now.ToString("yyyy  年  MM  月  dd  日")</p>
+                    </div>
+                    <div class="col-sm-6">
+                        &copy; FoodToTrain 已註冊，FoodToTrain版權所有 2017
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.smartmenus.min.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/jquery.inview.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/mousescroll.js"></script>
+    <script src="~/js/smoothscroll.js"></script>
+    <script src="~/js/jquery.countTo.js"></script>
+    <script src="~/js/lightbox.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/html5shiv.js"></script> 
+    <script>
+    $(window).load(function () {
+        $(".loader").fadeOut(2000);
+    })
+    </script>
+    @RenderSection("script", false)
+
+</body>
+
+</html>

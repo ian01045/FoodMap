@@ -1,0 +1,72 @@
+﻿@model FoodDeliveryTemplete.ViewModels.Haoming.RestaurantNewsViewModel
+@{
+    ViewBag.Title = "ShowNews";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+<h2>ShowNews</h2>
+
+
+<div class="container" id="txt">
+    <div class="row centered-form">
+        <div class="row">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> 餐廳消息</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-3 text-center">
+                            @Html.LabelFor(n => n.fNewsTypeID, new { @class = "control-label" }):
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.NewsTypeName
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 text-center">
+                            @Html.LabelFor(n => n.fPublishedDate, new { @class = "control-label" }) :
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.fPublishedDate.ToString("yyyy/MM/dd")
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 text-center">
+                            @Html.LabelFor(n =>n.fTitle, new { @class = " control-label" }) :
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.fTitle
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-3 text-center">
+                            @Html.LabelFor(n => n.fNews, new { @class = " control-label" }) :
+                        </div>
+                        <div class="col-sm-9" id="ckeditor">
+                            <input type="hidden" value="@Model.fNews" id="news" />
+                        </div>
+                    </div>
+                    <div style="margin-top:50px;margin-left:50%">
+                        @Html.ActionLink("修改消息", "NewsModify", "RestaurantNews", new { id = Model.fArticleID }, new { @class = "btn btn-warning" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script{ 
+    <script>
+        $(document).ready(function () {
+            var a = $('#news').val()
+
+            $('#ckeditor').html(a)
+        })
+    </script>
+
+
+}

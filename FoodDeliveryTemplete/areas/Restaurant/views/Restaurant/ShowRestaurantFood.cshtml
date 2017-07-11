@@ -1,0 +1,59 @@
+﻿
+@section style{
+    <style>
+        .setFoodDescription {
+            width: 100px;
+            color: red;
+        }
+    </style>
+}
+@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurant_Foods>
+<br />
+@*嵌入式@Html.ActionLink("新增產品", "RestaurantIndex", "Restaurant",new { i = 1}, new { @class = "btn btn-info" })*@
+<div class="row">
+    <div class="col-md-1 col-lg-1"></div>
+    <div class="col-md-1 col-lg-1 btn-group-vertical">
+        <div class="bd-example">
+            <div class="Lefbtns btn-group-vertical width=100px" role="group" aria-label="Vertical button group">
+                @*<a class="btn btn-info" href="@Url.Action("ProductCreateFunction","Product")">新增商品</a>*@
+                <a class="btn btn-danger btn-lg hbtn" style="opacity:0.7" href="@Url.Action("Index","Meal")">查看套餐內容</a>
+                <a class="btn btn-danger btn-lg hbtn" style="opacity:0.7" href="@Url.Action("CategoryCreateFunction", "Category")">新增商品分類</a>
+                <a class="btn btn-danger btn-lg hbtn" style="opacity:0.7" href="@Url.Action("CreateCustomizedCategory", "CustomizedCategory")">設定客製化選項</a>
+                <a class="btn btn-danger btn-lg hbtn" style="opacity:0.7" href="@Url.Action("Index", "RestaurantOrder",new { Area="Amy"})">餐廳訂單</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-lg-9 showProduct">
+        @Html.ActionLink("新增產品", "ProductCreateFunction", "Product", new { id = @ViewBag.RestaurantIDIs }, new { @class = "btn btn-info btn-lg", style = "margin-left:10px;" })
+        
+        <input type="button" value="下架選中" id="UnAvailablecheck" class="btn btn-info btn-lg" />
+
+        <div id="tabs" style="margin-top:10px;margin-left:10px;">
+            <ul>
+                <li><a href="#tabs-1" id="product">上架單品</a></li>
+                <li><a href="#tabs-2" id="mealsProduct">套餐商品</a></li>
+                <li><a href="#tabs-3" id="UnAvailableProduct">下架單品</a></li>
+                <li><a href="#tabs-4" id="UnAvailableMeal">下架套餐</a></li>
+                <li><input type="button" value="刪除選中" id="delectcheck" class="btn btn-info btn-lg" /></li>
+            </ul>
+            <div id="tabs-1">
+               @*顯示單品*@
+            </div>
+            <div id="tabs-2">
+                @*顯示套餐*@
+            </div>
+            <div id="tabs-3">
+                @*顯示不上架單品*@
+            </div>
+            <div id="tabs-4">
+                @*顯示不上架套餐*@
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-1 col-lg-1"></div>
+</div>
+
+
+<br />
+<br />

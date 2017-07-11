@@ -1,0 +1,220 @@
+﻿
+@model FoodDeliveryTemplete.Models.tMemeber
+    ViewBag.Title = "Member";
+}
+@section style{
+    <style>
+        body {
+            padding-top: 30px;
+        }
+
+        .glyphicon {
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        small {
+            display: block;
+            line-height: 1.428571429;
+            color: #999;
+        }
+    </style>
+}
+<h2>會員基本資料</h2>
+<h2>@Model.fMemeberName</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 ">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                        @*<img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />*@
+                        <img title="MemberPhoto" src="@Url.Action("GetImageByte","MemberArea",new {id = Model.fMemberID})" class="img-rounded img-responsive" />
+                        <br />
+                        <div class="row">
+                            @*@Html.LabelFor(m => m.fPhotoID, new { @class = "col-sm-2 control-label" })*@
+                            <div id="photozone">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-9">
+
+                        @using (Html.BeginForm("MemberModifyForm", "MemberArea", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fMemeberName, new { @class = "col-sm-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(m => m.fMemeberName, new { htmlAttributes = new { @class = "form-control", placeholder = "會員名稱" } })
+                                    @Html.ValidationMessageFor(m => m.fMemeberName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fEmail, new { @class = "col-sm-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(m => m.fEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "電子郵件" } })
+                                    @Html.ValidationMessageFor(m => m.fEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fPassword, new { @class = "col-sm-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(m => m.fPassword, new { htmlAttributes = new { @class = "form-control", placeholder = "密碼" } })
+                                    @Html.ValidationMessageFor(m => m.fPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @*<div class="col-md-4">
+                                    <label class="radio-inline" for="radios-0">
+                                        <input type="radio" name="radios" id="radios-0" value="Male" checked="checked">
+                                        Male
+                                    </label>
+                                    <label class="radio-inline" for="radios-1">
+                                        <input type="radio" name="radios" id="radios-1" value="Female">
+                                        Female
+                                    </label>
+                                </div>*@
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fGender, new { @class = "col-sm-2 control-label" })
+                                <div class="col-sm-10">
+
+                                    <label class="radio-inline">@Html.RadioButtonFor(m => m.fGender, "男", new { @class = "radio-inline form-inline" }) 男</label>
+
+                                    <label class="radio-inline">@Html.RadioButtonFor(m => m.fGender, "女", new { @class = "radio-inline form-inline" }) 女</label>
+
+                                    @Html.ValidationMessageFor(m => m.fGender, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                @Html.LabelFor(m => m.fBirth, new { @class = "col-sm-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(m => m.fBirth, new { htmlAttributes = new { type = "date", @class = "form-control", placeholder = "生日" } })
+                                    @Html.ValidationMessageFor(m => m.fBirth, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fPhone, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(m => m.fPhone, new { htmlAttributes = new { @class = "form-control", placeholder = "手機" } })
+                                        @Html.ValidationMessageFor(m => m.fPhone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fTel, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(m => m.fTel, new { htmlAttributes = new { @class = "form-control", placeholder = "電話" } })
+                                        @Html.ValidationMessageFor(m => m.fTel, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("居住城市", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10">
+                                        @{
+                                            var city = new SelectList(ViewBag.datas, "fCityID", "fCityName");
+                                        }
+                                        @Html.DropDownList("fCityID", city, "請選擇城市", new { id = "fCityID", @class = "form-control" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fAreaID, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10">
+                                        @*<select class="form-control" id="fAreaID" name="fAreaID"><option></option></select>*@
+                                        @{
+                                            var area = new SelectList(ViewBag.area, "fAreaID", "fAreaName");
+                                        }
+                                        @Html.DropDownList("fAreaID", area, "請選擇區域", new { id = "fAreaID", @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fAddress, new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(m => m.fAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "地址" } })
+                                        @Html.ValidationMessageFor(m => m.fAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">更換照片</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control" placeholder="照片" id="memberPhoto" name="memberPhoto" />
+                                        <br />
+                                        @ViewBag.message
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-success">更新</button>
+                                    </div>
+                                </div>
+                                            }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script{
+    <script>
+        var thefile = this.File;
+        $(document).ready(function () {
+            $('#fCityID').change(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("GetArea","Account")',
+                    data: { id: $('#fCityID').val() },
+                    success: function (data) {
+                        $('#fAreaID').empty();
+                        $('#fCityID option[value=""]').remove();
+                        $.each(data, function (idx, area) {
+                            $('#fAreaID').append('<option Value ="' + area.Value + '">' + area.Text + '</option>')
+                        })
+                    }
+                })
+            })
+
+
+            //------預覽上傳圖片--------
+            $('#memberPhoto').change(function () {
+
+                var thefile = this.files[0];
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#photozone').empty();
+                    //console.log(e.target.result);
+                    var filecontent = e.target.result;
+
+                    var imgobj = $("<img/>");
+                    imgobj.attr({ 'src': filecontent, 'class': 'thumb' });
+                    $('#photozone').append(imgobj);
+                }
+                reader.readAsDataURL(thefile);
+            })
+
+
+        })
+
+
+
+    </script>
+}

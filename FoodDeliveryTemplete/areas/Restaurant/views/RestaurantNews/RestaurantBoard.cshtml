@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "RestaurantBoard";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+<center><h2>餐廳的消息版</h2></center>
+
+
+<div class="row">
+    <div class="col-lg-3" id="newstype">
+        <div id="typeReload">
+            @Html.Action("NavCategory", "RestaurantNews")
+        </div>
+       
+        <div><a href="@Url.Action("CreateNews","RestaurantNews")" class="btn btn-warning"><span class="glyphicon glyphicon-pencil">發布新消息</span></a></div>
+    </div>
+
+    <div class="col-lg-9" id="news">
+
+    </div>
+</div>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+
+            //跑出預設的第一個分類的消息
+
+            $('#news').load('@Url.Action("News", "RestaurantNews")' + '/?categoryid=' + $('#ligroup>li:eq(0)').addClass('active').attr('data-categoryid'));
+
+            $('#newstype').on('click', 'li', function () {
+                var id = $(this).data("categoryid");
+
+                $('#news').load('@Url.Action("News", "RestaurantNews")' + '/?categoryid=' + id);
+
+
+                $('#ligroup>li').removeClass('active');
+                $(this).addClass("active");
+            }).on('mouseenter', 'li', function () {
+                $(this).css("cursor", "pointer");
+            });
+
+
+            $('body').on('click', 'button[name="delete"]', function () {
+                if (confirm("確定要刪除此篇消息嗎?")) {
+
+                    var articleid = $(this).data("articleid");
+
+                    $.get("@Url.Action("DeleteNews")", { "id": articleid }, function () {
+                        alert("刪除成功");
+
+                        $("#typeReload").load("@Url.Action("NavCategory", "RestaurantNews")", function () {
+                            $("#news").load('@Url.Action("News", "RestaurantNews")' + '/?categoryid=' + $('#ligroup>li:eq(0)').addClass('active').attr('data-categoryid'));
+                        });
+                    })
+                }
+
+            })
+
+        })
+    </script>
+
+}

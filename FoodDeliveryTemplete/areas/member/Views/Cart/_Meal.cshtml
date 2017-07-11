@@ -1,0 +1,160 @@
+﻿@model  FoodDeliveryTemplete.ViewModels.CartListViewModel
+
+<div class="row">
+    @if (@Model.IsMeal == "N")
+    {
+    <!--#region 單點-->
+        foreach (var product in Model.FoodNameContentViewModels)
+        {
+            @Html.Partial("_FoodItem", product)
+            //用bootstrap彈跳出點餐視窗
+            <!--#region Modal -->
+
+
+            <div class="modal fade" id="@product.fFoodID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div style="padding:10px" class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">@product.fFoodName</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <img title="fFoodImage" src="@Url.Action("GetImageByte","Cart",new { id=product.fFoodID})" class="img-thumbnail thumb" />
+                        </div>
+                        <h5>@product.fFoodDescription</h5>
+                        <div style="margin:5px">@Html.DisplayFor(c => product.fPrice)</div>
+
+                        <div class="modal-footer">
+                            <!--#region 選擇數量-->
+                            <div class="container gotocartcontainer">
+                                <div class="row">
+                                    <select>
+                                        @foreach (var co in product.CustomerOptions)
+                                        {
+                                            <option value="@co.fCustomizedOptionID">@co.fCustomizedOptionName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 fooddetailcontainer" style="text-align:center">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" data-field="">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                </button>
+                                            </span>
+                                            <input type="text" class="quantity" name="quantity" value="1" min="1" max="100" width="50">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <button type="button" class="btn btn-warning btn-lg btn-block gotoCart" value="@product.fFoodID" data-dismiss="modal">加入購物車</button>
+                                </div>
+                            </div>
+                            <!--#endregion-->
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        <!--#endregion-->
+        }
+    <!--#endregion-->
+    }
+    else if (@Model.IsMeal == "Y")
+    {
+    <!--#region 套餐-->
+        foreach (var product in Model.FoodNameContentViewModels_meal)
+        {
+            int i = 0;//每個套餐的區域變數，切換類別Radio Button使用
+                      //因有用bootstrap彈跳出點餐視窗 在div中要加對應data-toggle 及data-target
+            <!--#region 項目圖(使用PartialView)-->
+                    @Html.Partial("_FoodItem", product)           
+            <!--#endregion-->
+            //用bootstrap彈跳出點餐視窗
+            <!--#region Modal -->
+            <div class="modal fade cartindexdiv" id="@product.fFoodID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div style="padding:10px" class="modal-content">
+                        @using (Html.BeginForm("AddToCartMeal", "Cart", FormMethod.Post))
+                        {
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">@product.fFoodName</h4>
+                                <!--藏此套餐的fFoodID-->
+                                @Html.Hidden("fFoodID", product.fFoodID)
+                            </div>
+
+                            <div class="modal-body">
+                                <img title="fFoodImage" src="@Url.Action("GetImageByte","Cart",new { id=product.fFoodID})" class="img-thumbnail thumb" style="width:auto;height:300px" />
+                                <h5>@product.fFoodDescription</h5>
+                                <div style="margin:5px">@Html.DisplayFor(c => product.fPrice)</div>
+                                @foreach (var category in product.SubDishCategories)
+                                {
+                                    <hr />
+                                    var j = 0;//每個類中的區域變數
+                                    <h6 class="sub-Item">@category.Key</h6>
+                                    <div class="sub-Item" style="text-align:right">
+                                        <select name="fFoods[@i].CCID">
+                                            @foreach (var co in category.FirstOrDefault().CustomerOptions)
+                                            {
+                                                <option value="@co.fCustomizedOptionID">@co.fCustomizedOptionName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div>
+                                        @foreach (var subFood in category)
+                                        {
+                                            @Html.RadioButton("fFoods[" + i + "].fFoodID", subFood.fFoodID, j == 0 ? true : false);
+                                            @Html.Label(subFood.fFoodName);
+                                            <br />
+                                            j++;
+                                        }
+                                    </div>
+                                    i++;
+                                    <hr />
+                                }
+                            </div>
+
+                            <div class="modal-footer">
+                                <!--#region 選擇數量-->
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-2" style="text-align:center">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" data-field="">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+                                                <input type="text" class="quantity" name="quantity" value="1" min="1" max="100" width="50">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--#endregion-->
+                                <br />
+                                <br />
+                                @*<a href="@Url.Action("AddToCart","Cart",new { fFoodID=@product.fFoodID })" class="btn btn-primary btn-lg btn-block" role="button">加入購物車</a>*@
+                                <button type="submit" class="btn btn-warning btn-lg btn-block">加入購物車</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        <!--#endregion-->
+        }
+    <!--#endregion-->
+    }
+</div>

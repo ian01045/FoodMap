@@ -1,0 +1,703 @@
+﻿
+@{
+    //ViewBag.Title = "ProductCreateFunction";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+@model FoodDeliveryTemplete.Models.tRestaurant_Foods
+@section style{
+    <style>
+        body {
+            background-color: #525252;
+            font-size:200%;
+            font-family: "標楷體";
+        }
+
+        .formcolor {
+            background-color: #f7decd;
+        }
+
+        .cssForName {
+            font-size: larger;
+            /*margin-top: 10px;
+            margin-right: 10px;*/
+            /*width:200px;*/
+        }
+
+        .CategoryNamesText {
+            background-color: #fcfa97;
+            margin-right: 20px;
+        }
+
+        #nav, #nav2 {
+            margin: 10px;
+        }
+
+        .productCate {
+            margin-top: 20px;
+        }
+
+        #nav, #nav2 {
+        }
+
+        .textArea {
+            resize: none;
+        }
+
+        .preview {
+            max-width: 150px;
+            max-height: 150px;
+        }
+
+        .submitbtn {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            float: right;
+        }
+        
+        #cookhour, #cookmin, #cooksec,#timelabel {
+            /*font-size:20px;*/
+            margin-left:10px;
+            width:80%;
+        }
+        #fPrice, #fCost, #fDiscount {
+            width:80%;
+        }
+
+         /*大分類+中分類*/
+        .comboboxse1,.comboboxse2 {
+            position:absolute;
+            /*top:0px;
+            left:0px;*/
+            width:50%;
+            height:100%;
+            z-index:2;
+        }
+        .comboboxdiv {
+            margin-bottom:40px;
+        }
+        #gohome {
+            float:right;
+        }
+    </style>
+}
+<form method="post" action='~/Product/ProductCreateFunction'>
+    <div class="row cssForName ">
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-6 formcolor">
+            <div class="col-lg-12">
+                <h2>新增產品</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    @*是否上架*@
+                    <div class="col-lg-12 form-control"style="font-size:30px;">
+                        @Html.CheckBoxFor(c => c.fAvailable)
+                        @Html.DisplayNameFor(c => c.fAvailable)
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    @*商品是否為食材*@
+                    <div class="col-lg-12 form-control"style="font-size:30px;">
+                        @Html.CheckBoxFor(c => c.fRaw_Cooked)
+                        @Html.DisplayNameFor(c => c.fRaw_Cooked)
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    @*商品是否為套餐*@
+                    <div class="col-lg-12 form-control"style="font-size:30px;">
+                        @Html.CheckBoxFor(c => c.fIsMeal)
+                        @Html.DisplayNameFor(c => c.fIsMeal)
+                    </div>
+                </div>
+                <br />
+            </div>
+
+            @*商品名稱*@
+            <div class="col-lg-12 form-control"style="font-size:30px;margin-top:15px;">
+                @Html.DisplayNameFor(c => c.fFoodName)
+                <br />
+                @Html.EditorFor(c => c.fFoodName)
+                @Html.Label(" ",new { id="checkName",@class= "text-danger" })
+            </div>
+            <hr />
+            @Html.Label("分類預覽:", new { style = "margin-top:30px;margin-left:10px;" })
+            @*顯示所有選中分類*@
+            <div class="col-lg-12 CategoryNamesText form-control"style="font-size:25px;height:70px;margin-left:10px;">
+            </div>
+            <div class="col-lg-12 givemargin">
+                @*分類名稱標題*@
+                <div class="row">
+                    <div class="col-lg-3" style="margin-top:10px;font-size:25px;">
+                        @Html.Label("商品分類:")
+                    </div>
+                    @*分類下拉式選項*@
+                    <div class="col-lg-9 addCategory"style="font-size:25px;">
+                        <div class="col-lg-12 comboboxdiv" name="div">
+                            <nav id="nav" name="nav">
+                                @Html.Label(" ", new { id = "checkcategory", @class = "text-danger" })
+                                <select id="se1" class="form-control comboboxse1" name="select" style="font-size:20px; height:40px;"></select>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div class="col-lg-12 form-control" style="margin-top:20px;">
+                <input type="button" value="不設定客製化分類" id="customizedtoggle" style="font-size:20px;"/>
+            </div>
+            <div class="col-lg-12 row" id="customizedoption">
+               @*客製化選項*@
+                    <div class="col-lg-6">
+                        @Html.Label("客製化分類")
+                        <div id="addCustCategory"style="font-size:30px;">
+                            <select id="customerCategory" class="form-control"style="font-size:20px;"></select>
+                            @*<select id="seccustomerCategory" class="form-control"></select>*@
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        @Html.Label("客製化選項")
+                        <div id="costomeroption"style="font-size:20px;">
+                            
+                        </div>
+                    </div>
+            </div>
+            <div class="col-lg-12"style="margin-top:20px;">
+                <hr />
+            </div>
+            @*--------------------------------------------------------*@
+
+            <div class="row" style="margin-left:10px;">
+                <div class="col-sm-4 col-md-4 col-lg-4 container" >
+                    @*價錢*@
+                    @Html.DisplayNameFor(c => c.fPrice)
+                    <br />
+                    <input id="fPrice" name="fPrice" type="number" min="0" required value="0" style="width:80%"/>
+                    <br />
+                </div>
+
+                <div class="col-sm-4 col-md-4 col-lg-4" >
+                    @*成本*@
+                    @Html.DisplayNameFor(c => c.fCost)
+                    <br />
+                    <input id="fCost" name="fCost" type="number" min="0" required value="0" style="width:80%"/>
+                </div>
+
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    @*折扣*@
+                    @Html.DisplayNameFor(c => c.fDiscount)
+                    <br />
+                    <input id="fDiscount" name="fDiscount" type="number" min="0" required value="0"  style="width:80%"/>
+                    <br />
+                </div>
+            </div>
+            <div class="col-lg-12 form-control" style="margin-top:20px;">
+                <hr />
+            </div>
+            @*--------------------------------------------------------*@
+            @*烹煮時間*@
+            <div class="row"style="font-size:25px;margin-left:10px;">
+                <div class="col-lg-12">
+                    @Html.DisplayNameFor(c => c.fCookTime)
+                    <br />
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        @Html.Label("小時", new { id = "timelabel" })
+                        <br />
+                        <input id="cookhour" name="cookhour" type="number" min="0" max="23" required value="0"/>
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.Label("分鐘", new { id = "timelabel" })
+                        <br />
+                        <input id="cookmin" name="cookmin" type="number" min="0" max="59" required value="0"/>
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.Label("秒數", new { id = "timelabel" })
+                        <br />
+                        <input id="cooksec" name="cooksec" type="number" min="0" max="59" required value="1"/>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            @*--------------------------------------------------------*@
+            @*新增照片*@
+            <div class="col-lg-12" style="margin-top:50px;font-size:20px;margin-top:10px;" id="delet">
+                <input type='button' class="btn btn-danger" id="deletepic" value="刪除選擇照片"style="font-size:20px;margin-top:10px;">
+            </div>
+            <div class="col-lg-12" style="margin-top:10px" >
+                <input type='file' class="upl">
+            </div>
+            <br />
+            <div class="col-lg-12">
+                <img  name="FoodPhoto" id="FoodPhoto" class="preview">
+                <div class="size"></div>
+                @Html.Hidden("fPhotoID")
+            </div>
+            <hr />
+            @*--------------------------------------------------------*@
+            @*產品說明*@
+            <div class="col-lg-12">
+                @Html.LabelFor(c => c.fFoodDescription)
+                <br />
+                @Html.TextAreaFor(c => c.fFoodDescription,5,40, new { @class = "textArea" })
+            </div>
+
+            @*--------------------------------------------------------*@
+
+            <div class="col-lg-12" style="margin-top:30px">
+                @*送出*@
+                <input type="button" value="新增產品" class="btn btn-warning btn-lg" id="sendProduct" style="margin-right:30px;font-size:100%" />
+                @Html.Label(" ", new { id = "response" })
+                @Html.ActionLink("返回餐廳首頁", "Index", "Restaurant", null, new { id = "gohome" })
+                @*<input type="button" name="submit" value="新增產品"/>*@
+                <br /><br />
+                <label>Demom用:</label>
+		<input type="button" value="漢堡" class="btn btn-info" id="burger" style="font-size:100%;margin-right:10px;" />
+                <input type="button" value="薯條" class="btn btn-info" id="firse" style="font-size:100%;margin-right:10px;" />
+                <input type="button" value="濃湯" class="btn btn-info" id="blacktea" style="font-size:100%;margin-right:10px;" />
+                <input type="button" value="雪碧" class="btn btn-info" id="soda" style="font-size:100%;margin-right:10px;" />
+                <input type="button" value="牛奶" class="btn btn-info" id="gresstea" style="font-size:100%;margin-right:10px;" />
+                <input type="button" value="活力早點" class="btn btn-info" id="combofood" style="font-size:100%;margin-right:10px;" />
+                <br /><br />
+                @Html.HiddenFor(c => c.fFoodID)
+                @*@Html.HiddenFor(c => c.fCustomizedCategoryID)*@
+                @Html.HiddenFor(c => c.fRestaurantID)
+                @Html.HiddenFor(c => c.fRemark)
+                @Html.HiddenFor(c => c.fModifiedDate)
+            </div>
+
+
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+
+</form>
+
+
+
+@section script
+    {
+    <script>
+        $(document).ready(function () {
+		$('#burger').on('click', function () {
+                $('#fFoodName').val("牛肉漢堡")
+                $('#fFoodDescription').val("雙層純牛肉，獨特醬料加生菜，吉事洋蔥酸黃瓜，芝麻麵包蓋上去，好吃過癮牛肉堡。")
+                $('#fPrice').val("30")
+                $('#fCost').val("5")
+                $('#cookmin').val("10")
+                $('#cooksec').val("0")
+            })
+
+            $('#firse').on('click', function () {
+                $('#fFoodName').val("薯條")
+                $('#fFoodDescription').val("新鮮馬鈴薯放入190~200度C的熱油炸至金黃色而成，外酥內軟好滋味!")
+                $('#fPrice').val("30")
+                $('#fCost').val("5")
+                $('#cookmin').val("10")
+                $('#cooksec').val("0")
+            })
+
+            $('#blacktea').on('click', function () {
+                $('#fFoodName').val("玉米濃湯")
+                $('#fFoodDescription').val("使用有機水果玉米，利用安Ｘ過濾水及北海道鮮奶熬煮而成，費工費時，料多味美，讓人喝一口就有幸福的感覺!")
+                $('#fPrice').val("30")
+                $('#fCost').val("10")
+                $('#cookmin').val("5")
+                $('#cooksec').val("0")
+            })
+            $('#soda').on('click', function () {
+                $('#fFoodName').val("雪碧")
+                $('#fFoodDescription').val("小朋友的最愛。")
+                $('#fPrice').val("25")
+                $('#fCost').val("2")
+                $('#cookmin').val("2")
+                $('#cooksec').val("0")
+            })
+            $('#gresstea').on('click', function () {
+                $('#fFoodName').val("北海道鮮奶")
+                $('#fFoodDescription').val("北海道空運來台，經過政府檢驗無添加物，買得安心，喝得放心。")
+                $('#fPrice').val("50")
+                $('#fCost').val("10")
+                $('#cookmin').val("2")
+                $('#cooksec').val("0")
+            })
+            $('#combofood').on('click', function () {
+                $('#fFoodName').val("活力早點")
+                $('#fFoodDescription').val("早餐組合:內含漢堡一份、薯條一份、飲料兩杯。")
+                $('#fPrice').val("100")
+                $('#fCost').val("25")
+                $('#cookmin').val("27")
+                $('#cooksec').val("0")
+            })
+            $('#fFoodName').on("mouseover", function () {
+                $('#response').html("")//清空新增完畢提醒
+            })
+            //---------------------------------------------------------------------------------------
+            //顯示/隱藏客製化
+            $("#customizedtoggle").on('click', function () {
+                $('#customizedoption').toggle();
+            })
+            //---------------------------------------------------------------------------------------
+            //取得餐廳ID
+            //var qc = Request.Cookies["RestaurantID"].Value
+            //$('.fRestaurantID').attr('value', Request.Cookies["RestaurantID"].Value)
+            //---------------------------------------------------------------------------------------
+            //客製化分類
+            loadCostomizedCategory();
+            function loadCostomizedCategory(){
+               $.getJSON('@Url.Action("GetCostomizedParentIsNull", "Json", new { CategoryID = 0 })', function (datas) {
+                var divNav = $('#customerCategory');
+                divNav.empty();
+                //divNav.removeClass('text');
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    var option = $('<option></option>').attr('value', category.CustomizedCategoryID)
+                                                       .attr('data-parentid', category.ParentID)
+                                                       .attr('id', 'first')
+                                                       .append(category.CustomizedCategoryName);
+                    //$(".saveParentid").attr(value = category.CategoryId)
+                    docFrag.append(option);
+                })
+                divNav.append(docFrag);
+            })//取得大分類結束
+            }//取得大分類方法結束
+            //------------------------------------------------------------------------------------------------------
+            //客製化主分類名稱改變時
+            $('#customerCategory').on('change', function () {
+                $('#response').html("")//清空新增完畢提醒
+                $(".appendoption").remove("h3")
+                //清除新增成功/失敗
+                //$('#Createsuccess').text(' ')
+                ////選擇到的名稱填入textbox
+                //$(this).prev('input').val($("option:selected", this).text());
+                //$(this).prev('input').attr("data-parentid", $("option:selected", this).val());//存入parentid
+                //$(this).prev('input').attr("name", "newCategory");
+               loadOption()
+
+                //除去this以下選項
+                $('~ select', $(this)).remove('select')
+
+                var nextCategoryID = $(this).val();
+                addCategoryControll(nextCategoryID);
+
+            })//客製化change結束
+            function loadOption() {
+                var findid = $("#addCustCategory>select:last").val()
+                console.log(findid);
+                $(".appendoption").remove("h3")
+                var cid = '@Url.Action("GetCostomizedOption", "Json", new { CategoryID = "replaceid" })'
+                cid = cid.replace("replaceid",findid)
+                console.log(cid)
+                $.getJSON(cid, function (datas) {
+                    var divNav = $('#costomeroption').append('<h3></h3>');
+                    divNav.empty();
+                    //divNav.removeClass('text');
+                    var docFrag = $(document.createDocumentFragment());
+
+                    $.each(datas, function (idx, category) {
+                        var option = $('<h2></h2>').attr('value', category.fCustomizedOptionID)
+                                                           .append(category.fCustomizedOptionName);
+                        //$(".saveParentid").attr(value = category.CategoryId)
+                        docFrag.append(option);
+                    })
+                    divNav.append(docFrag);
+                })//取得大分類結束
+            }
+            //---------------------------------------------------------------------------------------------------
+            //新增客製化子分類
+            function addCategoryControll(nextCategoryID) {
+                //console.log(nextCategoryID)
+
+                if (nextCategoryID > 0)//如果有分類
+                {
+                    $.getJSON('@Url.Action("GetCostomizedParentSec", "Json")' + '?CategoryID=' + nextCategoryID, function (datas) {
+                        //分類有資料才做
+                        if (datas.length > 1) {
+                            $('#addCustCategory').append("<select class='form-control seccustomerCategory' style='font-size:20px;'></select>")
+                            $.each(datas, function (idx, category) {
+                                $('#addCustCategory:last select:last').append('<option></option>')
+                                $('#addCustCategory:last select:last option:last')
+                                                            .attr('value', category.CustomizedCategoryID)
+                                                            .attr('data-parentid', category.ParentID)
+                                                            .append(category.CustomizedCategoryName);
+                            })//each結束
+                            //自動生成下層分類change事件
+                            $('.seccustomerCategory').unbind('change');
+                            $('.seccustomerCategory').on('change', function () {
+                                //除去this以下選項
+                                loadOption();
+                                $('~ select', $(this)).remove('select')
+                                var secnextCategoryID = $(this).val();
+                                //console.log(secnextCategoryID)
+                                addCategoryControll(secnextCategoryID);//自動生成下層分類
+                            })
+                        }
+                    })//getJson結束
+                }
+            }
+            //---------------------------------------------------------------------------------------
+            //取得大分類開始
+            $.getJSON('@Url.Action("GetFirstCategoryData", "Json", new { CategoryID = 0 })', function (datas) {
+                var divNav = $('#se1');
+                divNav.empty();
+                divNav.removeClass('text');
+                var docFrag = $(document.createDocumentFragment());
+
+                $.each(datas, function (idx, category) {
+                    var option = $('<option></option>').attr('value', category.CategoryId)
+                                                       .attr('data-parentid', category.CategoryParent)
+                                                       .append(category.CategoryName);
+
+                    docFrag.append(option);
+                })
+                divNav.append(docFrag);
+            })//取得大分類結束
+
+            AddBreadAndtextboxChange();//主分類加入麵包屑
+
+
+            //---------------------------------------------------------------------------------------
+            //選擇商品是否上架
+            $('#fAvailable').attr('checked', 'true').on('click', function () {
+                $('#response').html(' ')//清空新增完畢提醒
+                if ($('#fAvailable:checked').length>0)
+                {
+                    $('#fAvailable').removeClass('checked')
+                    //console.log("true")
+                }
+                else {
+                    $('#fAvailable').attr('checked', 'true')
+                    //console.log("false")
+                }
+            })
+
+            //---------------------------------------------------------------------------------------
+            //清除選擇的照片
+            $('#deletepic').on('click', function () {
+                $("#delet").next('div').remove('div')
+                $("#delet").after('<div class="col-lg-12" style="margin-top:10px" ><input type="file" class="upl"></div>')
+                $('.preview').attr('src', "");
+                $('.size').text("");
+                $('#response').html(' ')//清空新增完畢提醒
+            })
+
+            //新增照片
+            $("body").on("change", ".upl", function () {
+                preview(this);
+                $('#response').html(' ')//清空新增完畢提醒
+            })
+            function preview(input) {
+                // 若有選取檔案
+                if (input.files && input.files[0]) {
+                    // 建立一個物件，使用 Web APIs 的檔案讀取器(FileReader 物件) 來讀取使用者選取電腦中的檔案
+                    var reader = new FileReader();
+                    // 事先定義好，當讀取成功後會觸發的事情
+                    reader.onload = function (e) {
+                        //console.log(e);
+                        // 這裡看到的 e.target.result 物件，是使用者的檔案被 FileReader 轉換成 base64 的字串格式，
+                        // 在這裡我們選取圖檔，所以轉換出來的，會是如 『data:image/jpeg;base64,.....』這樣的字串樣式。
+                        // 我們用它當作圖片路徑就對了。
+                        $('.preview').attr('src', e.target.result);
+                        // 檔案大小，把 Bytes 轉換為 KB
+                        var KB = format_float(e.total / 1024, 2);
+                        $('.size').text("檔案大小：" + KB + " KB");
+                    }
+                    // 因為上面定義好讀取成功的事情，所以這裡可以放心讀取檔案
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            function format_float(num, pos) {
+                var size = Math.pow(10, pos);
+                return Math.round(num * size) / size;
+            }
+
+            //---------------------------------------------------------------------------------------
+
+            //新增麵包屑
+            function AddBreadAndtextboxChange() {
+                //combobox選擇改變時
+                $('.comboboxse2,#se1').on("change", function () {
+                    //清空麵包屑
+                    $('.CategoryNamesText').text("")
+                    //找出所有textbox的選項加入麵包屑
+                    $('.CategoryNamesText').html('<ol></ol>');
+                    $('.CategoryNamesText>ol').attr('class', 'newol breadcrumb')
+
+                    var CategoryNamesTextli = $('.CategoryNamesText>ol');
+                    var lastli = $('.newol>li:last-child');
+                    $('.addCategory').find(':selected').each(function () {
+                        //console.log(nextCategoryID)
+                        var lastliName = $(this).text()
+                        $('.newol').append('<li></li>')
+                        $('.newol>li:last-child').append(lastliName)
+                    })
+                })
+            }
+            //選擇改變時
+            $('#se1').on("change", function () {
+                //除去this以下選項
+                //$(this).parent().parent().each(function () {
+                //    (this).next().remove('div')
+                //})
+                $('#response').html(' ')//清空新增完畢提醒
+                $('~ div', $(this).parent().parent()).remove('div')
+
+                //取得子分類
+                var nextCategoryID = $('.comboboxse1').val()
+                console.log(nextCategoryID)
+                $.getJSON('@Url.Action("GetSECCategoryData", "Json")' + '?CategoryID=' + nextCategoryID, function (datas) {
+                    //分類有資料才做
+                    if (datas.length > 1) {
+                        $('.addCategory:last-child').append(' <div class="col-lg-12 comboboxdiv">')
+                        $('.addCategory:last-child div:last-child').append('<nav class="navCategory"></nav>')
+
+                        $('.addCategory:last-child div:last-child nav').append('<select id="se2" class="form-control comboboxse2" style="font-size:20px; height:40px;margin-left:10px;"></select>')
+
+                        $.each(datas, function (idx, category) {
+                            $('.addCategory:last-child div:last-child nav:last-child>select').append('<option></option>')
+                            $('.addCategory:last-child div:last-child nav:last-child>select option:last-child')
+                                                            .attr('value', category.CategoryId)
+                                                            .attr('data-parentid', category.CategoryParent)
+                                                            .append(category.CategoryName);
+                        })
+                        //-----------------------------------------------------------------------------------------
+                    }//each結束
+                    add();
+                })//取得子分類結束
+
+                AddBreadAndtextboxChange();//麵包屑
+            })
+
+
+            function add() {
+                $('.comboboxse2').on('change', function () {
+                    //除去this以下選項
+                    $('~ div', $(this).parent().parent()).remove('div')
+                    //取得子分類
+                    var nextCategoryID = $(this).val()
+                    console.log(nextCategoryID)
+                    $.getJSON('@Url.Action("GetSECCategoryData", "Json")' + '?CategoryID=' + nextCategoryID, function (datas) {
+                        //分類有資料才做
+                        if (datas.length > 1) {
+                            $('.addCategory:last-child').append(' <div class="col-lg-12 comboboxdiv">')
+                            $('.addCategory:last-child div:last-child').append('<nav class="navCategory"></nav>')
+
+                            $('.addCategory:last-child div:last-child nav').append('<select id="se2" class="form-control comboboxse2" style="font-size:20px; height:40px;margin-left:10px;""></select>')
+
+                            $.each(datas, function (idx, category) {
+                                $('.addCategory:last-child div:last-child nav:last-child>select').append('<option></option>')
+                                $('.addCategory:last-child div:last-child nav:last-child>select option:last-child')
+                                                                .attr('value', category.CategoryId)
+                                                                .attr('data-parentid', category.CategoryParent)
+                                                                .append(category.CategoryName);
+                            })
+                            //-----------------------------------------------------------------------------------------
+                        }//each結束
+                        $('.comboboxse2').unbind('change');
+                        add();
+                    })//取得子分類結束
+
+                })
+                AddBreadAndtextboxChange();//麵包屑
+            }
+            //--------------------------------------------------------------------------------------------------------
+            //新增產品
+            //控制項改變時 讀出產品ID
+            $('#sendProduct').on('click', function () {
+                var strUrl = '@Url.Action("ProductCreateFunction", new { controller = "Product" })';
+                var fCategoryID = $('.addCategory div:last-child nav:last-child :selected').val();//找最後一個分類ID
+                if (fCategoryID == 0)
+                {
+                    var fCategoryID = $('.addCategory div:last-child').prev('div').find(' :selected').val();//最後一個分類ID==0 就找上一個
+                }
+                //處理image
+                if ($('#FoodPhoto').attr("src") != "" && $('#FoodPhoto').attr("src") != undefined)
+                {
+                    var image = $('#FoodPhoto').attr("src");
+                    image = image.replace('data:image/jpeg;base64,', '')//將base64前面的字串去除掉(用''取代)
+                }
+                if ($('#customizedoption').attr('style') == "display: none;") {//判斷是否刪除客製化
+                    CustomizedKeep = false;
+                }
+                else { CustomizedKeep = true; }
+                //----------------------------------------------------------------------------------------------------
+                //驗證
+                $('#checkName').empty('#checkName')
+                if ($('#fFoodName').val() == "") { $('#checkName').append("＊產品名稱為必填") }
+                $('#checkcategory').empty('#checkcategory')
+                if (fCategoryID < 1 || fCategoryID == undefined) { $('#checkcategory').append("＊分類為必填") }
+                //----------------------------------------------------------------------------------------------------
+                if ($('#fFoodName').val() != "" && fCategoryID != 0) {
+                    if ($('#customerCategory').val() > 0) {
+                        //console.log(fCategoryID)
+                        var strJsonData = JSON.stringify({
+                            "fFoodName": $('#fFoodName').val(),
+                            "fCustomizedCategoryID": $('#customerCategory').val(),
+                            "fRemark": $('#fRemark').val(),
+                            "fPrice": $('#fPrice').val(),
+                            "fCost": $('#fCost').val(),
+                            "fAvailable": $('[name=fAvailable]:checkbox:checked').val(),
+                            "fDiscount": $('#fDiscount').val(),
+                            "fRaw_Cooked": $('[name=fRaw_Cooked]:checkbox:checked').val(),
+                            "fPhotoID": $('#FoodPhoto').attr("src"),
+                            "fCookTime": $('#cookhour').val() + ":" + $('#cookmin').val() + ":" + $('#cooksec').val(),
+                            "fCategoryID": fCategoryID,
+                            "fIsMeal": $('[name=fIsMeal]:checkbox:checked').val(),
+                            "fFoodDescription": $('#fFoodDescription').val(),
+                            "PhotoID": image,
+                            "CustomizedKeep": CustomizedKeep,
+                        });
+                    }
+                    else {
+                        var strJsonData = JSON.stringify({
+                            "fFoodName": $('#fFoodName').val(),
+                            "fRemark": $('#fRemark').val(),
+                            "fPrice": $('#fPrice').val(),
+                            "fCost": $('#fCost').val(),
+                            "fAvailable": $('[name=fAvailable]:checkbox:checked').val(),
+                            "fDiscount": $('#fDiscount').val(),
+                            "fRaw_Cooked": $('[name=fRaw_Cooked]:checkbox:checked').val(),
+                            "fPhotoID": $('#FoodPhoto').attr("src"),
+                            "fCookTime": $('#cookhour').val() + ":" + $('#cookmin').val() + ":" + $('#cooksec').val(),
+                            "fCategoryID": fCategoryID,
+                            "fIsMeal": $('[name=fIsMeal]:checkbox:checked').val(),
+                            "fFoodDescription": $('#fFoodDescription').val(),
+                            "PhotoID": image,
+                            "CustomizedKeep": CustomizedKeep,
+                        });
+                    }
+                    console.log(strJsonData)
+                    $.ajax({
+                        url: strUrl,
+                        type: 'POST',
+                        data: strJsonData,
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            $('#response').text('新增完畢!!')
+                        },
+                        error: function () {
+                            $('#response').text('新增失敗!!')
+                            //alert("失敗")
+                        }
+                    })
+                }
+                else { $('#response').text('資料不齊全!!') }
+
+            })//新增套餐click結束
+
+
+
+        })
+
+    </script>
+}

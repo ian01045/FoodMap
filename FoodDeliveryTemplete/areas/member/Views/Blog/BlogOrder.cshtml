@@ -1,0 +1,24 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.Models.BlogOrders>
+@foreach (var item in Model)
+{
+    <div class="col-xs-5">
+        <h5 style="font-size:16px" class="product-name">
+            <input id="foodid" type="hidden" value="@item.id" />
+            <strong id="strongfoodname">@item.name</strong>
+        </h5>
+        @*<h4>
+                <small id="smalldes">餐點敘述</small>
+            </h4>*@
+    </div>
+    <div class="col-xs-7" style="padding-left:0;">
+        <div class="col-xs-6 text-left" style="padding-right:0;padding-left:0">
+            <h5 style="padding-right:0;padding-left:0">
+                <strong id="strongdollar">NT$ @item.price</strong>
+            </h5>
+        </div>
+        <div class="col-xs-6" style="padding-left:20px">
+            <input type="text" class="form-control numtxt" value="1">
+        </div>
+    </div>
+                            <a style="color:lightskyblue; font-family:'標楷體'; padding-left:90px;">刪除</a>
+}

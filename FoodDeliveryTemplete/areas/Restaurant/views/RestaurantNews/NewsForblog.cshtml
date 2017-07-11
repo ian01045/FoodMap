@@ -1,0 +1,18 @@
+﻿@foreach (var news in Model.RestaurantNews)
+{
+    <div class="row">
+        <div class="col-md-9">
+            <a class="a_news" href="@Url.Action("ShowNewsForblog","RestaurantNews",new {@Area="Restaurant", id= news.fArticleID })">
+                <div style="color:#ff0000;font-family:'標楷體';font-size:16px">@news.tNewsType.fNewsTypeName</div>
+                <br />
+                <div style="color:#ff6a00;font-family:'標楷體';font-size:30px;text-decoration:underline">標題: @news.fTitle</div>
+                <br />
+                <div style="color:#ed9324;font-family:'標楷體';font-size:14px">@news.fPublishedDate</div>
+                
+                <div class="text-right"style="color:#000000;font-family:'標楷體';font-size:25px">繼續閱讀>>></div>
+            </a>
+        </div>
+       
+
+    </div>
+}

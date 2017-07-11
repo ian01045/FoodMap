@@ -1,0 +1,44 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.ViewModels.ChatRoomViewModel>
+
+
+    <div class="panel-body msg_container_base">
+        @foreach (var item in Model)
+        {
+            if (item.fFrom == false)
+            {
+                <div class="row msg_container base_receive">
+                    <div id="colmd2" class="col-md-2 col-xs-2 avatar">
+                        <img src="@Url.Action("GetRestaurantImage", "Chat", new { Area = "Member", id = item.RestaurantID })" class="img-responsive" style="height: 50px;">
+                    </div>
+                    <div id="colmd10" class="col-xs-10 col-md-10">
+                        <div class="messages msg_receive">
+                            <p>
+                                @item.Message
+                            </p>
+                            <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row msg_container base_sent">
+                    <div id="colmd10" class="col-md-10 col-xs-10 ">
+                        <div class="messages msg_sent pull-right">
+                            <p>
+                                @item.Message
+                            </p>
+                            <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                        </div>
+                    </div>
+                    <div id="colmd2" class="col-md-2 col-xs-2 avatar">
+                        <img src="@Url.Action("GetMemberImage","Chat",new {Area="Member",id=item.MemberID })" class="img-responsive" style="height: 50px;">
+                    </div>
+                </div>
+            }
+
+
+        }
+
+    </div>
+   

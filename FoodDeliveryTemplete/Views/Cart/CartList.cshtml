@@ -1,0 +1,195 @@
+﻿@model  FoodDeliveryTemplete.ViewModels.CartListViewModel
+@{
+
+    Layout = "~/Views/Blog/_BlogPage.cshtml";
+}
+
+@section style{
+    <style>
+        #cartListTable .subFoodName {
+            font-size: 0.9em;
+            color: orangered;
+        }
+        b.warning{
+            color:orangered;
+        }
+        b.Info{
+            color:skyblue;
+        }
+    </style>
+}
+
+
+<!--#region 購物車清單-->
+@using (Html.BeginForm("Update", "Cart", FormMethod.Post))
+{
+    int i = 0;
+    int j = 0;
+    decimal SumTotal = 0;
+    <table id="cartListTable" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>菜色名稱</th>
+                <th>價格</th>
+                <th>數量</th>
+                <th>小計</th>
+                <th>刪除</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var food in Model.FoodNameShowViewModels)
+            {
+                decimal total = food.fPrice * food.fQuantity;
+                if (food.fIsMeal)
+                {
+                    <tr>
+                        <td>
+                            @food.fFoodName<input type="hidden" name="SetMenu[@j].fRecordID" value="@food.fRecordID">
+                            <ul>
+                                @foreach (var _F in food.SubDishCategories)
+                                {
+                                    <li class="subFoodName">@_F.fFoodName &nbsp;&nbsp;(@_F.fCustomizedCategoryName)</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>@food.fPrice</td>
+                        <td><input type="text" name="SetMenu[@j].fQuantity" value="@food.fQuantity" class="edit"></td>
+                        <td>@total</td>
+                        <td><a href="@Url.Action("Delete","Cart",new { fRecordID=@food.fRecordID })" class="btn btn-danger glyphicon glyphicon-remove" role="button" /></td>
+                    </tr>
+                    j++;
+                }
+                else
+                {
+                    <tr>
+                        @*因carlist是集合不是單筆name="[@i].fRecordID name="[@i].fQuantity"*@
+                        <td>@food.fFoodName<input type="hidden" name="ALaCaret[@i].fRecordID" value="@food.fRecordID"> &nbsp;&nbsp;(@food.fCustomizedCategoryName)</td>
+                        <td>@food.fPrice</td>
+                        <td><input type="text" name="ALaCaret[@i].fQuantity" value="@food.fQuantity" class="edit"></td>
+                        <td>@total</td>
+                        <td><a href="@Url.Action("Delete","Cart",new { fRecordID=@food.fRecordID })" class="btn btn-danger glyphicon glyphicon-remove" role="button" /></td>
+                    </tr>
+                    i++;
+                }
+                SumTotal += total;
+            }
+            <tr><td colspan="3" style="text-align:right">總計</td><td colspan="2" style="text-align:left">@SumTotal</td></tr>
+        </tbody>
+    </table>
+    <div style="text-align:right">
+        @Html.ActionLink("繼續購物", "Index", "Cart", new { @class = "btn btn-warning" })
+        @*@Html.ActionLink("儲存修改", "Update", "Cart", new { @fFoodID = 1 }, new { @class = "btn btn-primary", style = "display:none;", id = "Update" })*@
+        <button type="submit" class="btn btn-success" id="Update" style="display:none;">儲存修改</button>
+        <button class="btn btn-warning" id="CheckOut" data-toggle="modal" data-target="#address_modal">結帳</button>
+    </div>
+}
+
+<!--#endregion-->
+@*=============================================================================================*@
+@*用bootstrap彈跳出地址視窗*@
+<!--#region Modal-->
+<div class="modal fade" tabindex="-1" role="dialog" id="address_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">您的資料確認</h4>
+            </div>
+            <div class="modal-body">
+                @*<form action="/Cart/Checkout" method="post"></form>*@
+                @using (Html.BeginForm("Checkout", "Cart", FormMethod.Post))
+                {
+                    @*用複雜複型繫結*@
+
+                    <input type="hidden" name="fRestaurantID" value="@Model.fRestaurantID" />
+                    <input type="hidden" name="fMemberID" value="@Model.fMemberID" />
+                    <input type="hidden" name="SumTotal" value="" />
+                    <div class="form-group">
+                        <label for="name">收件人</label>
+                        <input type="text" class="form-control" id="name" required="" name="fMemeberName" value="@Model.fMemeberName">
+                    </div>
+                    <div class="form-group">
+                        <label for="Add">地址</label>
+                        <input type="text" class="form-control" id="Add" required="" name="fAddress" value="@Model.fAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">手機</label>
+                        <input type="text" class="form-control" id="phone" required="" name="fPhone" value="@Model.fPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="fEmail">電子信箱</label>
+                        <input type="text" class="form-control" id="fEmail" required="" name="fEmail" value="@Model.fEmail">
+                    </div>
+                    <div id="selPayment" class="form-group">
+                        <label for="tPaymentWay">付款方式</label>
+                        <select name="tPaymentWay" class="form-control">
+                            @{string selected = "selected"; }
+                            @foreach (var p in Model.PaymentWays)
+                            {
+                                <option value="@p.fPaymentwayID" @selected>@p.fPaymentway</option>
+                                selected = "";//只讓第一項勾選
+                            }
+                        </select>
+                        <div class="form-control">
+                            <P style="display:none">目前電子錢包餘額：<span></span>元</P>
+                            <b style="display:none"></b>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-warning">確認</button>
+                    </div>
+                }
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--#endregion-->
+
+@section script
+{
+  <script>
+        
+
+    $(document).ready(function () {
+        //修改button 在修改數量後出現
+        $("tr .edit").on("change", function () {
+            $("#Update").show();
+        })
+
+        //電子錢包
+        $("#selPayment > select").on("change", function (e) {
+            if ($(this).val() == "3") {
+                $.getJSON("@Url.Action("GetWalletInfo", "Cart")", function (data) {
+                    var div = $('#selPayment > div');
+
+                    if (data.fWallet_Surplus != -1) {
+                        div.find("span").text(data.fWallet_Surplus);
+                        var SumTotal = parseInt($("#cartListTable tr:last td:last").text());
+                        if (data.fWallet_Surplus < SumTotal) {
+                            div.children("b:last").text("(您的餘額不足!)").addClass("warning");
+                            $('.modal-footer > button[type="submit"]').attr("disabled", "disabled");
+                        } else {
+                            div.children("b:last").text("(結帳後餘額將剩餘" + (data.fWallet_Surplus - SumTotal) + "元!)").addClass("Info");
+                            $('.modal-footer > button[type="submit"]').removeAttr("disabled");
+                        }
+                        div.children("p").show();
+                    } else {
+                        div.children("b:last").text("(您未啟用電子錢包!)").addClass("warning");
+                        $('.modal-footer > button[type="submit"]').attr("disabled", "disabled");
+                    }
+                    div.children("b").show();
+                })
+            } else {
+                $('#selPayment > div p,b').removeClass().hide();
+                $('#selPayment > div > b').empty();
+                $('.modal-footer > button[type="submit"]').removeAttr("disabled");
+            }
+        })
+
+        //將預計消費總額，放入modal的form中的hidden input
+        $('#address_modal .modal-body input[name="SumTotal"]').val($("#cartListTable tr:last td:last").text());
+    })
+  </script>
+}

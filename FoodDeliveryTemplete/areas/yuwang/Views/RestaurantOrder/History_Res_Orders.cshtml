@@ -1,0 +1,122 @@
+﻿
+
+@using FoodDeliveryTemplete.Models;
+
+@model  IEnumerable<tRestaurantOrders>
+
+
+<div class="col-lg-9">
+    <div class="panel panel-warning">
+        <div class="panel-heading"><h3>歷史訂單</h3></div>
+        <div class="panel-body">
+
+
+            <table class="table " id="history_orders_table">
+                <thead>
+                    <tr>
+                        <th>訂單編號</th>
+                        <th>訂餐時間</th>
+                        <th>備菜時間</th>
+                        <th>運送時間</th>
+                        <th>送達時間</th>
+                        <th>聯絡人姓名</th>
+                        <th>聯絡電話</th>
+                        <th>付款方式</th>
+                        <th>訂單金額</th>
+                        <th>訂單狀態</th>
+                        @*<th>訂單狀態修改</th>*@
+                        <th>刪除</th>
+                        @*<th>完成</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        if (order.fIsDelay == true)
+                        {
+                            <tr style="background-color:lightcoral">
+                                @if (DateTime.Now > @order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime))
+                                {
+
+                                }
+                                <td>@order.fOrderID</td>
+                                <td>@order.fOrderDatetime</td>
+                                <td>@Math.Round(order.fTakeoutTime.TotalMinutes) 分</td>
+                                <td>@Math.Round(order.fDeliveryTime.TotalMinutes) 分</td>
+                                <td>@order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime)</td>
+                                <td>@order.tMemeber.fMemeberName</td>
+                                <td>@order.tMemeber.fPhone</td>
+                                <td>@order.tPaymentWay.fPaymentway</td>
+                                <td>@order.tRestaurantOrder_Details.Sum(d => d.fPrice) 元</td>
+                                <td>@order.tRestaurant_Order_States.fState_Description</td>
+                                @*<td>
+                                        @using (Html.BeginForm("Edit", "RestaurantOrder", FormMethod.Post))
+                                        {
+                                            <input type="hidden" value="@order.fOrderID" name="fOrderID" />
+                                                    <Select name="fOrderStatus">
+                                                        <Option Value="已接單">已接單</Option>
+                                                        <Option Value="製作中">製作中</Option>
+                                                        <Option Value="外送中">外送中</Option>
+                                                        <Option Value="已結單">已結單</Option>
+                                                    </Select>
+                                                        <input type="submit" value="修改" class="btn btn-primary btn-warning" />
+                                        }
+                                    </td>*@
+                                @*<th><a href="~/RestaurantOrder/Delete/@order.fOrderID" class="btn btn-danger">刪除</a></th>*@
+                                @*<td>@Html.ActionLink("刪除", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                @*<td>@Html.ActionLink("完成", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                <td><input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" /><button class="btn btn-warning btn_order_delete">刪除</button><input type="hidden" name="fOrderID" value="@order.fOrderID" class="find_order_id" /></td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            <tr>
+                                @if (DateTime.Now > @order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime))
+                                {
+
+                                }
+                                <td>@order.fOrderID</td>
+                                <td>@order.fOrderDatetime</td>
+                                <td>@order.fTakeoutTime.TotalMinutes 分</td>
+                                <td>@order.fDeliveryTime.TotalMinutes 分</td>
+                                <td>@order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime)</td>
+                                <td>@order.tMemeber.fMemeberName</td>
+                                <td>@order.tMemeber.fPhone</td>
+                                <td>@order.tPaymentWay.fPaymentway</td>
+                                <td>@order.tRestaurantOrder_Details.Sum(d => d.fPrice) 元</td>
+                                <td>@order.tRestaurant_Order_States.fState_Description</td>
+                                @*<td>
+                                        @using (Html.BeginForm("Edit", "RestaurantOrder", FormMethod.Post))
+                                        {
+                                            <input type="hidden" value="@order.fOrderID" name="fOrderID" />
+                                                    <Select name="fOrderStatus">
+                                                        <Option Value="已接單">已接單</Option>
+                                                        <Option Value="製作中">製作中</Option>
+                                                        <Option Value="外送中">外送中</Option>
+                                                        <Option Value="已結單">已結單</Option>
+                                                    </Select>
+                                                        <input type="submit" value="修改" class="btn btn-primary btn-warning" />
+                                        }
+                                    </td>*@
+                                @*<th><a href="~/RestaurantOrder/Delete/@order.fOrderID" class="btn btn-danger">刪除</a></th>*@
+                                @*<td>@Html.ActionLink("刪除", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                @*<td>@Html.ActionLink("完成", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                <td><input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" /><button class="btn btn-warning btn_order_delete">刪除</button><input type="hidden" name="fOrderID" value="@order.fOrderID" class="find_order_id" /></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <hr />
+        </div>
+    </div>
+</div>
+
+
+<div class="col-lg-3">
+    <div class="thumbnail" id="history_order_details">
+
+    </div>
+</div>

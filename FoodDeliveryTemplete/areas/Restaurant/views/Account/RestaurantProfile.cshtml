@@ -1,0 +1,70 @@
+﻿@model FoodDeliveryTemplete.ViewModel.MemberPhotoViewModel
+@{
+    ViewBag.Title = "RestaurantProfile";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+<h2>RestaurantProfile</h2>
+
+@section style{
+    <style>           
+    </style>
+}
+
+<div class="container" style="margin-bottom:7%;margin-top:5%">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> @Model.fMemeberName 餐廳的基本資料</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-xs-12 ">
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                        <img title="MemberPhoto" src="@Url.Action("GetImageByte","MemberArea",new {Area="Member", id = Model.fMemberID})" class="img-rounded img-responsive" />
+                        <br />
+                    </div>
+
+                    <div class="col-xs-6 col-md-9">
+                        <div>
+                            @Html.LabelFor(m => m.fMemeberName, new { @class = "col-sm-2 control-label" })<p>@Model.fMemeberName</p>
+                        </div>
+                        <div>
+                            @Html.LabelFor(m => m.fEmail, new { @class = "col-sm-2 control-label" }) <p>@Model.fEmail</p>
+                        </div>
+                        <div>
+                            @Html.LabelFor(m => m.fPassword, new { @class = "col-sm-2 control-label" })<p>@Model.fPassword</p>
+                        </div>
+                        @*<div>
+                        @Html.LabelFor(m => m.fGender, new { @class = "col-sm-2 control-label" })<p>@Model.fGender</p>
+                    </div>*@
+                        <div>
+                            @Html.LabelFor(m => m.fBirth, "創店時間", new { @class = "col-sm-2 control-label" })<p>@Model.fBirth</p>
+                        </div>
+                        @*<div>
+                        @Html.LabelFor(m => m.fPhone, new { @class = "col-sm-2 control-label" })<p>@Model.fPhone</p>
+                    </div>*@
+                        <div>
+                            @Html.LabelFor(m => m.fTel, "餐廳電話", new { @class = "col-sm-2 control-label" })<p>@Model.fTel</p>
+                        </div>
+                        <div>
+                            @Html.LabelFor(m => m.fCityName, "餐廳所在城市", new { @class = "col-sm-2 control-label" })<p>@Model.fCityName</p>
+                        </div>
+                        <div>
+                            @Html.LabelFor(m => m.fAreaName, "餐廳所在地區", new { @class = "col-sm-2 control-label" })<p>@Model.fAreaName</p>
+                        </div>
+                        <div>
+                            @Html.LabelFor(m => m.fAddress, "店址", new { @class = "col-sm-2 control-label" })<p>@Model.fAddress</p>
+                        </div>
+                        <div>
+                            @Html.ActionLink("修改基本資料", "RestaurantModifyForm", "Account", new { id = Model.fMemberID }, new { @class = "btn btn-warning" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   
+    

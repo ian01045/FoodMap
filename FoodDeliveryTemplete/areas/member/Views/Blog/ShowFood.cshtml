@@ -1,0 +1,19 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurant_Foods>
+    @foreach (var item in Model)
+    {
+        <div id="divshowfood" class="row blogShort" style="background-color:white">
+            <div class="col-sm-2">
+                <img id="foodimage" src="@Url.Action("GetFoodImage","Blog",new {id= item.fFoodID })" alt="餐點">
+            </div>
+            <div class="col-sm-9">
+                <h5>@item.fFoodName</h5>
+                <h6>NT$ @item.fPrice</h6>
+                <p></p>
+            </div>
+            <div class="col-sm-1">
+                <a style="margin-top:120%" data-name="@item.fFoodName" data-price="@item.fPrice" data-id="@item.fFoodID" class="btn btn-blog pull-right marginBottom10"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
+        </div>
+
+    }
+

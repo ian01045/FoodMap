@@ -1,0 +1,39 @@
+﻿@using FoodDeliveryTemplete.Models;
+
+@*@model IEnumerable<tRestaurant_Category>*@
+@model FoodDeliveryTemplete.Areas.yuwang.Controllers.RotationController.RotationClass
+
+@*<div class="row">*@
+    @*<div class="col-lg-6">
+
+        <div class="rotate">
+            <h1>Rotatey text</h1>
+        </div>
+
+        @foreach(var category in Model)
+        {
+            <h3>@category.fCategory_Name</h3>
+            <p>@category.fCategory_Description</p>
+        }
+    </div>*@
+
+
+ 
+        <div id="abgneBlock" >
+            <ul class="list">
+                @foreach (var category in Model.catogries)
+                {
+                    @*<li><a target="_blank" href="#"><img src="" /></a></li>
+                    <li><a target="_blank" href="#"><img src="~/Areas/yuwang/images/pork2.jpg" /></a></li>*@
+                    //var url = category.tRestaurant_Category_Details.Where(d => d.fRestaurant_CategoryID == category.fRestaurant_CategoryID).Select(r => r.tRestaurant.tPhoto.Select(p => p.fBytesImage));
+                    var id = Model.restaurants.Where(r => r.fRestaurant_CategoryID == category.fRestaurant_CategoryID).OrderBy(r => Guid.NewGuid()).Take(1).Select(r => r.fRestaurantID).Single();
+                    //var id2 = Model.restaurants.Where(r => r.fRestaurant_CategoryID == category.fRestaurant_CategoryID).OrderBy(r => Guid.NewGuid()).Take(1).Select(r => r.fRestaurantID).Single();
+                    <text><li style="text-align:center;color:orange;font-size:large;font-family:'標楷體'">熱門活動: @category.fCategory_Name<a href="@Url.Action("RestaurantBlog","Blog",new { Area="",id=id,distance=0})"><img src="@Url.Action("GetImageByte_ResID","Select",new { Area="yuwang",resID=id})" /></a></li> </text>
+                    @*<text><li style="text-align:center;color:orange;font-size:large;font-family:'標楷體'">@category.fCategory_Name<a href="@Url.Action("RestaurantBlog","Blog",new { Area="",id=id2,distance=0})"><img src="@Url.Action("GetImageByte_ResID","Select",new { Area="yuwang",resID=id2})" /></a></li> </text>*@
+                    
+                }
+            </ul>
+            <br />
+        </div>
+
+@*</div>*@

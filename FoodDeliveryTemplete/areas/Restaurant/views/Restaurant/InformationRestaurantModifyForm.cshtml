@@ -1,0 +1,136 @@
+﻿@model FoodDeliveryTemplete.ViewModel.OpenRestaurantViewModel
+@{
+    ViewBag.Title = "InformationRestaurantModifyForm";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+<h2>InformationRestaurantModifyForm</h2>
+<h2>會員名稱: @ViewBag.MemberName</h2>
+<h2>會員編號: @ViewBag.MemberID</h2>
+<div class="container">
+    <div class="row centered-form">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-4 col-sm-offset-0">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">餐廳開店表單<small></small></h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("InformationRestaurantModifyForm", "Restaurant", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            <input type="hidden" name="fMemberId" value="@ViewBag.MemberID" />
+                            <div class="form-group">
+                                @Html.LabelFor(r => r.fRestaurantName, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(r => r.fRestaurantName, new { htmlAttributes = new { @class = "form-control", placeholder = "詳細餐廳名稱" } })
+                                    @Html.ValidationMessageFor(r => r.fRestaurantName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(r => r.fOpenTime, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(r => r.fOpenTime, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(r => r.fOpenTime, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(r => r.fCloseTime, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(r => r.fCloseTime, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(r => r.fCloseTime, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("一週固定店休", new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @foreach (var checkbox in ViewBag.Weeks)
+                                    {
+                                        bool isEqual = false;
+                                        <div class="checkbox">
+                                            @foreach (string s in Model.SelectedWeek)
+                                            {
+                                                if (checkbox.Value == s)
+                                                {
+                                                    isEqual = true;
+                                                    <label>
+                                                        <input type="checkbox" checked name="SelectedWeek" value="@checkbox.Value" />@checkbox.Text
+                                                    </label>
+                                                    break;
+                                                }
+                                            }
+                                            @if (!isEqual)
+                                            {
+                                                <label>
+                                                    <input type="checkbox" name="SelectedWeek" value="@checkbox.Value" />@checkbox.Text
+                                                </label>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                @Html.Label("提供的付款方式", new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9 " id="chkboxs">
+                                    @foreach (var checkbox in ViewBag.Payways)
+                                    {
+                                        bool isEqual = false;
+                                        foreach (int i in Model.PaywayCheckboxs)
+                                        {
+                                            //對比陣列 府合即打勾
+                                            if (Convert.ToInt32(checkbox.Value) == i)
+                                            {
+                                                isEqual = true;
+                                                <div class="checkbox col-sm-3 ">
+                                                    <input type="checkbox" checked name="PaywayCheckboxs" value="@checkbox.Value" />@checkbox.Text
+                                                </div>
+                                                break;
+                                            }
+                                        }
+                                        if (!isEqual)
+                                        {
+                                            <div class="checkbox col-sm-3 ">
+                                                <input type="checkbox" name="PaywayCheckboxs" value="@checkbox.Value" />@checkbox.Text
+                                            </div>
+                                        }
+
+                                    }
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(r => r.fAveragePricePerGuest, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(r => r.fAveragePricePerGuest, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(r => r.fAveragePricePerGuest, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(r => r.fDescription, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(r => r.fDescription, new { htmlAttributes = new { @class = "form-control", placeholder = "餐廳簡介", style = "height:200px" } })
+                                    @Html.ValidationMessageFor(r => r.fDescription, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button type="submit" class="btn btn-success">更新</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

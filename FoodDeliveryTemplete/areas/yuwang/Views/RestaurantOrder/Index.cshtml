@@ -1,0 +1,345 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+    //  Layout = "~/Views/RestaurantOrder/Index.cshtml";
+    Layout = "~/Areas/Restaurant/Views/Shared/_RestaurantIndexPage.cshtml";
+}
+
+<h2>餐廳訂單</h2>
+
+
+@*Class訂單管理*@
+@section style
+{
+
+    <style>
+        .center-block {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /*Usage as a mixin訂單管理 .element {
+            .center-block();
+        }*/
+    </style>
+    <link href="~/Areas/yuwang/Content/jquery-ui.css" rel="stylesheet" />
+
+}
+@section script{
+    <script src="~/Areas/yuwang/Scripts/jquery-ui.js"></script>
+
+@*使用jquery cookies套件*@
+<script src="~/Areas/yuwang/Content/carhartl-jquery-cookie-92b7715/jquery.cookie.js"></script>
+    @*<script>
+  $( function() {
+    var tabs = $( "#tabs" ).tabs();
+    tabs.find( ".ui-tabs-nav" ).sortable({
+      axis: "x",
+      stop: function() {
+        tabs.tabs( "refresh" );
+      }
+    });
+  } );
+    </script>*@
+
+
+
+
+    <script>
+
+        $(document).ready(function () {
+            var resID= @ViewBag.resID;
+            
+            //Load_Res_Orders(resID,0)
+
+            function Refresh_Res_Order(){
+                setTimeout(function(){
+                    if($.cookie('orders_auto_in')==null)
+                    {
+                        $.cookie('orders_auto_in',"1");
+                        //alert($.cookie('orders_auto_in'))
+                    }
+                    if($.cookie('orders_auto_in')=="1")
+                    {
+                        var orderby=0;
+                        if($.cookie('orders_orderby')!=null)
+                        {
+                            orderby=$.cookie('orders_orderby');
+                        }
+                        Load_Res_Orders(resID,orderby,"1");
+                    }
+                    if($.cookie('orders_auto_in')=="0")
+                    {
+                    }
+                    Refresh_Res_Order();
+                }, 5000);
+            }
+            Refresh_Res_Order();
+
+            
+
+         
+
+            
+        })
+
+
+
+        function Load_Res_Orders(resID,orderbyID,auto_in)
+        {
+            //console.log($('input.delay_order').val());
+
+            //alert(resID)
+            var url = '@Url.Action("Res_Orders", "RestaurantOrder", new { Area="yuwang", resID = "rsd" ,orderby="zq"})';
+            var url2 = url.replace("rsd",resID);
+            var url3 = url2.replace("zq",orderbyID);
+            url3=url3.replace("&amp;","&");
+            $('#main').load(url3,function(){
+
+              $.cookie('orders_auto_in',auto_in);
+                
+                $('#btn_auto_orders_in').click(function(){
+                    //alert($(this).text())
+                    if($(this).text()=="自動進單")
+                    {
+                        //$.cookie("orders_auto_in", null, { path: "/" });
+                        $.cookie('orders_auto_in',"0");
+                        $(this).text('手動進單');
+                        return;
+                        //alert("ddd");
+                    }
+                    if($(this).text()=="手動進單")
+                    {
+                        //$.cookie("orders_auto_in", null, { path: "/" });
+                        $.cookie('orders_auto_in',"1");
+                        $(this).text('自動進單');
+                        return;
+                    }
+                })
+
+
+                $('#btn_status1').click(function(){
+                 
+                    var resID=$(this).prev().val();
+                    Load_Res_Orders(resID,1,auto_in);
+                })
+
+                $('#btn_status2').click(function(){
+                 
+                    var resID=$(this).prev().prev().val();
+                    Load_Res_Orders(resID,2,auto_in);
+                })
+
+                $('#btn_status3').click(function(){
+                 
+                    var resID=$(this).prev().prev().prev().val();
+                    Load_Res_Orders(resID,3,auto_in);
+                })
+                //把逾時訂單的逾時狀態寫入
+                $('input.delay_order').each(function(){
+                    //alert($(this).val());
+                    orderID= $(this).val();
+                    resID=$(this).next().val();
+                    $.ajax({
+                        url: "@Url.Action("SetDelayOrders", "RestaurantOrder",new { Area="yuwang"})",
+                        type: 'POST',
+                    data: { orderID: orderID},
+                    //success: function (result) {
+                    //    if(result=='已寫入')
+                    //    {
+                    //        Load_Res_Orders(resID)
+                    //    }
+                    //},
+                    cache: false
+                });
+                })
+
+
+                //頁簽
+                var tabs = $( "#tabs" ).tabs();
+                tabs.find( ".ui-tabs-nav" ).sortable({
+                    axis: "x",
+                    stop: function() {
+                        tabs.tabs( "refresh" );
+                    }
+                });
+            
+                //載入訂單明細
+                var thumb = $('#order_details');
+                $('#orders_table>tbody>tr').mouseenter(function () {
+
+                    var url = '@Url.Action("Res_Orders_Details", "RestaurantOrder", new { Area="yuwang", orderID = "od" })'
+                    
+                    var orderID = $(this).find("td:nth-child(12)").find('input.find_order_id').val();
+                    //alert(orderID);
+                    url=url.replace("od",orderID);
+                    //console.log(url);
+                    $(thumb).load(url);
+                })
+
+
+                //修改訂單狀態
+
+                $('a.state_edit_a').click(function(e){
+                    e.preventDefault();
+                    var resID=$(this).parent().parent().next().val();
+                    var orderID= $(this).parent().parent().parent().next('input.orderID').val();
+                    var order_status= $(this).parent().val();
+                    //alert(orderID);
+                    //alert(order_status);
+                    //alert(resID);
+                    $(this).parent().parent().parent().find('button.state_edit_btn').text($(this).text())
+
+                    $.ajax({
+                        url: "@Url.Action("EditOrderStatus", "RestaurantOrder",new { Area="yuwang"})",
+                        type: 'POST',
+                        data: { orderID: orderID, order_status:order_status},
+                    success: function (result) {
+                        if(result=='已修改')
+                        {
+                             auto_in= $.cookie('orders_auto_in');
+                            var orderby=$.cookie('orders_orderby');
+                            //alert(orderby);
+                            Load_Res_Orders(resID,orderby,auto_in)
+                        }
+                    },
+                    cache: false
+                });
+                })
+                
+
+
+                @*$('button.order_state_edit').click(function(){
+                    var orderID= $(this).next().val();
+                    alert(orderID);
+                    var order_status= $(this). //找selector內的selected value
+                    alert(order_status);
+                    $.ajax({
+                        url: "@Url.Action("PutOrderIntoHistory", "RestaurantOrder",new { Area="yuwang"})",
+                        type: 'POST',
+                        data: { orderID: orderID, order_status:order_status},
+                        success: function (result) {
+                        if(result=='已修改')
+                        {
+                            Load_Res_Orders(resID)
+                        }
+                    },
+                    cache: false
+                });
+                    
+                })*@
+
+                //$('#tMember_Area_tMember_City_fCityID').change(function () {
+                //    var cityID = $(this).val();
+                //    var city_name= $(this).find('option:selected').text();
+                //    //alert(city_name);
+                //    GetSelectedCity_MembersResidentAreas_Distributoin(cityID, city_name);
+                //    GetSelectedCity_ResMembersResidentAreas_Distribution(cityID, city_name);
+                //    GetSalesAmountPortion_ByAgeGroup_PerCity(cityID, city_name)
+                //})
+
+
+
+                //完成訂單
+                $('button.btn_order_finish').click(function () {
+                    //alert($(this))
+                    var orderID = $(this).next().val();
+                    var resID = $(this).prev().val();
+                    //alert(orderID);
+
+                    $.ajax({
+                        url: "@Url.Action("PutOrderIntoHistory", "RestaurantOrder",new { Area="yuwang"})",
+                        type: 'POST',
+                    data: { orderID: orderID },
+                    success: function (result) {
+                        if(result=='已完成')
+                        {
+                            auto_in= $.cookie('orders_auto_in');
+                            var orderby=$.cookie('orders_orderby');
+                            //alert(orderby);
+                            Load_Res_Orders(resID,orderby,auto_in)
+                        }
+                    },
+                    cache: false
+                });
+
+                })
+                
+
+
+
+
+                //載入歷史訂單
+                var url = '@Url.Action("History_Res_Orders", "RestaurantOrder", new { Area="yuwang", resID = "rsd" })';
+                url = url.replace("rsd",resID);
+                $('#tabs-2').load(url,function(){
+                
+                    $('button.btn_order_delete').click(function(){
+                        var resID=$(this).prev().val();
+                        var orderID=$(this).next().val();
+                        //alert(resID);
+                        //alert(orderID);
+
+                        $.ajax({
+                            url: "@Url.Action("DeleteHistoryOrders", "RestaurantOrder",new { Area="yuwang"})",
+                            type: 'POST',
+                        data: { orderID: orderID},
+                        success: function (result) {
+                            if(result=='已刪除')
+                            {
+                                auto_in= $.cookie('orders_auto_in');
+                                var orderby=$.cookie('orders_orderby');
+                                Load_Res_Orders(resID,orderby,auto_in);
+                            }
+                        },
+                        cache: false
+                    });
+                    
+                    })
+
+                    var thumb = $('#history_order_details');
+                    $('#history_orders_table>tbody>tr').mouseenter(function () {
+                 
+                        var orderID = $(this).find("td:nth-child(11)").find('input.find_order_id').val();
+                        //alert(orderID);
+                        //var resID = $(this).find("td:nth-child(11)").find('input.find_res_id').val();
+                        //alert()
+                        var url = '@Url.Action("Res_Orders_Details", "RestaurantOrder", new { Area="yuwang", orderID = "od" })'
+                        url=url.replace("od",orderID);
+                        console.log(url);
+                        $(thumb).load(url);
+                    })
+                
+                });
+            
+            
+            });
+
+        }
+
+
+
+
+
+
+    </script>
+
+}
+<div class="container" id="main">
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

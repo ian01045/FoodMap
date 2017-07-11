@@ -1,0 +1,139 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@*@model FoodDeliveryTemplete.Areas.yuwang.Controllers.ManageController.Member_Mange*@
+@model IPagedList< FoodDeliveryTemplete.Models.tRestaurant>
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">餐廳會員管理 <a href="@Url.Action("","",new { Area=""})" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span> 新增</a></h3> 
+            </div>
+            <div class="panel-body">
+                
+                <table class="table table-bordered table-hover" id="member_table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @*@Html.DisplayNameFor(m => m.First().fMemberID)*@
+                                @*@Html.ActionLink(Html.DisplayNameFor(m => m.First().fMemberID).ToHtmlString(), "Mem_Mange", "Manage", new { Area = "yuwang" }, null)*@
+                                @*<a href="#" class="prevent" name="fMemberID" id="fMemberID">編號</a>*@
+                                <button class="btn-warning" id="fMemberID">編號</button>
+                                @*<button class="alert alert-warning" role="alert" id="fMemberID">會員編號</button>*@
+                                @*@Html.ActionLink("編號", "Index", "Home", new { sortBy = ViewBag.sortModelNumber }, null)*@
+                                <input id="order_id" type="text" class="hidden" value="@ViewBag.id"/>
+                            </th>
+                            <th>
+                                @*<a href="#" class="prevent" name="fMemeberName" id="fMemeberName">姓名</a>*@
+                                <button class="btn-warning" id="fMemeberName">餐廳名稱</button>
+                            </th>
+
+                            <th>
+                                <button class="btn-warning" id="city">城市</button>
+                                @*<a href="#" class="prevent" name="city" id="city">城市</a>*@
+                            </th>
+
+                            <th>
+                                <button class="btn-warning" id="area">地區</button>
+                                @*<a href="#" class="prevent" name="area" id="area">地區</a>*@
+                            </th>
+                            <th>
+                                @*<a href="#" class="prevent" name="fBirth" id="fBirth">生日</a>*@
+                                <button  class="btn-warning" id="fBirth">創店時間</button>
+                            </th>
+                            <th>
+                                @*<a href="#" class="prevent" name="fJoinDate" id="fJoinDate">入會日期</a>*@
+                                <button class="btn-warning" id="fJoinDate">入會日期</button>
+                            </th>
+
+                            <th>
+                                <button class="btn-warning" >編輯</button>
+                            </th>
+                            <th>
+                                <button class="btn-warning">刪除</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var restaurant in Model)
+                        {
+                            <tr>
+                                <td class="memID">@Html.DisplayFor(m => restaurant.fMemberID)</td>
+                                <td>
+                                    @Html.DisplayFor(m => restaurant.tMemeber.fMemeberName)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.fPassword)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.fEmail)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.fCreditAccount)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.fTel)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.fPhone)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.tMember_Area.tMember_City.fCityName)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.tMember_Area.fAreaName)
+                                    @Html.HiddenFor(m => restaurant.tMemeber.fAddress)
+                                    @Html.HiddenFor(m => restaurant.fAveragePricePerGuest)
+                                    @Html.HiddenFor(m => restaurant.fOpenTime)
+                                    @Html.HiddenFor(m => restaurant.fCloseTime)
+                                    @Html.HiddenFor(m => restaurant.fDescription)
+                                    @Html.HiddenFor(m => restaurant.fRoutine_RestDay_per_week_)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(m => restaurant.tMemeber.tMember_Area.tMember_City.fCityName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => restaurant.tMemeber.tMember_Area.fAreaName)
+                                </td>
+
+                                <td>
+                                    @*@Html.DisplayFor(m => member.fBirth)*@
+                                    @string.Format("{0:yyyy/MM/dd}", restaurant.tMemeber.fBirth)
+                                </td>
+
+                                <td>
+                                    @*@Html.DisplayFor(m => member.fJoinDate)*@
+                                    @string.Format("{0:yyyy/MM/dd}", restaurant.tMemeber.fJoinDate)
+                                </td>
+
+                                <td>
+                                    @*<button id="edit" class="btn btn-warning">編輯</button>*@
+                                    @*<a href="@Url.Action("InformationRestaurantModifyForm","Restaurant",new { Area="Restaurant",id=restaurant.tMemeber.fMemberID})" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a>*@
+                                    <a href="@Url.Action("Index","Restaurant",new { Area="Restaurant",id=restaurant.fRestaurantID})" class="btn btn-warning">菜色管理</a>
+                                </td>
+                                <td>
+                                    @*<a href="" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>*@
+                                    <button class="btn btn-warning delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div id="myPager">
+                    @Html.PagedListPager(Model, page => Url.Action("Res_Mange", "Manage", new { Area = "yuwang", id=ViewBag.id,page }), PagedListRenderOptions.Classic)
+                </div>
+            </div>
+
+            @*@Html.PagedListPager(Model.mem, page => Url.Action("Res_Mange", "Manage", new { page, Area = "yuwang", id = 0 }), PagedListRenderOptions.Classic)*@
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="thumbnail">
+            <img src="" />
+            <div class="caption">
+                <h3>請選擇欲管理餐廳</h3>
+                <p id="email"></p>
+                <p id="password"></p>
+                <p id="address"></p>
+                <p id="tel"></p>
+                <p id="average_cost"></p>
+                <p id="time"></p>
+                <p id="restday_per_week"></p>
+                <h5 id="description"></h5>
+            </div>
+            <div id="btn_area">
+
+            </div>
+        </div>
+    </div>
+</div>

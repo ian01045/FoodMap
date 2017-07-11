@@ -1,0 +1,241 @@
+﻿
+@using FoodDeliveryTemplete.Models;
+
+@model  IEnumerable<tRestaurantOrders>
+
+
+
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">目前訂單</a></li>
+        <li><a href="#tabs-2">歷史訂單</a></li>
+        @*<li><a href="#tabs-3">菜色供應</a></li>*@
+    </ul>
+    <div id="tabs-1" class="row">
+        <div class="col-lg-9">
+            <div class="panel panel-warning">
+                <div class="panel-heading"><h3>目前餐廳訂單</h3></div>
+                <input type="hidden" value="@Model.Select(o=>o.fRestaurantID).First()" />
+                <button class="btn btn-warning" type="button" id="btn_status1">
+                    已接單 <span class="badge alert-warning">@Model.Where(o=>o.fOrderStatus==1).Count()</span>
+                </button>
+                <button class="btn btn-warning" type="button" id="btn_status2">
+                    製作中 <span class="badge alert-warning">@Model.Where(o=>o.fOrderStatus==2).Count()</span>
+                </button>
+                <button class="btn btn-warning" type="button" id="btn_status3">
+                    外送中 <span class="badge alert-warning">@Model.Where(o=>o.fOrderStatus==3).Count()</span>
+                </button>
+                @if (Request.Cookies["orders_auto_in"].Value == "1")
+                {
+                    <button class="btn btn-warning" type="button" id="btn_auto_orders_in">自動進單</button>
+                }
+                else
+                {
+                    <button class="btn btn-warning" type="button" id="btn_auto_orders_in">手動進單</button>
+                }
+
+                @*<input type="text" class="" placeholder="請輸入訂單編號" style="display:inline">
+
+                <button id="btn_search" type="button" class="btn btn-warning">搜尋</button>*@
+                <div class="panel-body">
+
+
+
+
+                    
+                    <table class="table" id="orders_table">
+                        <thead>
+                            <tr>
+                                <th>訂單編號</th>
+                                <th>訂餐時間</th>
+                                <th>備菜時間</th>
+                                <th>運送時間</th>
+                                <th>送達時間</th>
+                                <th>聯絡人姓名</th>
+                                <th>聯絡電話</th>
+                                <th>付款方式</th>
+                                <th>訂單金額</th>
+                                <th>訂單狀態</th>
+                                <th>狀態修改</th>
+                                @*<th>刪除</th>*@
+                                <th>完成</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                if (DateTime.Now > @order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime))
+                                {
+                                    <tr style="background-color:lightcoral">
+                                        <td>@order.fOrderID</td>
+                                        <td>@order.fOrderDatetime</td>
+                                        <td>@Math.Round(order.fTakeoutTime.TotalMinutes,0) 分</td>
+                                        <td>@Math.Round(order.fDeliveryTime.TotalMinutes,0) 分</td>
+                                        <td>@order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime)
+                                            <input type="hidden" class="delay_order" value="@order.fOrderID" />
+                                            <input type="hidden" value="@order.fRestaurantID"  />
+                                        </td>
+                
+                                        <td>@order.tMemeber.fMemeberName</td>
+                                        <td>@order.tMemeber.fPhone</td>
+                                        <td>@order.tPaymentWay.fPaymentway</td>
+                                        <td>@order.tRestaurantOrder_Details.Sum(d => d.fPrice) 元</td>
+                                        <td>@order.tRestaurant_Order_States.fState_Description</td>
+                                        <td>
+                                                <input type="hidden" value="@order.fOrderID" name="fOrderID" />
+                                                @*<Select name="fOrderStatus" >
+                                                        <Option Value="已接單">已接單</Option>
+                                                        <Option Value="製作中">製作中</Option>
+                                                        <Option Value="外送中">外送中</Option>
+                                                        <Option Value="已結單">已結單</Option>
+                                                    </Select>*@
+                                                @*<input type="submit" id="order_state_edit" value="修改" class="btn btn-primary btn-warning" />*@
+
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-warning dropdown-toggle state_edit_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        @order.tRestaurant_Order_States.fState_Description <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li value="1"><a class="state_edit_a" href="#">已接單</a></li>
+                                                        <li value="2"><a class="state_edit_a" href="#">製作中</a></li>
+                                                        <li value="3"><a class="state_edit_a" href="#">外送中</a></li>
+                                                        @*<li value="4"><a class="state_edit_a" href="#" >已結單</a></li>*@
+                                                    </ul>
+                                                    <input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" />
+                                                </div>
+
+                                                @*<button  class="btn btn-warning order_state_edit">修改</button>*@<input class="orderID" type="hidden" value="@order.fOrderID" /><input type="hidden" value="@order.fOrderStatus">
+                                        </td>
+                                        @*<th><a href="~/RestaurantOrder/Delete/@order.fOrderID" class="btn btn-danger">刪除</a></th>*@
+                                        @*<td>@Html.ActionLink("刪除", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                        @*<td>@Html.ActionLink("完成", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                        <td><input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" /><button class="btn btn-danger btn_order_finish">逾時<br/>完成</button><input type="hidden" name="fOrderID" value="@order.fOrderID" class="find_order_id" /></td>
+
+                                    </tr>
+                                }
+
+
+                                else if (DateTime.Now.AddMinutes(5) > @order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime))
+                                {
+                                    <tr style="background-color:lightgoldenrodyellow">
+                                        <td>@order.fOrderID</td>
+                                        <td>@order.fOrderDatetime</td>
+                                        <td>@order.fTakeoutTime.TotalMinutes 分</td>
+                                        <td>@order.fDeliveryTime.TotalMinutes 分</td>
+                                        <td>
+                                            @order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime)
+                                        @*@if (DateTime.Now > @order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime))
+                                            {
+                                                <input type="text" class="delay_order" value="@order.fOrderID" name="fOrderID" />
+                                            }*@
+
+                                    </td>
+
+                                    <td>@order.tMemeber.fMemeberName</td>
+                                    <td>@order.tMemeber.fPhone</td>
+                                    <td>@order.tPaymentWay.fPaymentway</td>
+                                    <td>@order.tRestaurantOrder_Details.Sum(d => d.fPrice) 元</td>
+                                    <td>@order.tRestaurant_Order_States.fState_Description</td>
+                                    <td>
+                                        <input type="hidden" value="@order.fOrderID" name="fOrderID" />
+                                        @*<Select name="fOrderStatus" >
+                                                <Option Value="已接單">已接單</Option>
+                                                <Option Value="製作中">製作中</Option>
+                                                <Option Value="外送中">外送中</Option>
+                                                <Option Value="已結單">已結單</Option>
+                                            </Select>*@
+                                        @*<input type="submit" id="order_state_edit" value="修改" class="btn btn-primary btn-warning" />*@
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-warning dropdown-toggle state_edit_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                @order.tRestaurant_Order_States.fState_Description <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li value="1"><a class="state_edit_a" href="#">已接單</a></li>
+                                                <li value="2"><a class="state_edit_a" href="#">製作中</a></li>
+                                                <li value="3"><a class="state_edit_a" href="#">外送中</a></li>
+                                                @*<li value="4"><a class="state_edit_a" href="#" >已結單</a></li>*@
+                                            </ul>
+                                            <input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" />
+                                        </div>
+
+                                        @*<button  class="btn btn-warning order_state_edit">修改</button>*@<input class="orderID" type="hidden" value="@order.fOrderID" /><input type="hidden" value="@order.fOrderStatus">
+                                    </td>
+                                    @*<th><a href="~/RestaurantOrder/Delete/@order.fOrderID" class="btn btn-danger">刪除</a></th>*@
+                                    @*<td>@Html.ActionLink("刪除", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                    @*<td>@Html.ActionLink("完成", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                    <td><input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" /><button class="btn btn-warning btn_order_finish">完成</button><input type="hidden" name="fOrderID" value="@order.fOrderID" class="find_order_id" /></td>
+
+                                </tr>
+                                }
+
+                                else
+                                {
+                                    <tr>
+                                        <td>@order.fOrderID</td>
+                                        <td>@order.fOrderDatetime</td>
+                                        <td>@order.fTakeoutTime.TotalMinutes 分</td>
+                                        <td>@order.fDeliveryTime.TotalMinutes 分</td>
+                                        <td>@order.fOrderDatetime.Add(order.fTakeoutTime).Add(order.fDeliveryTime)</td>
+                                        <td>@order.tMemeber.fMemeberName</td>
+                                        <td>@order.tMemeber.fPhone</td>
+                                        <td>@order.tPaymentWay.fPaymentway</td>
+                                        <td>@order.tRestaurantOrder_Details.Sum(d => d.fPrice) 元</td>
+                                        <td>@order.tRestaurant_Order_States.fState_Description</td>
+                                        <td>
+                                                <input type="hidden" value="@order.fOrderID" name="fOrderID" />
+                                                @*<Select name="fOrderStatus" >
+                                                        <Option Value="已接單">已接單</Option>
+                                                        <Option Value="製作中">製作中</Option>
+                                                        <Option Value="外送中">外送中</Option>
+                                                        <Option Value="已結單">已結單</Option>
+                                                    </Select>*@
+                                                @*<input type="submit" id="order_state_edit" value="修改" class="btn btn-primary btn-warning" />*@
+
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-warning dropdown-toggle state_edit_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        @order.tRestaurant_Order_States.fState_Description <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li value="1"><a class="state_edit_a" href="#">已接單</a></li>
+                                                        <li value="2"><a class="state_edit_a" href="#">製作中</a></li>
+                                                        <li value="3"><a class="state_edit_a" href="#">外送中</a></li>
+                                                        @*<li value="4"><a class="state_edit_a" href="#" >已結單</a></li>*@
+                                                    </ul>
+                                                    <input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" />
+                                                </div>
+
+                                                @*<button  class="btn btn-warning order_state_edit">修改</button>*@<input class="orderID" type="hidden" value="@order.fOrderID" /><input type="hidden" value="@order.fOrderStatus">
+                                        </td>
+                                        @*<th><a href="~/RestaurantOrder/Delete/@order.fOrderID" class="btn btn-danger">刪除</a></th>*@
+                                        @*<td>@Html.ActionLink("刪除", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                        @*<td>@Html.ActionLink("完成", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>*@
+                                        <td><input type="hidden" name="fResID" value="@order.fRestaurantID" class="find_res_id" /><button class="btn btn-warning btn_order_finish">完成</button><input type="hidden" name="fOrderID" value="@order.fOrderID" class="find_order_id" /></td>
+                                    </tr>
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3">
+            <div class="thumbnail" id="order_details">
+
+            </div>
+        </div>
+    </div>
+    <div id="tabs-2" class="row">
+        
+
+    </div>
+    @*<div id="tabs-3">
+    </div>*@
+</div>
+

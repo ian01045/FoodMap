@@ -1,0 +1,85 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.ViewModels.RestaurantBlogViewModels>
+<!--主版-->
+
+
+@foreach (var data in Model)
+{
+    <div class="item">
+        <div class="col-md-4 col-sm-6">
+            <div class="block-text rel zmin">              
+                <div class="review-block-rate">
+                    @if (data.fStars == 1)
+                {
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    }
+                    else if (data.fStars == 2)
+                    {
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    }
+                    else if (data.fStars == 3)
+                    {
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    }
+                    else if (data.fStars == 4)
+                    {
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                        <span class="btn btn-warning btn-xs" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    }
+                </div>
+                @*@if()*@
+                <p>@data.fDate.Value.ToString("yyyy年MM月dd日")</p>
+                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+            </div>
+            <div class="person-text rel">
+                <img class="img-circle" style="width:70px;height:70px" src="@Url.Action("GetMemberPhoto","Blog",new {id=data.fMemberID })"  />
+                <center><h3 class="nameshowincomment">@data.fMemeberName</h3></center>               
+            </div>
+        </div>    
+    </div>
+}

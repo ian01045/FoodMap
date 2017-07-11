@@ -1,0 +1,29 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.ViewModels.ChatReadViewModel>
+
+@{
+    int? id = 0;
+    foreach (var item in Model)
+    {
+        if (item.MemberID != id)
+        {
+            <li class="left clearfix chatlistclick">
+                <span class="chat-img pull-left">
+                    <img src="@Url.Action("GetMemberImage", "Chat", new { Area = "Restaurant", id = item.MemberID })" alt="User Avatar" class="img-circle">
+                </span>
+                <div class="chat-body clearfix">
+                    <div class="header_sec">
+                        <strong class="primary-font resanme">@item.MemberName</strong> <strong class="pull-right">
+                            @item.Date.Value.ToString("HH:mm")
+                        </strong>
+                        <p style="display:none" type="hidden" id="chatobj">@item.MemberID</p>
+                    </div>
+                    <div class="contact_sec">
+                        <strong class="primary-font">@item.Message</strong> <span class="badge pull-right" style="background-color:#f85555">未讀訊息</span>
+                    </div>
+                </div>
+            </li>
+            id = item.MemberID;
+        }
+    }
+
+}

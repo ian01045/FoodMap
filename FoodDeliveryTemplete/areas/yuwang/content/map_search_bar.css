@@ -1,0 +1,25 @@
+﻿
+        body {
+            margin-top: 20px;
+        }
+
+        /*隱藏map和目前位置的div*/
+        #map, #position_now_show,#res_name_search_row,#slider,#unit {
+            display: none;
+        }
+
+        
+        /*給導覽列背景色*/ 
+        #city_select, #city_select_btn, #address, #SelectRestaurant, #GetLocation, #GoRestaurants,#res_name,#SearchResInMap {
+            background-color: burlywood;
+        }
+
+    #custom-handle {
+
+        width: 50px; /*拉桿長*/
+        height: 50px;
+        top: 50%;
+        margin-top: -25px;
+        text-align: center;
+        line-height: 50px;
+    }

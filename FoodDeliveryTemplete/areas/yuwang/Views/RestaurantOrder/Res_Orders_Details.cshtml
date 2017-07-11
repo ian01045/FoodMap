@@ -1,0 +1,63 @@
+﻿@using FoodDeliveryTemplete.Areas.yuwang.Controllers
+
+@*@model FoodDeliveryTemplete.Areas.yuwang.Controllers.RestaurantOrderController.order_details*@
+@model IEnumerable<FoodDeliveryTemplete.Areas.yuwang.Controllers.RestaurantOrderController.order_detail>
+
+
+    @*<img src="" />*@
+
+<h2><label>訂單編號: @ViewBag.orderID</label></h2>
+
+    @foreach (var food in Model)
+    {
+        if (food.detail.tRestaurant_Foods.fIsMeal == true || food.detail.fPrice == 0)
+        {
+            if (food.detail.tRestaurant_Foods.fIsMeal == true)
+            {
+                <br/><h3 style="color:darkred">套餐:@food.detail.tRestaurant_Foods.fFoodName (@food.detail.tRestaurant_Foods.fPrice 元) </h3>
+
+                @*if (food.fCustomizedOptionID != null)
+                {
+                    <h5 style="color:#383838">@food.tRestaurant_Foods.tRestaurant_FoodCustomizedCategory.fCustomizedCategoryName :</h5>
+                }
+                <h4 >@food.tRestaurant_Foods.fFoodName x1</h4>
+                if (food.fCustomizedOptionID != null)
+                {
+                    <h5 style="color:dimgrey">(備註: @food.tFood_CustomizedOption.fCustomizedOptionName)</h5>
+                }*@
+
+            }
+            else
+            {
+                if (food.detail.fCustomizedOptionID != null)
+                {
+                    <h5 style="color:#383838">@food.detail.tRestaurant_Foods.tRestaurant_FoodCustomizedCategory.fCustomizedCategoryName :</h5>
+                }
+                <h4> @food.detail.tRestaurant_Foods.fFoodName x1</h4>
+                if (food.detail.fCustomizedOptionID != null)
+                {
+                    
+                    <h5 style="color:dimgrey">(備註:@food.option.fCustomizedOptionName)</h5>
+                }
+            }
+
+        }
+
+        if (food.detail.tRestaurant_Foods.fIsMeal == false && food.detail.fPrice != 0)
+        {
+            <br /><h3 style="color:darkred">單點:@food.detail.tRestaurant_Foods.fFoodName (@food.detail.tRestaurant_Foods.fPrice 元) </h3>
+            if (food.detail.fCustomizedOptionID != null)
+            {
+                <h5 style="color:dimgrey">(備註: @food.option.fCustomizedOptionName)</h5>
+            }
+        }
+    }
+    @*<div class="caption">
+        <h3>請選擇欲管理會員</h3>
+        <p id="email"></p>
+        <p id="address"></p>
+        <p id="credit"></p>
+        <p id="tel"></p>
+    </div>
+    <div id="btn_area">
+    </div>*@

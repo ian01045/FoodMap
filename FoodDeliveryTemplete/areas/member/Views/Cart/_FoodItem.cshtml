@@ -1,0 +1,31 @@
+﻿@model  FoodDeliveryTemplete.ViewModels.FoodNameContentViewModel
+
+<!--#region 項目圖-->
+<div class="row" style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #d9d7d7">
+    <div data-toggle="modal" data-target="#@Model.fFoodID">
+        <div class="col-sm-3">
+            @*顯示檔案圖片*@
+            <img title="fFoodImage" src="@Url.Action("GetImageByte","Cart",new { id=Model.fFoodID})" class="fFoodImage img-thumbnail thumb" />
+            @*<img title="fFoodImage" src="@Url.Content("~/fFoodImage/" + product.fFoodImage)" class="img-thumbnail thumb" />*@
+        </div>
+        <div class="col-sm-7">
+            <div class="captionshow">
+                <div class="topicfood"><span class="topicspan1">@Model.fFoodName</span><span class="topicspan2">(備餐時間為：@Model.fCookTime.Add(Model.fDeliveryTime).ToString("mm") 分)</span></div>
+
+                <p class="hidden">@Model.fCustomizedCategoryID</p>
+                @*<p>@Model.fFoodDescription</p>*@
+                <p class="hidden">@Model.fCategoryID</p>
+                <p style="color:#0ac60e;font-family:'標楷體';font-weight:800">@Html.DisplayFor(c => Model.fPrice)</p>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <p>
+                <button class="btn btn-warning" role="button">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>加入
+                </button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!--#endregion-->

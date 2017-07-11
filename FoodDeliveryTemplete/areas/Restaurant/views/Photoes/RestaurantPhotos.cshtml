@@ -1,0 +1,60 @@
+﻿
+@model IEnumerable<FoodDeliveryTemplete.Models.tPhoto>
+<h3>餐廳圖片</h3>
+<table class="table table-bordered table-hover">
+    <thead style="background-color:#FFAD86">
+        <tr>
+            <td></td>
+            <td>@Html.DisplayNameFor(c => c.fPhotoID)</td>
+            <td>@Html.DisplayNameFor(c => c.fRestaurantID)</td>
+            <td>@Html.Label("餐廳名稱")</td>
+            <td>@Html.DisplayNameFor(c => c.fBytesImage)</td>
+            <td>@Html.Label("編輯")</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var _Product in Model)
+        {
+            <tr>
+                <td>@Html.CheckBox("FoodID", false, _Product.fPhotoID)@Html.HiddenFor(c => _Product.fPhotoID)</td>
+                <td>@Html.DisplayFor(c => _Product.fPhotoID)</td>
+                <td>@Html.DisplayFor(c => _Product.fRestaurantID)</td>
+                <td>@Html.DisplayFor(c => _Product.tRestaurant.fRestaurantName)</td>
+                <td><img title="此商品照片" id="nowpic" src="@Url.Action("GetResataurantPhoto","Json",new {id = _Product.fRestaurantID })" class="img-rounded img-responsivel" style="width:150px;" /></td>
+                <td>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            @Html.ActionLink("編輯", "ProductUpdate", "Product", new { PhotoID = _Product.fPhotoID }, new { @class = "btn btn-info btn-lg glyphicon glyphicon-pencil", style = "color:white" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            @Html.ActionLink("刪除", "ProductDelete", "Restaurant", new { id = _Product.fPhotoID }, new { @class = "btn btn-danger btn-lg glyphicon glyphicon-trash", style = "color:white" })
+                            @*@Html.ActionLink("刪除", "Delete", "tRestaurant_Foods", new { id = _Product.fFoodID }, new { @class = "btn btn-info"})*@
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="ProductCount" style="text-align:center">
+    @for (int c = 1; c <= @ViewBag.productcount; c++)
+    {
+        <a>
+            @Html.Label("" + c + "", new { @class = "btn btn-warning productpagebtn", value = c })
+        </a>
+    }
+
+</div>
+<script>
+    $(".productpagebtn").on("click", function () {
+        var pagenumber = $(this).attr("value");
+        $('#tabs-2').load('@Url.Action("RestaurantPhotos", "Photoes")' + "?page=" + pagenumber);
+
+    })
+    $("tbody>tr").hover(function () {
+        $(this).children().css("background-color", "#EAC100");//進來時
+    }, function () {
+        $(this).children().css("background-color", "#FFD1A4");//離開時
+    });
+
+</script>

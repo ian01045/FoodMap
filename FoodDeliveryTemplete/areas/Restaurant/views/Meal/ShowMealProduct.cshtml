@@ -1,0 +1,100 @@
+﻿@*@{
+        ViewBag.Title = "Index";
+        Layout = "~/Areas/Restaurant/Views/Shared/_RestaurantIndexPage.cshtml";
+    }*@
+@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurantMeal_Detail>
+
+<div class="row" style="margin-top:70px;">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10 ">
+        <div class="col-lg-4">
+            <br /><br />
+            @Html.Label("套餐名稱", new { style = "font-size:180%;color:red;" })
+            <p style="margin-top:30px;font-size:150%;">@Model.First().tRestaurant_Foods.fFoodName</p>
+            <p style="margin-top:30px;">產品說明</p>
+            @Model.First().tRestaurant_Foods.fFoodDescription
+            
+        </div>
+        <div class="col-lg-8">
+            @{
+                var select = new SelectList(ViewBag.Product, "FfoodID", "FfoodName");
+                var meallist = ViewBag.Meal;
+            }
+            <br /><br />
+            @Html.Label("套餐內容", new { style = "font-size:180%;margin-button:30px;color:red;" })
+            <div style="margin-top:30px;">
+                @foreach (var product in Model)
+            {
+                    <div class="row" >
+                        <div class="col-lg-1" id="foodidnumber">
+                            <p style="margin-top:10px;"></p>
+                            @Html.CheckBox("FoodID", false, product.fFoodID)
+                            @Html.HiddenFor(c => product.fFoodID)
+
+                        </div>
+                        <div class="col-lg-7" id="foodidnumber">
+                            @Html.DropDownListFor(p => product.fFoodID, select, product.tRestaurant_Foods1.fFoodName, new { @class = "form-control cho" })
+                            @Html.HiddenFor(p => product.fID, new { @class = "getid" })
+
+                        </div>
+                        <div class="col-lg-2 " name="div Update">
+                            <input type="button" class="updatebtn btn btn-warning btn-lg" value="修改" />
+                        </div>
+                        <div class="col-lg-2">
+                            @Html.ActionLink("刪除", "DeleteMeal", new { id = product.fID }, new { @class = "btn btn-danger btn-lg" })
+
+                        </div>
+                    </div>
+                }
+            </div>
+     
+
+        </div>
+
+
+
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //刪除
+        $('.deletebtn').on('click',function(){
+
+        })
+        //修改
+        $('.updatebtn').on("click", function () {
+            var strUrl = '@Url.Action("UpdateMeal", "Meal")';
+            var mealid = @Model.First().tRestaurant_Foods.fFoodID;//套餐ID
+            var foodid = $(this).parent().prev().find("option:selected").val()//要改變的商品ID
+            var foodname = $(this).parent().prev().find('option:selected').text()//要改變的商品名稱
+            var getid = $(this).parent().prev().find('.getid').val()//此商品的fid
+
+            //console.log(getid)
+            if(getid!=null)
+            {
+                var strJsonData = JSON.stringify({
+                    "fID":getid,
+                    "fMealID": mealid,
+                    "fFoodID": foodid
+                });
+
+                //寫入資料
+                $.ajax({
+                    url: strUrl,
+                    type: 'POST',
+                    data: strJsonData,
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        $('#Createsuccess').text('新增完畢!!')
+                    },
+                    error: function () {
+                        $('#Createsuccess').text('新增失敗!!')
+                    }
+                })
+            }
+
+        })
+    })
+</script>

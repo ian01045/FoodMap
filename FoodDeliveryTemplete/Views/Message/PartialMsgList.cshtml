@@ -1,0 +1,31 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.ViewModels.MessageBoardViewModel>
+
+
+@foreach (var i in Model)
+{
+    <div class="list-group-item">
+        <div class="media col-sm-2">
+            <figure class="pull-left">
+                @if (i.fMemberID != 0)
+                {
+                    <img src="@Url.Action("GetFoodImage", "Message", new { id = i.fMemberID })" class="img-circle" style="width:70px;height:70px" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/images/guest-photo.png")" class="img-circle" style="width:70px;height:70px" />
+                }
+
+            </figure>
+        </div>
+        <div class="col-sm-10" id="msgshow">
+            <span style="padding-left:0;" class="list-group-item-heading showmembername">@i.MemberName <span id="timeshow">@i.Date.Value.ToString("yyyy/MM/dd  HH點mm分") 留言</span></span>
+            <p style="padding-left:0;font-family:'標楷體'" class="list-group-item-text">
+                @i.Message
+            </p>
+        </div>
+    </div>
+
+}
+
+
+

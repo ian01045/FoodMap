@@ -1,0 +1,63 @@
+﻿@model  FoodDeliveryTemplete.ViewModels.CartListViewModel
+
+
+<div id="cartindexdiv" class="container">       
+         @Html.Partial("_Meal",Model)
+</div>
+
+@section script
+{
+    <script>
+        $(document).ready(function () {
+
+            $(".modal-footer .quantity-right-plus").on("click", function (e) {
+                var ID = $(this).parents(".input-group").children(".quantity");
+                e.preventDefault();
+                var quantity = parseInt(ID.val());
+                ID.val(quantity + 1);
+            })
+            //$('.quantity-right-plus').click(function (e) {
+            //    // Stop acting like a button
+            //    e.preventDefault();
+            //    // Get the field name
+            //    var quantity = parseInt($('.quantity').val());
+            //    // If is not undefined
+            //    // Increment
+            //    $('.quantity').val(quantity + 1);
+            //});
+
+            $(".modal-footer .quantity-left-minus").on("click", function (e) {
+                var ID = $(this).parents(".input-group").children(".quantity");
+                e.preventDefault();
+                var quantity = parseInt(ID.val());
+                if (quantity > 0) { ID.val(quantity - 1); }
+            })
+            //$('.quantity-left-minus').click(function (e) {
+            //    // Stop acting like a button
+            //    e.preventDefault();
+            //    // Get the field name
+            //    var quantity = parseInt($('.quantity').val());
+            //    // If is not undefined
+            //    // Increment
+            //    if (quantity > 0) {
+            //        $('.quantity').val(quantity - 1);
+            //    }
+            //});
+
+            //按下去進入購物車事件
+            //取數量的值
+            $(".modal-footer .gotoCart").on("click", function () {
+                var Url = $(this).val();//Url
+                var Value = $(this).siblings(".container").find(".quantity").eq(0).val();
+                //console.log(Url);
+                //console.log(Value)
+                // /Amy/Cart/AddToCart?fFoodID=22原本
+                // /Amy/Cart/AddToCart/1?fFoodID=22替換後
+                var NewUrl = Url.replace("?", "/" + Value + "?");
+                window.location.href = NewUrl;
+            });
+
+
+        });
+    </script>
+}

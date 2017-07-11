@@ -1,0 +1,19 @@
+﻿@using FoodDeliveryTemplete.Models;
+
+@model FoodDeliveryTemplete.Areas.yuwang.Controllers.RotationController.RotationClass_Food
+
+
+
+    <div id="abgneBlock3">
+        <ul class="list3">
+            @foreach (var food in Model.foods)
+            {
+                @*<text><li style="text-align:center;color:orange;font-size:large;font-family:'標楷體'">熱銷菜色: @food.fFoodName<a href="@Url.Action("RestaurantBlog","Blog",new { Area="",id=food.fRestaurantID,distance=0})"><img src="@Url.Action("GetImageByte_FoodID","Select",new { Area="yuwang",foodID=food.fFoodID})" /></a></li> </text>*@
+                <text><li style="text-align:center;color:orange;font-size:large;font-family:'標楷體'">熱銷餐廳: @food.tRestaurant.fRestaurantName<a href="@Url.Action("RestaurantBlog","Blog",new { Area="",id=food.fRestaurantID,distance=0})"><img src="@Url.Action("GetImageByte_ResID","Select",new { Area="yuwang",resID=food.fRestaurantID})" /></a></li> </text>
+
+}
+        </ul>
+        <br />
+    </div>
+
+@*</div>*@

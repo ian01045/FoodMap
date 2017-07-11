@@ -1,0 +1,297 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+@section style
+{
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    @*<style>
+        body {
+            background-image:url(@Url.Action("RestaurantBackImage", "Json",new { opacity = 0.3 }));
+            /*background-image: url('../../image/Wood.jpg');*/
+            /*opacity:0.3;*/
+        }
+       
+    </style>*@
+    <style>
+        body{
+           background:linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+           background:-moz-linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+           background:-webkit-linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+           font-size:180%;
+           font-family: "標楷體";
+           text-align:center;
+        }
+        #restaurantheader{
+           font-size:200%;
+           font-family: "標楷體";
+        }
+        .hbtn {
+            font-size:130%;
+            font-family: "標楷體";
+        }
+        #tabs a{
+            background-color:#EAC100;
+            border-radius:5px;
+        }
+       
+    </style>
+}
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10" >
+        <div class="panel panel-warning" style="margin-top:30px;"id="backchange">
+            <p class="panel-heading" id="restaurantheader" style="font-size:170%;width:96%;margin-left:30px;">@ViewBag.restaurantname 餐廳</p>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2 co2-lg-2 btn-group-vertical" style="margin-top:50px;">
+                        <div class="bd-example">
+                            <div class="Lefbtns btn-group-vertical" role="group" aria-label="Vertical button group">
+                                @*<a class="btn btn-info" href="@Url.Action("ProductCreateFunction","Product")">新增商品</a>*@
+                                <a class="btn btn-warning btn-lg hbtn" style="opacity:0.8" href="@Url.Action("Index","Meal")">查看套餐內容</a>
+                                <a class="btn btn-warning btn-lg hbtn" style="opacity:0.8" href="@Url.Action("CategoryCreateFunction", "Category")">新增商品分類</a>
+                                <a class="btn btn-warning btn-lg hbtn" style="opacity:0.8" href="@Url.Action("CreateCustomizedCategory", "CustomizedCategory")">設定客製化選項</a>
+                                <a class="btn btn-warning btn-lg hbtn" style="opacity:0.8" href="@Url.Action("Index", "RestaurantOrder", new { Area="yuwang",resID=ViewBag.restaurantid})">餐廳訂單</a>
+                                <a class="btn btn-warning btn-lg hbtn" style="opacity:0.8" href="@Url.Action("Index", "RestaurantActivities", new { Area="yuwang",resID=ViewBag.restaurantid})">餐廳活動管理</a>
+                                <a class="btn btn-warning btn-lg hbtn" style="opacity:0.8" href="@Url.Action("Index", "RestaurantReport", new { Area="yuwang",resID=ViewBag.restaurantid})">餐廳報表</a>
+                                <select class="form-control"id="backgroundcolor"style="font-size:20px;text-align:center">
+                                    <option>背景顏色選擇</option>
+                                    <option>經典</option>
+                                    <option>溫暖</option>
+                                    <option>和平</option>
+                                    <option>海洋</option>
+                                    <option>神秘</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-1 col-lg-1 showProduct">
+
+                    </div>*@
+                        <div class="col-md-10 col-lg-10 showProduct">
+                            @Html.ActionLink("新增產品", "ProductCreateFunction", "Product", new { id = @ViewBag.RestaurantIDIs}, new { @class = "btn btn-info btn-lg glyphicon glyphicon-plus", style = "margin-left:10px;float:left;" })
+
+                            <div id="tabs" style="margin-top:50px;margin-left:10px;background-color:#FFD1A4">
+                                <ul style="background-color:#FFD1A4">
+                                    <li><a href="#tabs-1" id="product">上架單品</a></li>
+                                    <li><a href="#tabs-2" id="mealsProduct">套餐商品</a></li>
+                                    <li><a href="#tabs-3" id="UnAvailableProduct">下架單品</a></li>
+                                    <li><a href="#tabs-4" id="UnAvailableMeal">下架套餐</a></li>
+                                    <li><input type="button" value="刪除選中" id="delectcheck" class="btn btn-danger btn-lg  glyphicon glyphicon-trash" /></li>
+                                    <li><input type="button" value="上/下架選中" id="ablecheck" class="btn btn-warning btn-lg  glyphicon glyphicon-sort" /></li>
+                                </ul>
+                                <div id="tabs-1">
+                                    @*顯示單品*@
+                                </div>
+                                <div id="tabs-2">
+                                    @*顯示套餐*@
+                                </div>
+                                <div id="tabs-3">
+                                    @*顯示不上架單品*@
+                                </div>
+                                <div id="tabs-4">
+                                    @*顯示不上架套餐*@
+                                </div>
+                            </div>
+                          
+                        </div>
+                        @*<div class="col-md-1 col-lg-1"></div>*@
+                    </div>
+            </div>
+        </div>
+
+        @*<div class="row" style="margin-top:5%;margin-bottom:7%;">
+            <div class="col-lg-12">
+
+
+            </div>
+        </div>*@
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+    
+
+@section script{
+    @*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+
+    <script>
+        $(function () {
+            $('#backgroundcolor').on('change', function () {
+                if ($('#backgroundcolor :selected').val() == "經典")
+                { $('#backchange').css("background-color", "#FFFFDF	,#E1E100") }
+                if ($('#backgroundcolor :selected').val() == "溫暖")
+                { $('#backchange').css("background-color", "#FFE4CA	,#D26900") }
+                if ($('#backgroundcolor :selected').val() == "和平")
+                { $('#backchange').css("background-color", "#82D900	,#007500") }
+                if ($('#backgroundcolor :selected').val() == "海洋")
+                { $('#backchange').css("background-color", "top,#D1E9E9	,#0066CC") }
+                if ($('#backgroundcolor :selected').val() == "背景顏色選擇")
+                { $('#backchange').css("background-color", "white") }
+                if ($('#backgroundcolor :selected').val() == "神秘")
+                { $('#backchange').css("background-color", "#B9B9FF") }
+            })
+            //$("#tabs").tabs({
+            //    collapsible: true
+            //});
+            //--------------------------------------------------------------------------------------------------
+            //刪除產品
+            $("#delectcheck").on('click', function () {
+                var strUrl = '@Url.Action("DeleteCheckedProduct", new { controller = "Restaurant" })';
+                $(":checked").each(function () {
+                    console.log($(this).next().next().val())//FOODID
+                    var foodidtodelet = $(this).next().next().val();
+                    if (foodidtodelet > 0)
+                    {
+                        var strJsonData = JSON.stringify({
+                            "fFoodID": foodidtodelet,
+                        });
+                        $.ajax({
+                            url: strUrl,
+                            type: 'POST',
+                            data: strJsonData,
+                            contentType: "application/json; charset=utf-8",
+                            success: function () {
+                                //alert("刪除完成")
+                                //$('#response').text('修改完畢!!')
+                                //重新整理所有產品
+                                loadallproduct();
+                            },
+                            error: function () {
+                                //$('#response').text('修改失敗!!')
+                                alert("刪除失敗")
+                            }
+                        })
+                    }
+                })
+
+            })
+            //---------------------------------------------------------------------------------------------------
+            //產品上/下架
+            $("#ablecheck").on('click', function () {
+                var strUrl = '@Url.Action("AvailableCheckedProduct", new { controller = "Restaurant" })';
+                $(":checked").each(function () {
+                    console.log($(this).next().next().val())//FOODID
+                    var foodidtodelet = $(this).next().next().val();
+                    if (foodidtodelet > 0) {
+                        var strJsonData = JSON.stringify({
+                            "fFoodID": foodidtodelet,
+                        });
+                        $.ajax({
+                            url: strUrl,
+                            type: 'POST',
+                            data: strJsonData,
+                            contentType: "application/json; charset=utf-8",
+                            success: function () {
+                                //alert("修改完成")
+                                //$('#response').text('修改完畢!!')
+                                //重新整理所有產品
+                                loadallproduct();
+                            },
+                            error: function () {
+                                //$('#response').text('修改失敗!!')
+                                alert("修改失敗")
+                            }
+                        })
+                    }
+                })
+
+            })
+            //---------------------------------------------------------------------------------------------------------------
+            $(".getFoodid").on("click", function () {
+                //console.log($(this).next().next().val())
+            })
+            var tabs = $("#tabs").tabs();
+            tabs.find(".ui-tabs-nav").sortable({
+                axis: "x",
+                stop: function () {
+                    tabs.tabs("refresh");
+                }
+            });
+            loadallproduct();
+            function loadallproduct() {
+                $('#tabs-1').load('@Url.Action("Product", "Restaurant",new { page = 1})');
+                $('#tabs-2').load('@Url.Action("ProductMeals", "Restaurant", new { page = 1 })');
+                $('#tabs-3').load('@Url.Action("ProductUnAvailable", "Restaurant", new { page = 1 })');
+                $('#tabs-4').load('@Url.Action("ProductUnAvailableMeal", "Restaurant", new { page = 1 })');
+
+            }
+            //-----------------------------------------------------------------------------------------------------------
+            //上架單品分頁
+            $.ajax({
+                url: '@Url.Action("DataCount","Json")',
+                data: { isMeal: "false", Available:"true" },
+                success: function (datacount) {
+                    console.log("上架單品分頁" + datacount)
+
+                },
+                cache:false
+            })
+
+            //-----------------------------------------------------------------------------------------------------------
+            //上架套餐分頁
+            $.ajax({
+                url: '@Url.Action("DataCount","Json")',
+                data: { isMeal: "true", Available: "true" },
+                success: function (datacount) {
+
+                },
+                cache:false
+            })
+            //-----------------------------------------------------------------------------------------------------------
+            //下架單品分頁
+            $.ajax({
+                url: '@Url.Action("DataCount","Json")',
+                data: { isMeal: "false", Available: "false" },
+                success: function (datacount) {
+                    console.log("下架單品分頁="+datacount)
+                },
+                cache: false
+            })
+            //-----------------------------------------------------------------------------------------------------------
+            //下架套餐分頁
+            $.ajax({
+                url: '@Url.Action("DataCount","Json")',
+                data: { isMeal: "true", Available: "false" },
+                success: function (datacount) {
+                    console.log("下架套餐分頁"+datacount)
+                },
+                cache: false
+            })
+            //-----------------------------------------------------------------------------------------------------------
+            //上架套餐
+            $('#product,#mealsProduct,#UnAvailableProduct,#UnAvailableMeal').on('click', function () {
+                var findclick = $(this).attr("id")
+                //console.log(findclick)
+                var findpage= $('#findpage>a').text()
+                //console.log(findpage)
+                $('#data').val(findclick)
+                @*@Url.Action("Index", "Restaurant", new { page =  })*@
+                @*$('#tabs-1').load('@Url.Action("Product", "Restaurant")');*@
+                $("input[type='checkbox']").attr("checked", false);
+            })
+
+            $('#product').on('click', function () {
+                $('#tabs-1').load('@Url.Action("Product", "Restaurant",new { page = 1})');
+            })
+            $('#mealsProduct').on('click', function () {
+                $('#tabs-2').load('@Url.Action("ProductMeals", "Restaurant", new { page = 1 })');
+            })
+            $('#UnAvailableProduct').on('click', function () {
+                $('#tabs-3').load('@Url.Action("ProductUnAvailable", "Restaurant", new { page = 1 })');
+            })
+            $('#UnAvailableMeal').on('click', function () {
+                $('#tabs-4').load('@Url.Action("ProductUnAvailableMeal", "Restaurant", new { page = 1 })');
+            })
+
+            $('.hbtn').mouseover(function () {
+                $(this).css("opacity", "1")
+            })
+            $('.hbtn').mouseout(function () {
+                $(this).css("opacity", "0.8")
+            })
+        });
+
+    </script>
+}
+

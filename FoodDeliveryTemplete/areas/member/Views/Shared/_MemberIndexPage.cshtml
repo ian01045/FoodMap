@@ -1,0 +1,1271 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/Account.css" rel="stylesheet" />
+    <link href="~/Content/LoginForm.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.glide.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/MyIndexHeaderJavaScript.js"></script>
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/lightbox.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/presets/preset1.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet">
+    <link href="~/Content/sm-clean/sm-clean.css" rel="stylesheet" />
+    <link href="~/Content/sm-simple/sm-core-css.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Buenard:700' rel='stylesheet' type='text/css'>
+    <link href="~/css/loading/loading.css" rel="stylesheet" />
+    <link href="~/Areas/Member/css/ChatStyle.css" rel="stylesheet" />
+    <link href="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet" />
+
+
+    @*搜尋列樣式*@
+
+    <link href="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet" />
+    @RenderSection("style", false)
+
+
+
+</head>
+<body>
+    <div class="loader"></div>
+    <a id="menu-toggle" style="background-color: rgba(117, 112, 109, 0.49);" href="#" class="btn-dark btn-lp toggle">
+        <div class="fa">我的功能<span class="glyphicon glyphicon-arrow-down"></span></div>
+    </a>
+    <nav id="sidebar">
+        <ul class="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle">
+                <i class="fa">
+                    <img class="cancelicon" src="~/images/Navbar/cancel.png" />
+                </i>
+            </a>
+            <li class="sidebar-brand">
+                <a href="#top" onclick=$("#menu-close").click();>你的專頁</a>
+            </li>
+            <li>
+                @Html.ActionLink("我的錢包", "MemberWallet", "MemberArea", new { Area = "Member" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("我的最愛", "MyFavouriteRestaurant", "MemberArea", new { Area = "Member" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("會員資料編輯", "userprofile", "MemberArea", new { Area = "Member" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("餐廳部落格", "Index", "Blog", new { Area = "Member" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("我的訂單", "OrderIndex", "CustomerOrder", new { Area = "Member" }, null)
+            </li>
+            <li>
+                @Html.ActionLink("登出", "AccountLogout", "Home",new {Area="Member" },null)
+            </li>
+        </ul>
+    </nav>
+
+    <!--Video Section-->
+    <!--Video Section Ends Here-->
+
+    <header id="home">
+        <section style="padding:180px 0" class="content-section video-section">
+            <div class="pattern-overlay">
+                <a id="bgndVideo" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=PZ4pctQMdg4',containment:'.video-section', quality:'large', autoPlay:true, mute:true, opacity:0.8}"></a>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>肚子餓了嗎?</h1>
+                            <h3>只要動動您的手指即可不用出門就能享用美食</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="main-nav">
+            <div class="container">
+                <nav role="navigation">
+                    <ul id="main-menu" class="sm sm-clean">
+                        <li>@Html.ActionLink("首頁", "Index", "Home", new { Area = "Member" }, null)</li>
+                        <li>
+                            <a href="#">尋找美食</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li>
+                                    <a href="#/">年度人氣</a>
+                                    @*<ul>
+                                        <li><a href="#">About Vadikom</a></li>
+                                        </ul>*@
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">遊走餐廳</a>
+                            <ul>
+                                <li>@Html.ActionLink("餐廳部落格", "Index", "Blog", new { Area = "Member" }, null)</li>
+                                <li><a href="#">年度人氣</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">美食搜尋</a>
+                        </li>
+                        <li><a href="#">餐廳搜尋</a></li>
+                        @*<li>
+                            <a href="#">常見問題</a>
+                            <ul>
+                            <li><a href="#">Dummy item</a></li>
+                            <li><a href="#" class="disabled">Disabled menu item</a></li>
+                            <li>
+                            <a href="#">more...</a>
+                            <ul>
+                            <li>
+                            <a href="#">A</a>
+                            </li>
+                            <li>
+                            <a href="#">more...</a>
+                            <ul>
+                            <li><a href="#">Dummy item</a></li>
+                            </ul>
+                            </li>
+                            </ul>
+                            </li>
+                            </ul>
+                            </li>*@
+                        <li>
+                            <a href="#contact">聯絡我們</a>
+                            @*<ul class="mega-menu">
+                                <li>*@
+                            <!-- The mega drop down contents -->
+                            @*<div style="width:400px;max-width:100%;">
+                                <div style="padding:5px 24px;">
+                                </div>
+                                </div>
+                                </li>
+                                </ul>*@
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    @RenderBody()
+    <section id="contact">
+        <div id="contact-us" class="parallax">
+            <div class="container">
+                <div class="row">
+                    <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                        <h2>聯絡我們</h2>
+                        <p>對於食宿列車網站上的功能或者使用方式的任何問題都可以與我們連絡，我們非常樂意為您服務及解決您的問題</p>
+                    </div>
+                </div>
+                <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form id="main-contact-form" name="contact-form" method="post" action="#">
+                                <div class="row  wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" name="name" class="form-control" placeholder="Name" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control" placeholder="Email Address" required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="subject" class="form-control" placeholder="Subject" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="Enter your message" required="required"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-submit">Send Now</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="contact-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                <p>以下是我們的聯絡方式，或者您可以填寫意見涵並傳送給我們，我們隨時願意為您服務:</p>
+                                <ul class="address">
+                                    <li><i class="fa fa-map-marker"></i> <span> 地址:</span>106台北市大安區復興南路一段390號</li>
+                                    <li><i class="fa fa-phone"></i> <span> 電話:</span>0987-178-738</li>
+                                    <li><i class="fa fa-envelope"></i> <span> 信箱:</span><a href="mailto:henry0223@hotmail.com">henry0223@@hotmail.com</a></li>
+                                    <li><i class="fa fa-globe"></i> <span> 網站:</span> <a href="#">www.traintofood.com.tw</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#contact-->
+    <footer id="footer">
+        <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="container text-center">
+                <div class="footer-logo">
+                    <h3 style="color:white">與Food To Train互動</h3>
+                </div>
+                <div class="social-icons">
+                    <ul>
+                        <li><a class="envelope" href="#"><i class="fa fa-envelope"></i></a></li>
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>@DateTime.Now.ToString("yyyy  年  MM  月  dd  日")</p>
+                    </div>
+                    <div class="col-sm-6">
+                        &copy; FoodToTrain 已註冊，FoodToTrain版權所有 2017
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--聊天室視窗-->
+    <div id="chatroomshowdiv" class="container">
+        <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:10px;z-index:9999999;">
+            <div class="col-xs-12 col-md-12 chatroompanelbody">
+                <div style="margin-bottom:0" class="panel panel-default">
+                    <div class="panel-heading top-bar">
+                        <div class="col-md-8 col-xs-8">
+                            <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span><span id="chatnameshow" style="color:#1bb010">尚未開始聊天</span></h3>
+                        </div>
+                        <div class="col-md-4 col-xs-4" style="text-align: right;">
+                            <a style="cursor:pointer"><span id="minim_chat_window" class="glyphicon glyphicon-plus icon_minim"></span></a>
+                            <a style="cursor:pointer"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="takechatcontentin">
+                        </div>
+                        <div class="panel-footer inputpanelchat">
+                            <!--sendMessage-->
+                            <div class="input-group parentchatinput">
+                                <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="傳送訊息" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-sm" id="btn-chat">傳送</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chatbar" class="btn-group dropup">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-comment">聊天室</span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="member_list dropdown-menu" role="menu">
+            <ul class="list-unstyled showunreadmsg"></ul>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+    <script src="~/Areas/yuwang/Content/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.smartmenus.min.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/jquery.inview.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/mousescroll.js"></script>
+    
+    <script src="~/js/jquery.countTo.js"></script>
+    <script src="~/js/lightbox.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/html5shiv.js"></script>
+    @*<script src="~/Areas/Member/js/ChatJS.js"></script>*@
+    <script src="~/js/AdvertisementVideo/AdvertisementVideo.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @*<script src="~/js/smoothscroll.js"></script>*@
+    <script>
+        $(window).load(function () {
+            $(".loader").fadeOut(2000);
+
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.panel-heading span.icon_minim', function (e) {
+            var $this = $(this);
+            console.log($this)
+            if (!$this.hasClass('panel-collapsed')) {
+                $this.parents('.panel').find('.panel-body').slideUp();
+                $this.parents('.panel').find('.panel-footer').slideUp();
+                $this.addClass('panel-collapsed');
+                $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+            } else {
+                $this.parents('.panel').find('.panel-body').slideDown();
+                $this.parents('.panel').find('.panel-footer').slideDown();
+                $this.removeClass('panel-collapsed');
+                $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+                $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+            }
+        });
+        $(document).on('focus', '.panel-footer input.chat_input', function (e) {
+            var $this = $(this);
+            if (!$('#minim_chat_window').hasClass('panel-collapsed')) {
+                $this.parents('.panel').find('.panel-body').slideDown();
+                $this.parents('.panel').find('.panel-footer').slideDown();
+                $('#minim_chat_window').removeClass('panel-collapsed');
+                $('#minim_chat_window').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+            }
+        });
+        $(document).on('click', '.icon_close', function (e) {
+            //$(this).parent().parent().parent().parent().remove();
+            $("#chat_window_1").remove();
+        });
+
+        //$(function () {
+        //    $(".player").mb_YTPlayer();
+        //    //關掉sidebar
+        //})
+
+        $(function () {
+
+            var notifications = $.connection.messagesHub;
+
+            //debugger;
+            // Create a function that the hub can call to broadcast messages.
+            notifications.client.updateMessages = function () {
+                ChatMessages(_ID)
+                UnReadMsg()
+            };
+            // Start the connection.
+            $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+                ChatMessages(_ID);
+                UnReadMsg()
+            }).fail(function (e) {
+                alert(e);
+            });
+            //載入chat資料
+
+
+            $("#menu-close").click(function (e) {
+                e.preventDefault();
+                $("#sidebar").toggleClass("active");
+            });
+            //開啟sidebar
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#sidebar").toggleClass("active");
+            });
+
+
+
+
+            var _ID = 0
+            //點擊與誰聊天
+            $(".showunreadmsg").on("click", ".chatlistclick", function () {
+                //抓聊天對象的參數
+                var id = 0;
+                id = $(this).find('#chatobj').text();
+                _ID = id;
+                //點擊後顯示已讀
+                var maketrue = "@Url.Action("ReadMessage", "Chat")/" + _ID + "";
+                $.ajax({
+                    url: maketrue,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function () {
+
+                });//點擊顯示已讀結束
+
+                var msgURL = "@Url.Action("GetName", "Chat")/" + id + "";
+                //抓聊天對象的名字
+                $.ajax({
+                    url: msgURL,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function (result) {
+                    $("#chatnameshow").text(result)
+                    var notifications = $.connection.messagesHub;
+                    notifications.client.updateMessages = function () {
+                        GoChatMessages()
+                    };
+                    // Start the connection.
+                    $.connection.hub.start({ transport: 'longPolling' }).done(function () {
+                        GoChatMessages()
+                    }).fail(function (e) {
+                        alert(e);
+                    });
+                    function GoChatMessages() {
+                        var msgURL = "@Url.Action("GetMessages", "Chat")/" + id + "?name=" + result + "";
+                        var tbl = $('#takechatcontentin');
+                        $.ajax({
+                            url: msgURL,
+                            contentType: 'application/html ; charset:utf-8',
+                            type: 'GET',
+                            dataType: 'html'
+                        }).success(function (result) {
+                            tbl.empty().append(result);
+                            $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+                        }).error(function () {
+
+                        });
+                    }
+                });  //點擊與誰聊天結束
+
+                //焦點在上面的時候，可以將未讀改成已讀
+                @*$("#takechatcontentin").on("focus", "#btn-chat", function () {
+                    //點擊後顯示已讀
+                    var maketrue = "@Url.Action("ReadMessage", "Chat")/" + _ID + "";
+                    $.ajax({
+                        url: maketrue,
+                        contentType: 'application/html ; charset:utf-8',
+                        type: 'GET',
+                        dataType: 'html'
+                    }).success(function () {
+
+                    });//點擊顯示已讀結束
+                })*@
+
+                //傳送訊息
+                $(".inputpanelchat").on("click", "#btn-chat", function () {
+                    var showcon = $(this).parents().find("#btn-input");
+                    var content = $(this).parents().find("#btn-input").val();
+                    var msgURL = "@Url.Action("SendMesseages", "Chat",new {Area="Member" })"
+                    console.log(content)
+                    var JsonData = JSON.stringify({ "resid": _ID, "content": content });
+                    console.log(_ID);
+                    $.ajax({
+                        url: msgURL,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JsonData
+                    }).done(function () {
+                        showcon.val("");
+                        showcon.focus();
+
+                    })
+                });
+
+              
+            });
+            function ChatMessages(id) {
+                var msgURL = "@Url.Action("GetMessages", "Chat")/" + id;
+                var tbl = $('#takechatcontentin');
+                $.ajax({
+                    url: msgURL,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function (result) {
+                    tbl.empty().append(result);
+                    $('.msg_container_base').scrollTop($('.msg_container_base')[0].scrollHeight);
+                }).error(function () {
+
+                });
+            }
+
+            function UnReadMsg() {
+                var msgURL = "@Url.Action("GetUnReadMessages", "Chat")";
+                var tbl = $('.showunreadmsg');
+                $.ajax({
+                    url: msgURL,
+                    contentType: 'application/html ; charset:utf-8',
+                    type: 'GET',
+                    dataType: 'html'
+                }).success(function (result) {
+                    tbl.empty().append(result);
+                }).error(function () {
+
+                });
+            }
+        })
+
+    </script>
+
+    @RenderSection("script", false)
+    @*使用jquery cookies套件*@
+    <script src="~/Areas/yuwang/Content/carhartl-jquery-cookie-92b7715/jquery.cookie.js"></script>
+
+    @*選擇城市時顯示選擇城市的語法*@
+    <script>
+        $(document).ready(function (e) {
+            $('#city_select').find('a').click(function (e) {
+                e.preventDefault();
+                var param = $(this).attr("href").replace("#", "");//就是要抓到超連結的值然後把超連結前面的'#'拿掉
+                var concept = $(this).text();
+                $('#search_concept').text(concept);
+                $('#search_param').val(param);
+                //alert(param);//可以抓超連結網址
+                //alert(concept);//可以抓選到的城市名
+            });
+
+        });
+    </script>
+
+    @*使用 google map Javascript API要套用的js有API金鑰*@
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe_ZqLA_LQ1fN2Y7CN7FmlrmZw6i8_7Qc"></script>
+
+    @*使用滑桿改變定位距離*@
+    <script>
+        $(function () {
+
+        });
+    </script>
+
+    @*搜尋位置的語法*@
+    <script>
+
+        var _current_latitude = 1.00001;
+        var _current_longitude = 1.00001;
+        var _restaurant_latitude = 1.00001;
+        var _restaurant_longitude = 1.00001;
+
+        $(document).ready(function () {
+
+
+
+            //避免jquery對cookies做編碼
+            $.cookie.raw = true;
+            var markers_from_address_search = [];
+            var map;
+
+
+            //按下取得目前位置按鈕，取得目前所在地位置座標
+            $('#GetLocation').click(function () {
+
+
+                //顯示map和目前位置的div
+                $('#map').css("display", "block");
+                $('#position_now_show').css("display", "block");
+                $('#res_name_search_row').css("display", "block");
+                $('#slider').css("display", "block");
+                $('#unit').css("display", "block");
+                //地圖初始化
+                $("#map").empty();
+                var myOptions = {
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                map = new google.maps.Map(document.getElementById("map"), myOptions);
+                var initialLocation;
+                //var map;
+                //取得座標
+                if (navigator.geolocation) {
+                    //var geolocation = window.navigator.geolocation;
+                    // alert("支援HTML5 Geolocation");
+                    navigator.geolocation.getCurrentPosition(successCallback, errorCallback,
+                        { timeout: 15000, maximumAge: 16000, enableHighAccuracy: true });
+                    //geolocation.getCurrentPosition(successCallback, errorCallback,
+                    //       { timeout: 15000, maximumAge: 16000, enableHighAccuracy: true });
+                    //設定取得位置資訊的時間限制  //設定位置資訊的有效期限,馬上取得位置資訊 //要求取得高資精確度的位置資訊
+                } else {
+                    error('Geo Location is not supported');
+                }
+
+                function successCallback(position) {
+
+                    _current_latitude = parseFloat(position.coords.latitude).toFixed(5).toString();//緯度，轉型固定五位小數，再轉成字串
+                    _current_longitude = parseFloat(position.coords.longitude).toFixed(5).toString();//經度，轉型固定五位小數，再轉成字串
+
+                    //alert(_current_latitude + "   " + _current_longitude);
+
+
+                    $('#current_latitude').val(_current_latitude);
+                    $('#current_longitude').val(_current_longitude);
+
+                    var search_range = 5;
+                    if ($('#current_search_range').val() != "")
+                    {
+                        search_range = $('#current_search_range').val();
+                    }
+
+                    //alert(search_range)
+                    //把經緯度存入cookies，把距離的cookies清掉
+                    $.cookie("current_latitude", null, { path: "/" });
+                    $.cookie("current_longitude", null, { path: "/" });
+                    $.cookie("current_latitude", _current_latitude, { path: "/" });
+                    $.cookie("current_longitude", _current_longitude, { path: "/" });
+                    //$.cookie("distance", null, { path: "/" });
+                    $.cookie("search_range", search_range, { path: "/" })
+
+                    //把算出來的經緯度傳到地圖，地圖顯示並且標記目前位置
+                    //initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    //map.setCenter(initialLocation);
+
+                    //var myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    //var marker = new google.maps.Marker({
+                    //    position: myLatLng,
+                    //    map: map,
+                    //    draggable: true,
+                    //    animation: google.maps.Animation.DROP,
+                    //    title: '媽 我在這!!'
+                    //});
+
+                    //回傳位置附近的餐廳資訊
+                    var res_lat_lng_list;
+
+
+                    $.ajax({
+                        url: "@Url.Action("FindLocationNearByRestaurants", "Select",new { Area="yuwang"})",
+                        type: 'POST',
+                        data: { current_latitude: position.coords.latitude, current_longitude: position.coords.longitude, search_range: search_range },
+                        success: function (result) {
+                            //console.log(result);
+                            res_lat_lng_list = result;
+                            cache: false
+                        }
+                    })
+                    .done(function () {
+
+                        var lat_now = parseFloat(_current_latitude);
+                        var lng_now = parseFloat(_current_longitude);
+
+
+                        initialLocation = new google.maps.LatLng(lat_now, lng_now);
+                        map.setCenter(initialLocation);
+
+                        var myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
+
+
+                        var pinColor = "FE7569";
+                        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                            new google.maps.Size(21, 34),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(10, 34));
+                        var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                            new google.maps.Size(40, 37),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(12, 35));
+
+
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            //draggable: true,
+                            animation: google.maps.Animation.DROP,
+                            title: '媽 我在這!!',
+                            icon: pinImage,
+                            shadow: pinShadow
+                        });
+                        var range = parseInt(search_range * 1000);
+                        //alert(range);
+                        var cityCircle = new google.maps.Circle({
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 0.6,
+                            strokeWeight: 2,
+                            fillColor: '#FF0000',
+                            fillOpacity: 0.1,
+                            map: map,
+                            center: myLatLng,
+                            radius: range
+                        });
+
+
+                        markers_from_address_search = [];
+
+                        for (var i = 0; i < res_lat_lng_list.length; i++) {
+
+                            var lat = parseFloat(res_lat_lng_list[i].lat);
+                            var lng = parseFloat(res_lat_lng_list[i].lng);
+                            var name = res_lat_lng_list[i].name;
+                            var tel = res_lat_lng_list[i].tel;
+                            var address = res_lat_lng_list[i].address;
+                            var memID = res_lat_lng_list[i].memID;
+                            var resID = res_lat_lng_list[i].resID;
+                            var distance = res_lat_lng_list[i].distance;
+                            var infowindow = new google.maps.InfoWindow({
+                                //content: contentString
+                            });
+                            //console.log(lat+","+lng)
+                            latlng = new google.maps.LatLng(lat, lng);
+
+                            var pinColor = "00DD00";
+                            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                                new google.maps.Size(21, 34),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(10, 34));
+                            var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                                new google.maps.Size(40, 37),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(12, 35));
+
+                            var img_tag = "<img src='@Url.Action("GetImageByte","Select",new { Area="yuwang",id="id"})' style='width:120px;height:100px' />"
+                            img_tag = img_tag.replace("id", memID);
+
+                            var url='@Url.Action("RestaurantBlog", "Blog", new { Area = "", id = "RD" ,distance="DNT"})';
+                            var url2 = url.replace("RD", resID);
+                            var url3 = url2.replace("DNT", distance);
+
+                            var name_link="<h4 style='color:#C63300'><a href=" + url3 + ">名稱: "+name+"</a></h4>"
+
+                            var marker = new google.maps.Marker({
+                                position: latlng,
+                                map: map,
+                                animation: google.maps.Animation.DROP,
+                                title: name,
+                                icon: pinImage,
+                                shadow: pinShadow,
+                                //要讀cookies把會員(如果有登入的話)和餐廳id以及目前位置與餐廳的距離傳到購物車畫面
+                                html: img_tag+
+                                      name_link+
+                                      "<h5 style='color:#C63300'>地址: " + address + "</h5>" +
+                                      "<h5 style='color:#C63300'>電話: " + tel + "</h5>"
+                            })
+
+                            google.maps.event.addListener(marker, 'click', function () {
+                                infowindow.setContent(this.html);
+                                infowindow.open(map, this);
+                            });
+                            markers_from_address_search.push(marker);
+                        }
+
+                    })
+
+
+                    //用座標回頭找地址，寫入標籤內傳值
+                    var geocoder = new google.maps.Geocoder();
+                    var coord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    geocoder.geocode({ 'latLng': coord }, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            // 如果有資料就會回傳
+                            if (results) {
+                                //console.log(results[0]);
+                                $('#current_address').val(results[0].formatted_address);
+                                //alert(results[0].formatted_address);
+                                //$('#address').val("");
+                                $('#position_now_show').text("目前位置: " + results[0].formatted_address);
+                                var current_address = results[0].formatted_address;
+                                //alert(current_address);
+                                //$('#search_concept').text("縣市選擇");
+
+                                //把地址存入cookies
+                                $.cookie.raw = true;
+                                $.cookie("current_address", null, { path: "/" });
+                                $.cookie("current_address", current_address, { path: "/" });
+                            }
+                        }
+
+                    })
+                }
+
+                function errorCallback(error) {
+                    switch (error.code) {
+                        case 0:
+                            alert(error.message);
+                            break;
+                        case 1:
+                            alert("使用者拒絕使用");
+                            break;
+                        case 2:
+                            alert("瀏覽器無法處理");
+                            break;
+                        case 3:
+                            alert("瀏覽器時間到了無法取得位置");
+                            break;
+
+                        default:
+                            alert("who knows");
+                            break;
+                    }
+                }
+
+            })
+
+
+
+            //按下搜尋按鈕將textbox內的地址轉座標
+            $('#SelectRestaurant').click(function () {
+                //顯示map和目前位置的div
+                $('#map').css("display", "block");
+                $('#position_now_show').css("display", "block");
+                $('#res_name_search_row').css("display", "block");
+                $('#slider').css("display", "block");
+                $('#unit').css("display", "block");
+
+                //地圖初始化
+                $('#map').css("display:", "block");
+                $("map").empty();
+                var myOptions = {
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                 map = new google.maps.Map(document.getElementById("map"), myOptions);
+                var initialLocation;
+
+                //取得座標
+                var city = $('#search_concept').text();
+
+                var address = city + document.getElementById("address").value;
+                $('#current_address').val(address);
+                $('#position_now_show').text("目前位置: " + address);
+                //alert(address);
+
+                //把地址存入cookies
+                $.cookie("current_address", null, { path: "/" });
+                $.cookie("current_address", address, { path: "/" });
+
+                var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ 'address': address }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+
+                            //alert(results[0].geometry.location);
+
+                            _address_latitude = parseFloat(results[0].geometry.location.lat()).toFixed(5).toString();//緯度，轉型固定五位小數，再轉成字串
+                            _address_longitude = parseFloat(results[0].geometry.location.lng()).toFixed(5).toString();//經度，轉型固定五位小數，再轉成字串
+
+                            //alert(_address_latitude + "   " + _address_longitude);
+
+                            $('#current_latitude').val(_address_latitude);
+                            $('#current_longitude').val(_address_longitude);
+
+                            var search_range = 5;
+                            if ($('#current_search_range').val() != "") {
+                                search_range = $('#current_search_range').val();
+                            }
+
+                            //把經緯度存入cookies，把距離的cookies清掉
+                            $.cookie("current_latitude", null, { path: "/" });
+                            $.cookie("current_longitude", null, { path: "/" });
+                            $.cookie("current_latitude", _address_latitude, { path: "/" });
+                            $.cookie("current_longitude", _address_longitude, { path: "/" });
+                            //$.cookie("distance", null, { path: "/" });
+                            $.cookie("search_range", search_range, { path: "/" });
+                            //把算出來的經緯度傳到地圖，地圖顯示並且標記目前位置
+                            //initialLocation = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+                            //map.setCenter(initialLocation);
+                            ////map.setCenter(results[0].geometry.location);
+
+
+                            //var myLatLng = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
+                            //var marker = new google.maps.Marker({
+                            //    position:myLatLng,
+                            //    map: map,
+                            //    title: '媽 我在這!!'
+                            //});
+
+                            //var marker = new google.maps.Marker({
+                            //    map: map,
+                            //    position: results[0].geometry.location,
+                            //});
+                            //marker.setTitle(address);
+
+
+                            var lat_now = parseFloat(_address_latitude);
+                            var lng_now = parseFloat(_address_longitude);
+
+                            //回傳位置附近的餐廳資訊
+                            var res_lat_lng_list;
+
+
+                            $.ajax({
+                                url: "@Url.Action("FindLocationNearByRestaurants", "Select",new { Area="yuwang"})",
+                                type: 'POST',
+                                data: { current_latitude: lat_now, current_longitude: lng_now, search_range: search_range },
+                            success: function (result) {
+                                //console.log(result);
+                                res_lat_lng_list = result;
+                                cache: false
+                            }
+                        })
+                        .done(function () {
+
+                            initialLocation = new google.maps.LatLng(lat_now, lng_now);
+                            map.setCenter(initialLocation);
+
+                            var myLatLng = { lat: lat_now, lng: lng_now };
+
+                            var pinColor = "FE7569";
+                            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                                new google.maps.Size(21, 34),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(10, 34));
+                            var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                                new google.maps.Size(40, 37),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(12, 35));
+
+
+                            var marker = new google.maps.Marker({
+                                position: myLatLng,
+                                map: map,
+                                //draggable: true,
+                                animation: google.maps.Animation.DROP,
+                                title: '媽 我在這!!',
+                                icon: pinImage,
+                                shadow: pinShadow
+                            });
+                            var range = parseInt(search_range * 1000);
+
+                            var cityCircle = new google.maps.Circle({
+                                strokeColor: '#FF0000',
+                                strokeOpacity: 0.6,
+                                strokeWeight: 2,
+                                fillColor: '#FF0000',
+                                fillOpacity: 0.1,
+                                map: map,
+                                center: myLatLng,
+                                radius: range
+                            });
+                            markers_from_address_search = [];
+
+                            for (var i = 0; i < res_lat_lng_list.length; i++) {
+
+                                var lat = parseFloat(res_lat_lng_list[i].lat);
+                                var lng = parseFloat(res_lat_lng_list[i].lng);
+                                var name = res_lat_lng_list[i].name;
+                                var tel = res_lat_lng_list[i].tel;
+                                var address = res_lat_lng_list[i].address;
+                                var memID = res_lat_lng_list[i].memID;
+                                var resID = res_lat_lng_list[i].resID;
+                                var distance = res_lat_lng_list[i].distance;
+                                var infowindow = new google.maps.InfoWindow({
+                                    //content: contentString
+                                });
+
+
+                                console.log(lat+","+lng)
+                                latlng = new google.maps.LatLng(lat, lng);
+
+
+                                var pinColor = "00DD00";
+                                var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                                    new google.maps.Size(21, 34),
+                                    new google.maps.Point(0, 0),
+                                    new google.maps.Point(10, 34));
+                                var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                                    new google.maps.Size(40, 37),
+                                    new google.maps.Point(0, 0),
+                                    new google.maps.Point(12, 35));
+
+
+                                var img_tag = "<img src='@Url.Action("GetImageByte","Select",new { Area="yuwang",id="id"})' style='width:120px;height:100px' />"
+                                img_tag = img_tag.replace("id", memID);
+
+                                var url='@Url.Action("RestaurantBlog", "Blog", new { Area = "Member", id = "RD" ,distance="DNT"})';
+                                var url2 = url.replace("RD", resID);
+                                var url3 = url2.replace("DNT", distance);
+                                var name_link="<h4 style='color:#C63300'><a href=" + url3 + ">名稱: "+name+"</a></h4>"
+
+
+                                var marker = new google.maps.Marker({
+                                    position: latlng,
+                                    map: map,
+                                    animation: google.maps.Animation.DROP,
+                                    title: name,
+                                    icon: pinImage,
+                                    shadow: pinShadow,
+                                    //要讀cookies把會員(如果有登入的話)和餐廳id以及目前位置與餐廳的距離傳到購物車畫面
+                                    html:
+                                        img_tag +
+                                        name_link+
+                                        "<h5 style='color:#C63300'>地址: " + address + "</h5>" +
+                                        "<h5 style='color:#C63300'>電話: " + tel + "</h5>"
+                                })
+
+                                google.maps.event.addListener(marker, 'click', function () {
+                                    infowindow.setContent(this.html);
+                                    infowindow.open(map, this);
+                                });
+
+                                markers_from_address_search.push(marker);
+                            }
+
+                        })
+
+                        } else {
+                            alert("Geocode was not successful for the following reason: " + status);
+                        }
+                    });
+
+
+            })
+
+
+
+            $('#SearchResInMap').click(function () {
+
+                var res_list;
+                $.ajax({
+                    url: "@Url.Action("SearchResInMap", "Select",new { Area="yuwang"})",
+                    type: 'POST',
+                    data: { res_name: $('#res_name').val(), current_latitude: $.cookie('current_latitude'), current_longitude: $.cookie('current_longitude'), search_range: $.cookie('search_range') },
+                success: function (result) {
+                    //console.log(result);
+                    res_list = result;
+                    cache: false
+                }
+                })
+                        .done(function () {
+
+                            var myLatLng = { lat: $.cookie('current_latitude'), lng: $.cookie('current_longitude') };
+
+
+                            for (i = 0; i < markers_from_address_search.length; i++) {
+                                markers_from_address_search[i].setMap(null);
+                            }
+
+                            for (var i = 0; i < res_list.length; i++) {
+
+                                var lat = parseFloat(res_list[i].lat);
+                                var lng = parseFloat(res_list[i].lng);
+                                var name = res_list[i].name;
+                                var tel = res_list[i].tel;
+                                var address = res_list[i].address;
+                                var memID = res_list[i].memID;
+                                var resID = res_list[i].resID;
+                                var distance = res_list[i].distance;
+                                var infowindow = new google.maps.InfoWindow({
+                                    //content: contentString
+                                });
+
+
+                                console.log(lat+","+lng)
+                                latlng = new google.maps.LatLng(lat, lng);
+
+
+                                var pinColor = "00DD00";
+                                var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                                    new google.maps.Size(21, 34),
+                                    new google.maps.Point(0, 0),
+                                    new google.maps.Point(10, 34));
+                                var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                                    new google.maps.Size(40, 37),
+                                    new google.maps.Point(0, 0),
+                                    new google.maps.Point(12, 35));
+
+
+                                var img_tag = "<img src='@Url.Action("GetImageByte","Select",new { Area="yuwang",id="id"})' style='width:120px;height:100px' />"
+                                img_tag = img_tag.replace("id", memID);
+
+                                var url = '@Url.Action("RestaurantBlog", "Blog", new { Area = "Member", id = "RD" ,distance="DNT"})';
+                                var url2 = url.replace("RD", resID);
+                                var url3 = url2.replace("DNT", distance);
+
+                                var name_link="<h4 style='color:#C63300'><a href=" + url3 + ">名稱: "+name+"</a></h4>"
+
+
+                                var marker = new google.maps.Marker({
+                                    position: latlng,
+                                    map: map,
+                                    animation: google.maps.Animation.BOUNCE,
+                                    title: name,
+                                    icon: pinImage,
+                                    shadow: pinShadow,
+                                    //要讀cookies把會員(如果有登入的話)和餐廳id以及目前位置與餐廳的距離傳到購物車畫面
+                                    html:
+                                        img_tag +
+                                        name_link+
+                                        "<h5 style='color:#C63300'>地址: " + address + "</h5>" +
+                                        "<h5 style='color:#C63300'>電話: " + tel + "</h5>"
+                                })
+
+                                google.maps.event.addListener(marker, 'click', function () {
+                                    infowindow.setContent(this.html);
+                                    infowindow.open(map, this);
+                                });
+                            }
+
+                        })
+
+
+
+            })
+            //計算兩個座標之間的距離
+            //$('#DistanceCalculate').click(function () {
+
+            //    var restaurant_positionMarker = new google.maps.Marker({
+            //        position: new google.maps.LatLng(_restaurant_latitude, _restaurant_longitude),
+            //        map: map,
+            //        title: "restaurant_position"
+            //    });
+            //    var current_positionMarker = new google.maps.Marker({
+            //        position: new google.maps.LatLng(_current_latitude, _current_longitude),
+            //        map: map,
+            //        title: "current_position"
+            //    });
+            //    var meters = google.maps.geometry.spherical.computeDistanceBetween(restaurant_positionMarker.getPosition(), current_positionMarker.getPosition());
+            //    alert( parseInt(meters / 1000) +"公里"); //parseInt()轉成int
+            //})
+            var handle = $("#custom-handle");
+            $("#slider").slider({
+                value: 5,
+                min: 1,
+                max: 10,
+                create: function () {
+                handle.text($(this).slider("value"));
+
+        },
+            slide: function (event, ui) {
+                handle.text(ui.value);
+                $.cookie("search_range", null, { path: "/" });
+                $.cookie("search_range", $(this).slider("value"), { path: "/" });
+
+                $('#current_search_range').val(handle.text());
+                //var search_range = 5;
+                //if ($('#current_search_range').val() != "") {
+                //    search_range = $('#current_search_range').val();
+                //}
+
+                //var lat_slider = $.cookie('current_latitude');
+                //var lng_slider = $.cookie('current_longitude');
+
+                ////alert(lat_slider + lng_slider)
+                ////回傳位置附近的餐廳資訊
+                //var res_lat_lng_list;
+                //var search_range = $('#custom-handle').text;
+                @*$.ajax({
+                    url: "@Url.Action("FindLocationNearByRestaurants", "Select",new { Area="yuwang"})",
+                    type: 'POST',
+                    data: { current_latitude: lat_slider, current_longitude: lng_slider, search_range: search_range },
+                success: function (result) {
+                    //console.log(result);
+                    res_lat_lng_list = result;
+                    cache: false
+                }
+            })*@
+                    @*.done(function () {
+
+                        var lat_now = $.cookie('current_latitude');
+                        var lng_now = $.cookie('current_longitude');
+                        $("#map").empty();
+                        var myOptions = {
+                            zoom: 13,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        };
+                        var map = new google.maps.Map(document.getElementById("map"), myOptions);
+                        var initialLocation;
+
+
+                        initialLocation = new google.maps.LatLng(lat_now, lng_now);
+                        map.setCenter(initialLocation);
+
+                        var myLatLng = { lat: lat_nowe, lng: lng_now };
+
+
+                        var pinColor = "FE7569";
+                        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                            new google.maps.Size(21, 34),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(10, 34));
+                        var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                            new google.maps.Size(40, 37),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(12, 35));
+
+
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            //draggable: true,
+                            animation: google.maps.Animation.DROP,
+                            title: '媽 我在這!!',
+                            icon: pinImage,
+                            shadow: pinShadow
+                        });
+
+                        var range = parseInt(search_range* 1000);
+
+                        var cityCircle = new google.maps.Circle({
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 0.6,
+                            strokeWeight: 2,
+                            fillColor: '#FF0000',
+                            fillOpacity: 0.1,
+                            map: map,
+                            center: myLatLng,
+                            radius: range
+                        });
+
+
+                        markers_from_address_search = [];
+
+                        for (var i = 0; i < res_lat_lng_list.length; i++) {
+
+                            var lat = parseFloat(res_lat_lng_list[i].lat);
+                            var lng = parseFloat(res_lat_lng_list[i].lng);
+                            var name = res_lat_lng_list[i].name;
+                            var tel = res_lat_lng_list[i].tel;
+                            var address = res_lat_lng_list[i].address;
+                            var memID = res_lat_lng_list[i].memID;
+                            var infowindow = new google.maps.InfoWindow({
+                                //content: contentString
+                            });
+                            //console.log(lat+","+lng)
+                            latlng = new google.maps.LatLng(lat, lng);
+
+                            var pinColor = "00DD00";
+                            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                                new google.maps.Size(21, 34),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(10, 34));
+                            var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                                new google.maps.Size(40, 37),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(12, 35));
+
+                            var img_tag = "<img src='@Url.Action("GetImageByte","Select",new { Area="yuwang",id="id"})' style='width:120px;height:100px' />"
+                            img_tag = img_tag.replace("id", memID);
+
+                            var name_link="<h4 style='color:#C63300'><a href=" + '@Url.Action("Index", "Cart",new { Area="",@class="btn"})' + ">名稱: "+name+"</a></h4>"
+
+                            var marker = new google.maps.Marker({
+                                position: latlng,
+                                map: map,
+                                animation: google.maps.Animation.DROP,
+                                title: name,
+                                icon: pinImage,
+                                shadow: pinShadow,
+                                //要讀cookies把會員(如果有登入的話)和餐廳id以及目前位置與餐廳的距離傳到購物車畫面
+                                html: img_tag+
+                                      name_link+
+                                      "<h5 style='color:#C63300'>地址: " + address + "</h5>" +
+                                      "<h5 style='color:#C63300'>電話: " + tel + "</h5>"
+                            })
+
+                            google.maps.event.addListener(marker, 'click', function () {
+                                infowindow.setContent(this.html);
+                                infowindow.open(map, this);
+                            });
+                            markers_from_address_search.push(marker);
+                        }
+
+                    })*@
+            }
+        });
+
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,297 @@
+﻿@model FoodDeliveryTemplete.Models.LoginView
+     <!--主版-->
+@{
+    ViewBag.Title = "食速列車-餐廳部落格";
+    Layout = "~/Views/Blog/_BlogPage.cshtml";
+}
+
+@section style
+{
+    <style>
+        #scroll-menu {
+            border-radius: 10px;
+        }
+
+        #containerblog {
+            margin-top: 20px;
+        }
+
+
+        #custom-search-input {
+            margin: 0;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+            #custom-search-input .search-query {
+                padding-right: 3px;
+                padding-right: 4px \9;
+                padding-left: 3px;
+                padding-left: 4px \9;
+                height: 50%;
+                background-color: white;
+                /* IE7-8 doesn't have border-radius, so don't indent the padding */
+                margin-bottom: 0;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+            }
+
+            #custom-search-input button {
+                border: 0;
+                background: none;
+                /** belows styles are working good */
+                padding: 2px 5px;
+                margin-top: 2px;
+                position: relative;
+                left: -28px;
+                /* IE7-8 doesn't have border-radius, so don't indent the padding */
+                margin-bottom: 0;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                color: #D9230F;
+            }
+
+        .search-query:focus + button {
+            z-index: 3;
+        }
+
+        .left-navigation ul, li {
+            color: white;
+            font-weight: 600;
+            font-family: '標楷體';
+            font-size: 16px;
+        }
+
+        .list > li {
+            cursor: pointer;
+        }
+          #loading {
+            display:none;        
+        }
+        .alink {
+            font-family:'標楷體';
+            color:#0094ff;
+            font-size:16px
+        }
+    </style>
+}
+
+
+<div class="container" style="margin-top:50px">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 style="font-family:'標楷體';font-size:20px" class="panel-title">餐廳部落格</h3>
+        </div>
+        <div class="panel-body">
+            <div id="containerblog" class="container-fluid">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4 sidebar1" id="scroll-menu">  
+                        <br>
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-12">
+                                <input type="text" class="search-query form-control" placeholder="搜尋" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="left-navigation">
+                            <ul class="list">
+                                <li>選取您的喜好</li>
+                                <li id="sortID"><i>&bull;</i> 餐廳<span id="IDcheck" class="glyphicon glyphicon-ok"></span></li>
+                                <li id="sortstar"><i>&bull;</i> 評價<span id="starcheck"></span></li>
+                                <li id="sortcomment"><i>&bull;</i> 討論度最高<span id="commentcheck"></span></li>
+                                <li id="sortmonth"><i>&bull;</i> 本月最夯<span id="monthcheck"></span></li>
+                                <li id="sortweek"><i>&bull;</i> 本週之星<span id="weekcheck"></span></li>
+                                <li><i>&bull;</i> 英文菜單</li>
+                                <li><i>&bull;</i> 營業中餐廳</li>
+                                <li><i>&bull;</i> 新上線餐廳</li>
+                            </ul>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-sm-8 main-content" id="blogdiv">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg"></div><!--登入效果黑屏-->
+<div id="loginmodal" class="content45">
+    <!--會員登入畫面-->
+    <h3>會員登入</h3>@Html.ActionLink("註冊會員", "ForgotPassword", "Account", new { @class = "pull-right alink" })
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginform" }))
+    {
+        <div id="failLogin" class="col-sm-12">
+
+        </div>
+            @Html.LabelFor(model => model.Account)
+            @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "txtfield", tabindex = "1" } })
+            @Html.LabelFor(model => model.Password)
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "txtfield", tabindex = "2" } })
+            <label for="Check">
+                <a href="@Url.Action("ForgotPassword","Account",null)" class="pull-right alink" data-transition="fade">忘記密碼?</a>
+                <input type="checkbox" name="Check" id="Check" value="Yes" />記住我
+            </label>
+            <div class="center">
+                <input type="submit" name="loginbtn" id="loginbtn" class="btn btn-login" value="登入" tabindex="3">
+                <input type="submit" name="shit" id="shit" class="btn btn-login" style="visibility:hidden">
+            </div>
+            <div style="margin-top:5px">
+                <a class="btn btn-danger" id="memberbtn">會員</a>
+                <a class="btn btn-success" id="restbtn">美而美</a>
+                <a class="btn btn-info" id="dozo">Dozo</a>
+                <a class="btn btn-warning" id="admin">管理員</a>
+            </div>
+            <img id="loading" src="~/images/Loading/ajax-loader (4).gif" />  <img id="loading" src="~/images/Loading/ajax-loader (4).gif" />
+    }
+</div>
+
+
+
+@*<script src="~/Scripts/jquery-1.11.1.min.js"></script>*@
+@section script
+{
+    <script>
+        $(function () {
+            $('#blogdiv').load('@Url.Action("BlogShow", "Blog")')
+            //最一開始頁面載入時的資料
+            $('#blogdiv').load('@Url.Action("BlogShow", "Blog")')
+            //Scrollbar拉到最底時不會與底下的footer及contact重疊
+            //var $sidebar = $("#scroll-menu"),
+            //    $window = $(window),
+            //    $footer = $("#contact"), // use your footer ID here
+            //    offset = $sidebar.offset(),
+            //    foffset = $footer.offset(),
+            //    threshold = foffset.top - $sidebar.height(); // may need to tweak
+            //topPadding = 15;
+
+            //$window.scroll(function () {
+            //    if ($window.scrollTop() > threshold) {
+            //        $sidebar.stop().animate({
+            //            marginTop: threshold
+            //        });
+            //    } else if ($window.scrollTop() > offset.top) {
+            //        $sidebar.stop().animate({
+            //            marginTop: $window.scrollTop() - offset.top + topPadding
+            //        });
+            //    } else {
+            //        $sidebar.stop().animate({
+            //            marginTop: 0
+            //        });
+            //    }
+            //});
+
+            //<--登入畫面-->
+            $('#btnLogin').click(function () {
+                $('.bg').fadeIn(200);
+                $('.content45').fadeIn(400);
+            });
+            $('.bg').click(function () {
+                $('.bg').fadeOut(200);
+                $('.content45').fadeOut(200);
+            });
+
+           $('#loginbtn').click(function (e) {
+                var failMsg = "@Url.Action("failLogin","Account")"
+                var JsonData = JSON.stringify({ "Account": $('#Account').val(), "Password": $('#Password').val(), "Check": $('#Check').val() });
+                e.preventDefault();
+                $.ajax({
+                    url: failMsg,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                })
+                .done(function (data) {
+                    if (data.fail != null && data.fail != "") {
+                        var failLogin = $('#failLogin').append("<div ></div>").addClass("alert alert-danger").attr("role", "alert")
+                        failLogin.append('<span></span>').addClass("glyphicon glyphicon-exclamation-sign").attr("aria-hidden", "true").text(data.fail)
+                    } else {                      
+                        $('#shit').click();
+                    };
+                });
+           });
+
+            $(document).ajaxStart(function () {
+                $("#loading").show();
+            });
+
+            $(document).ajaxStop(function () {
+                $("#loading").hide();
+            });
+
+            //<--按鍵排序功能-->
+            $('#sortID').click(function () {
+                var url = "@Url.Action("BlogSearch", "Blog",new {sortby = "ID"})"
+                $('#blogdiv').load(url);
+                $('li>span').removeClass();
+                $('#IDcheck').toggleClass('glyphicon glyphicon-ok');
+
+            });
+            $('#sortstar').click(function () {
+                var url = "@Url.Action("BlogSearch", "Blog",new {sortby = "Star"})"
+                $('#blogdiv').load(url);
+                $('li>span').removeClass();
+                $('#starcheck').toggleClass('glyphicon glyphicon-ok');
+
+            });
+
+            $('#sortcomment').click(function () {
+                var url = "@Url.Action("BlogSearch", "Blog",new {sortby = "Comment"})";
+                $('#blogdiv').load(url);
+                $('li>span').removeClass();
+                $('#commentcheck').toggleClass('glyphicon glyphicon-ok');
+            });
+
+            $('#sortmonth').click(function () {
+                var url = "@Url.Action("BlogDate", "Blog", new { sortby = "month" })";
+                $('#blogdiv').load(url);
+                $('li>span').removeClass();
+                $('#monthcheck').toggleClass('glyphicon glyphicon-ok');
+            });
+
+            $('#sortweek').click(function () {
+                var url = "@Url.Action("BlogDate", "Blog", new { sortby = "week" })";
+                $('#blogdiv').load(url);
+                $('li>span').removeClass();
+                $('#weekcheck').toggleClass('glyphicon glyphicon-ok');
+            })
+
+            //Demo鍵
+            $('#memberbtn').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('b96613009@ntu.edu.tw');
+                $('#Password').val('0000');
+            })
+            $('#restbtn').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('pretty@gmail.com')
+                $('#Password').val('0000');
+            })
+            $('#dozo').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('dozo@gmail.com');
+                $('#Password').val('0000');
+            })
+            $('#admin').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('ian@gmail.com');
+                $('#Password').val('0000');
+            })
+
+        });
+    </script>
+
+
+
+
+
+}

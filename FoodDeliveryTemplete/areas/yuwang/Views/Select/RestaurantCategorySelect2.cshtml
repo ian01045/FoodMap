@@ -1,0 +1,14 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurant_Category>
+<div class="alert alert-warning" role="alert">
+    <h5>餐廳活動分類</h5>
+    <ul class="list-group">
+        @foreach (var res_category in Model)
+        {
+            <li class="list-group-item list-group-item-warning res_category_li" value="@res_category.fRestaurant_CategoryID">
+                @res_category.fCategory_Name <text>(@res_category.fCategory_Description)</text>
+                @*<button class="btn-group-vertical" role="group" id="@res_category.fRestaurant_CategoryID">@res_category.fCategory_Name <text>(@res_category.fCategory_Description)</text></button>*@ 
+            </li>
+        }
+    </ul>
+
+</div>

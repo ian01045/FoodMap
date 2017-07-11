@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+@section style
+{
+    <style>
+        body {
+            background:linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+           background:-moz-linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+           background:-webkit-linear-gradient(top,rgba(224, 224, 0,0.3)	,rgba(255, 176, 97,1));
+           font-size:200%;
+           font-family: "標楷體";
+        }
+        .cho {
+             font-size:100%;
+             font-family: '標楷體';
+        }
+       
+    </style>
+}
+@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurant_Foods>
+<div class="row"style="margin:30px;">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3 Mealinformation">
+        <a class="btn btn-info btn-lg" href="@Url.Action("Index","Restaurant")">返回餐廳頁面</a>
+        <a class="btn btn-info btn-lg" href="@Url.Action("CreateMeal","Meal")">設定套餐內容</a>
+        
+        <br /><br />
+        <ul class="list-group" id="Meal" style="margin:10px;">
+         
+        </ul>
+        <div style="text-align:center">
+            <a>
+                @Html.Label("<<", new { @class = "btn btn-warning"})
+            </a>
+            @for (int c = 1; c <= @ViewBag.productcount; c++)
+            {
+                <a>
+                    @Html.Label("" + c + "", new { @class = "btn btn-warning productpagebtn", value = c })
+                </a>
+            }
+            <a>
+                @Html.Label(">>", new { @class = "btn btn-warning" })
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        
+        <ul class="list-group" id="products"></ul>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+@section script{
+    <script>
+        $(document).ready(function () {
+            //-------------------------------------------------------------------------------------------------------
+            $(".productpagebtn").on("click", function () {
+                $('#Meal').empty();
+                var pagenumber = $(this).attr("value");
+                //console.log(pagenumber)
+                reloadpage(pagenumber)
+               
+                //$(location).attr("href",net)
+            })
+            //-------------------------------------------------------------------------------------------------------
+            //取得所有套餐名稱@*Request.Cookies["RestaurantID"].Value*@
+            reloadpage(1)
+            function reloadpage(page) {
+            $.getJSON('@Url.Action("getMealsCount", "Meal")'+"?page="+page, function (data) {
+                var divNav = $('#Meal');
+                var docFrag = $(document.createDocumentFragment());
+                if (data == "")
+                {
+                    $('.Mealinformation').html("<h2>尚未設定套餐商品</h2>")
+                }
+                else {
+                    $.each(data, function (idx, Meals) {
+                        var btn = $("<li></li>").attr({ 'data-mealsid': Meals.FoodId })
+                                                .addClass('list-group-item')
+                                                .text(Meals.MealName)
+                                                //套餐名稱後面加上 此套餐內容數量
+                                                .append('<span class="SpanInLi badge" style="font-size:100%;">' + Meals.FoodCount + '</span>')
+                        ;
+                        docFrag.append(btn);
+                    })
+                    divNav.append(docFrag);
+                }
+            })
+            }
+
+            //-------------------------------------------------------------------------------------------------------
+            $('#Meal').on('click', 'li', function () {
+                //抓自訂屬性data-mealsid的值
+                var id = $(this).data("mealsid");
+                $('#products').load('@Url.Action("ShowMealProduct", "Meal")' + '/' + id);
+                //-------------------------------------------------------------------------------------------------------
+
+                //點到的套餐名稱獲得底色
+                $('#Meal>li').removeClass('active');
+                $(this).addClass('active');
+            }).on('mouseenter', 'li', function () {
+                $(this);
+            });
+            //-------------------------------------------------------------------------------------------------------
+
+        })
+    </script>
+    }

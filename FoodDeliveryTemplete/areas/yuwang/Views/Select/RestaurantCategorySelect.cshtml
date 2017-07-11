@@ -1,0 +1,33 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurant_Category>
+<div class="alert alert-warning" role="alert">
+    <h5>餐廳活動分類</h5>
+    <ul class="list-group">
+        @foreach (var res_category in Model)
+        {
+            <li class="list-group-item list-group-item-info">
+                @Html.ActionLink(res_category.fCategory_Name + " (" + res_category.fCategory_Description + ")", "Index", "Select", new { restaurant_categoryID = res_category.fRestaurant_CategoryID, sortby = 0, food_categoryID = 0 }, new { @class = "" })
+            </li>
+        }
+    </ul>
+
+</div>
+
+
+
+@*<div class="list-group">
+    <div class="panel-body">
+        <label>餐廳價格分類</label><br />
+        <a class="list-group-item" href="/Product/Index/1">低價位(200以內)</a>
+        <a class="list-group-item" href="/Product/Index/2">中價位(200~600)</a>
+        <a class="list-group-item" href="/Product/Index/3">高價位(600up)</a>
+    </div>
+</div>*@
+
+
+
+@*<div class="alert alert-danger" role="alert">
+
+    <input type="text" name="select_res_string" placeholder="請輸入餐廳名或菜色名" class="form-control">
+    <br />
+    <button type="submit" class="btn btn-danger">餐廳搜尋</button>
+</div>*@

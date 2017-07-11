@@ -1,0 +1,2831 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FoodDeliveryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChatRoom">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="MemberID" Type="int" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RestaurantID" Type="int" />
+          <Property Name="RestaurantName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Read" Type="bit" />
+          <Property Name="fFrom" Type="bit" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmptyMessage" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="fRestaurantID" Type="int" />
+          <Property Name="fMemberID" Type="int" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="fMemberName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tAdvertisement">
+          <Key>
+            <PropertyRef Name="fAdvertisementID" />
+          </Key>
+          <Property Name="fRestaurantID" Type="int" Nullable="false" />
+          <Property Name="fAdvertisementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fDays" Type="date" Nullable="false" />
+          <Property Name="fAppliedDate" Type="datetime" Nullable="false" />
+          <Property Name="fMediaIntroduction" Type="nvarchar" MaxLength="50" />
+          <Property Name="fClickCount" Type="int" />
+          <Property Name="fPriceRegionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tAdvertisement_Article">
+          <Key>
+            <PropertyRef Name="fId" />
+          </Key>
+          <Property Name="fId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fSubject" Type="nvarchar" MaxLength="50" />
+          <Property Name="fContentText" Type="nvarchar(max)" />
+          <Property Name="fIsPublish" Type="bit" />
+          <Property Name="fCreateDate" Type="datetime" />
+          <Property Name="fUpdateDate" Type="datetime" />
+          <Property Name="fImage" Type="varbinary(max)" />
+          <Property Name="fHtml" Type="nvarchar(max)" />
+          <Property Name="fRestaurantID" Type="int" />
+        </EntityType>
+        <EntityType Name="tAdvertisement_Price">
+          <Key>
+            <PropertyRef Name="fPriceReigonID" />
+          </Key>
+          <Property Name="fPriceReigonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fPriceReigon" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tBrowseHistory">
+          <Key>
+            <PropertyRef Name="fBrowseID" />
+          </Key>
+          <Property Name="fMemberID" Type="int" Nullable="false" />
+          <Property Name="fArticleID" Type="int" />
+          <Property Name="fBrowseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tCategory">
+          <Key>
+            <PropertyRef Name="fCategoryID" />
+          </Key>
+          <Property Name="fCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fCategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fParentID" Type="int" />
+          <Property Name="fModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="fCategoryDescription" Type="nvarchar" MaxLength="1500" />
+        </EntityType>
+        <EntityType Name="tComment">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fMemberID" Type="int" Nullable="false" />
+          <Property Name="fRestaurantID" Type="int" Nullable="false" />
+          <Property Name="fStars" Type="int" />
+          <Property Name="fComment" Type="nvarchar" MaxLength="50" />
+          <Property Name="fLike" Type="bit" />
+          <Property Name="fDate" Type="date" />
+        </EntityType>
+        <EntityType Name="tFood_CustomizedOption">
+          <Key>
+            <PropertyRef Name="fCustomizedOptionID" />
+          </Key>
+          <Property Name="fCustomizedOptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fCustomizedCategoryID" Type="int" Nullable="false" />
+          <Property Name="fCustomizedOptionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fPrice" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="tFood_FoodIngrident_Detail">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fFoodID" Type="int" Nullable="false" />
+          <Property Name="fFood_IngridentID" Type="int" />
+        </EntityType>
+        <EntityType Name="tFood_Ingrident">
+          <Key>
+            <PropertyRef Name="fFood_IngridentID" />
+          </Key>
+          <Property Name="fFood_IngridentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fPhotoID" Type="int" />
+        </EntityType>
+        <EntityType Name="tMember_Area">
+          <Key>
+            <PropertyRef Name="fAreaID" />
+          </Key>
+          <Property Name="fAreaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fAreaName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fCityID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMember_City">
+          <Key>
+            <PropertyRef Name="fCityID" />
+          </Key>
+          <Property Name="fCityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fCityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMember_Wallat">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fMemberID" Type="int" Nullable="false" />
+          <Property Name="fWallat_Surplus" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="fWithdraw" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="fDeposit" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMemeber">
+          <Key>
+            <PropertyRef Name="fMemberID" />
+          </Key>
+          <Property Name="fMemberID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fMemeberName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fPasswordConfirm" Type="nvarchar" MaxLength="50" />
+          <Property Name="fPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fPhotoID" Type="int" />
+          <Property Name="fAreaID" Type="int" Nullable="false" />
+          <Property Name="fAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fLatitude" Type="nvarchar" MaxLength="50" />
+          <Property Name="fLongitude" Type="nvarchar" MaxLength="50" />
+          <Property Name="fBirth" Type="datetime" Nullable="false" />
+          <Property Name="fGender" Type="nvarchar" MaxLength="50" />
+          <Property Name="fJoinDate" Type="datetime" Nullable="false" />
+          <Property Name="fPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="fTel" Type="nvarchar" MaxLength="50" />
+          <Property Name="fCreditAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="fCollectionPoint" Type="int" />
+          <Property Name="fWalletTotalMoney" Type="nvarchar" MaxLength="50" />
+          <Property Name="fRoleID" Type="int" Nullable="false" />
+          <Property Name="fReportsTo" Type="int" />
+          <Property Name="fActivated" Type="bit" />
+          <Property Name="fValidNumber" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tMessage">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fDateTime" Type="datetime" Nullable="false" />
+          <Property Name="fFromID" Type="int" Nullable="false" />
+          <Property Name="fToID" Type="int" Nullable="false" />
+          <Property Name="fMessage" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fRead" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMessage_Board">
+          <Key>
+            <PropertyRef Name="fMessageBoard_ID" />
+          </Key>
+          <Property Name="fMessageBoard_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fDatetime" Type="datetime" Nullable="false" />
+          <Property Name="fFromID" Type="int" Nullable="false" />
+          <Property Name="fToID" Type="int" Nullable="false" />
+          <Property Name="fMessage" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fParentID" Type="int" />
+          <Property Name="fRead" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMyFavorite">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fMemberID" Type="int" Nullable="false" />
+          <Property Name="fRestaurantID" Type="int" Nullable="false" />
+          <Property Name="fFavCategoryID" Type="int" />
+        </EntityType>
+        <EntityType Name="tMyFavorite_RestaurantNews">
+          <Key>
+            <PropertyRef Name="fArticleID" />
+          </Key>
+          <Property Name="fArticleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fRestaurantID" Type="int" Nullable="false" />
+          <Property Name="fNewsTypeID" Type="int" Nullable="false" />
+          <Property Name="fNews" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fPublishedDate" Type="datetime" Nullable="false" />
+          <Property Name="fTitle" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMyFavoriteCategory">
+          <Key>
+            <PropertyRef Name="fFavCategoryID" />
+          </Key>
+          <Property Name="fFavCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fFavCategoryName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tNewsType">
+          <Key>
+            <PropertyRef Name="fNewsTypeID" />
+          </Key>
+          <Property Name="fNewsTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fNewsTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tPaymentWay">
+          <Key>
+            <PropertyRef Name="fPaymentwayID" />
+          </Key>
+          <Property Name="fPaymentwayID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fPaymentway" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tPhoto">
+          <Key>
+            <PropertyRef Name="fPhotoID" />
+          </Key>
+          <Property Name="fPhotoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fRestaurantID" Type="int" />
+          <Property Name="fMemberID" Type="int" />
+          <Property Name="fIngridentID" Type="int" />
+          <Property Name="fFoodID" Type="int" />
+          <Property Name="fDateTime" Type="datetime" Nullable="false" />
+          <Property Name="fFoodImage" Type="nvarchar" MaxLength="50" />
+          <Property Name="fPhotoPath" Type="nvarchar(max)" />
+          <Property Name="fBytesImage" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tRestaurant">
+          <Key>
+            <PropertyRef Name="fRestaurantID" />
+          </Key>
+          <Property Name="fRestaurantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fMemberID" Type="int" Nullable="false" />
+          <Property Name="fRestaurant_CategoryID" Type="int" />
+          <Property Name="fOpenTime" Type="time" Precision="7" />
+          <Property Name="fRoutine_RestDay(per week)" Type="nvarchar" MaxLength="50" />
+          <Property Name="fCloseTime" Type="time" Precision="7" />
+          <Property Name="fPaymentWayID" Type="int" />
+          <Property Name="fPhotoID" Type="int" />
+          <Property Name="fSpecial_RestDay(per month)" Type="nvarchar" MaxLength="50" />
+          <Property Name="fRestaurantName" Type="nvarchar" MaxLength="50" />
+          <Property Name="fDescription" Type="nvarchar(max)" />
+          <Property Name="fAveragePricePerGuest" Type="int" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Category">
+          <Key>
+            <PropertyRef Name="fRestaurant_CategoryID" />
+          </Key>
+          <Property Name="fRestaurant_CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fCategory_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="fCategory_Description" Type="nvarchar(max)" />
+          <Property Name="fBuildDate" Type="nvarchar(max)" />
+          <Property Name="fImage" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Category_Details">
+          <Key>
+            <PropertyRef Name="fId" />
+          </Key>
+          <Property Name="fId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fRestaurantID" Type="int" />
+          <Property Name="fRestaurant_CategoryID" Type="int" />
+          <Property Name="fBuildDate" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tRestaurant_FoodCustomizedCategory">
+          <Key>
+            <PropertyRef Name="fCustomizedCategoryID" />
+          </Key>
+          <Property Name="fCustomizedCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fCustomizedCategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fParentID" Type="int" />
+          <Property Name="fModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="fCategoryDescription" Type="nvarchar(max)" />
+          <Property Name="fRestaurantID" Type="int" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Foods">
+          <Key>
+            <PropertyRef Name="fFoodID" />
+          </Key>
+          <Property Name="fFoodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fFoodName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fCustomizedCategoryID" Type="int" />
+          <Property Name="fRestaurantID" Type="int" Nullable="false" />
+          <Property Name="fRemark" Type="nvarchar(max)" />
+          <Property Name="fPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="fCost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="fAvailable" Type="bit" Nullable="false" />
+          <Property Name="fDiscount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="fRaw_Cooked" Type="bit" Nullable="false" />
+          <Property Name="fModifiedDate" Type="date" />
+          <Property Name="fPhotoID" Type="int" />
+          <Property Name="fCookTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="fCategoryID" Type="int" Nullable="false" />
+          <Property Name="fIsMeal" Type="bit" Nullable="false" />
+          <Property Name="fFoodDescription" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Order_States">
+          <Key>
+            <PropertyRef Name="fStateID" />
+          </Key>
+          <Property Name="fStateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fState_Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tRestaurant_PaymentWay_Detail">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fRestaurantID" Type="int" Nullable="false" />
+          <Property Name="fPaymentwayID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tRestaurantMeal_Detail">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fMealID" Type="int" Nullable="false" />
+          <Property Name="fFoodID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tRestaurantOrder_Details">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fOrderID" Type="int" Nullable="false" />
+          <Property Name="fFoodID" Type="int" Nullable="false" />
+          <Property Name="fPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="fRemark" Type="nvarchar(max)" />
+          <Property Name="fDiscount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="fQuantity" Type="int" />
+          <Property Name="fIsCheckout" Type="bit" />
+          <Property Name="fCustomizedOptionID" Type="int" />
+        </EntityType>
+        <EntityType Name="tRestaurantOrders">
+          <Key>
+            <PropertyRef Name="fOrderID" />
+          </Key>
+          <Property Name="fOrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fMemberID" Type="int" Nullable="false" />
+          <Property Name="fRestaurantID" Type="int" Nullable="false" />
+          <Property Name="fOrderDatetime" Type="datetime" Nullable="false" />
+          <Property Name="fTakeoutTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="fDeliveryTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="fDeliveryAddress" Type="nvarchar(max)" />
+          <Property Name="Company Tax ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="fDeliverName" Type="nvarchar" MaxLength="50" />
+          <Property Name="fPayment" Type="int" Nullable="false" />
+          <Property Name="fRemark" Type="nvarchar(max)" />
+          <Property Name="fOrderStatus" Type="int" Nullable="false" />
+          <Property Name="fStar" Type="int" />
+          <Property Name="fComment" Type="nvarchar" MaxLength="50" />
+          <Property Name="fIsHistory" Type="bit" />
+          <Property Name="fCustomizedOptionID" Type="int" />
+          <Property Name="fIsDelay" Type="bit" />
+        </EntityType>
+        <EntityType Name="tRole">
+          <Key>
+            <PropertyRef Name="fRoleID" />
+          </Key>
+          <Property Name="fRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fRoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tShoppingCart">
+          <Key>
+            <PropertyRef Name="fRecordID" />
+          </Key>
+          <Property Name="fRecordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fCartID" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fMemberID" Type="int" />
+          <Property Name="fFoodID" Type="int" Nullable="false" />
+          <Property Name="fCustomizedOptionID" Type="int" />
+          <Property Name="fQuantity" Type="int" />
+          <Property Name="fDateCreated" Type="datetime" Nullable="false" />
+          <Property Name="fMealRecordID" Type="int" />
+        </EntityType>
+        <Association Name="FK_fMyFavorite_tMemeber1">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tMyFavorite" Type="Self.tMyFavorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMyFavorite">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fMyFavorite_tRestaurant2">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="1" />
+          <End Role="tMyFavorite" Type="Self.tMyFavorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tMyFavorite">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tAdvertisement_tAdvertisement_Price">
+          <End Role="tAdvertisement_Price" Type="Self.tAdvertisement_Price" Multiplicity="1" />
+          <End Role="tAdvertisement" Type="Self.tAdvertisement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tAdvertisement_Price">
+              <PropertyRef Name="fPriceReigonID" />
+            </Principal>
+            <Dependent Role="tAdvertisement">
+              <PropertyRef Name="fPriceRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tAdvertisement_tRestaurant">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="1" />
+          <End Role="tAdvertisement" Type="Self.tAdvertisement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tAdvertisement">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tBrowseHistory_tMemeber1">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tBrowseHistory" Type="Self.tBrowseHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tBrowseHistory">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tBrowseHistory_tMyFavorite_RestaurantNews">
+          <End Role="tMyFavorite_RestaurantNews" Type="Self.tMyFavorite_RestaurantNews" Multiplicity="0..1" />
+          <End Role="tBrowseHistory" Type="Self.tBrowseHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMyFavorite_RestaurantNews">
+              <PropertyRef Name="fArticleID" />
+            </Principal>
+            <Dependent Role="tBrowseHistory">
+              <PropertyRef Name="fArticleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tComment_tMemeber">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tComment" Type="Self.tComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tComment">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tComment_tRestaurant">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="1" />
+          <End Role="tComment" Type="Self.tComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tComment">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1">
+          <End Role="tRestaurant_FoodCustomizedCategory" Type="Self.tRestaurant_FoodCustomizedCategory" Multiplicity="1" />
+          <End Role="tFood_CustomizedOption" Type="Self.tFood_CustomizedOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_FoodCustomizedCategory">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Principal>
+            <Dependent Role="tFood_CustomizedOption">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFood_FoodIngrident_Detail_tFood_Ingrident">
+          <End Role="tFood_Ingrident" Type="Self.tFood_Ingrident" Multiplicity="0..1" />
+          <End Role="tFood_FoodIngrident_Detail" Type="Self.tFood_FoodIngrident_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tFood_Ingrident">
+              <PropertyRef Name="fFood_IngridentID" />
+            </Principal>
+            <Dependent Role="tFood_FoodIngrident_Detail">
+              <PropertyRef Name="fFood_IngridentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFood_FoodIngrident_Detail_tRestaurant_Foods">
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="1" />
+          <End Role="tFood_FoodIngrident_Detail" Type="Self.tFood_FoodIngrident_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tFood_FoodIngrident_Detail">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFoodCategory_tFoodCategory">
+          <End Role="tCategory" Type="Self.tCategory" Multiplicity="0..1" />
+          <End Role="tCategory1" Type="Self.tCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategory">
+              <PropertyRef Name="fCategoryID" />
+            </Principal>
+            <Dependent Role="tCategory1">
+              <PropertyRef Name="fParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMember_Area_tMember_City">
+          <End Role="tMember_City" Type="Self.tMember_City" Multiplicity="1" />
+          <End Role="tMember_Area" Type="Self.tMember_Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMember_City">
+              <PropertyRef Name="fCityID" />
+            </Principal>
+            <Dependent Role="tMember_Area">
+              <PropertyRef Name="fCityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMember_Wallat_tMemeber">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tMember_Wallat" Type="Self.tMember_Wallat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMember_Wallat">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMemeber_tMember_Area">
+          <End Role="tMember_Area" Type="Self.tMember_Area" Multiplicity="1" />
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMember_Area">
+              <PropertyRef Name="fAreaID" />
+            </Principal>
+            <Dependent Role="tMemeber">
+              <PropertyRef Name="fAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_Board_tMemeber3">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tMessage_Board" Type="Self.tMessage_Board" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMessage_Board">
+              <PropertyRef Name="fFromID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_Board_tMessage_Board">
+          <End Role="tMessage_Board" Type="Self.tMessage_Board" Multiplicity="0..1" />
+          <End Role="tMessage_Board1" Type="Self.tMessage_Board" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMessage_Board">
+              <PropertyRef Name="fMessageBoard_ID" />
+            </Principal>
+            <Dependent Role="tMessage_Board1">
+              <PropertyRef Name="fParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_Board_tRestaurant1">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="1" />
+          <End Role="tMessage_Board" Type="Self.tMessage_Board" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tMessage_Board">
+              <PropertyRef Name="fToID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_tMemeber">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tMessage" Type="Self.tMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMessage">
+              <PropertyRef Name="fFromID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_tMemeber1">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tMessage" Type="Self.tMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMessage">
+              <PropertyRef Name="fToID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMyFavorite_RestaurantNews_tNewsType">
+          <End Role="tNewsType" Type="Self.tNewsType" Multiplicity="1" />
+          <End Role="tMyFavorite_RestaurantNews" Type="Self.tMyFavorite_RestaurantNews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tNewsType">
+              <PropertyRef Name="fNewsTypeID" />
+            </Principal>
+            <Dependent Role="tMyFavorite_RestaurantNews">
+              <PropertyRef Name="fNewsTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMyFavorite_tMyFavoriteCategory">
+          <End Role="tMyFavoriteCategory" Type="Self.tMyFavoriteCategory" Multiplicity="0..1" />
+          <End Role="tMyFavorite" Type="Self.tMyFavorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMyFavoriteCategory">
+              <PropertyRef Name="fFavCategoryID" />
+            </Principal>
+            <Dependent Role="tMyFavorite">
+              <PropertyRef Name="fFavCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tOrder_Details_tOrders">
+          <End Role="tRestaurantOrders" Type="Self.tRestaurantOrders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tRestaurantOrder_Details" Type="Self.tRestaurantOrder_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurantOrders">
+              <PropertyRef Name="fOrderID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrder_Details">
+              <PropertyRef Name="fOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tOrder_Details_tProducts">
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="1" />
+          <End Role="tRestaurantOrder_Details" Type="Self.tRestaurantOrder_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrder_Details">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tFood_Ingrident">
+          <End Role="tFood_Ingrident" Type="Self.tFood_Ingrident" Multiplicity="0..1" />
+          <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tFood_Ingrident">
+              <PropertyRef Name="fFood_IngridentID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fIngridentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tMemeber">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="0..1" />
+          <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tRestaurant">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="0..1" />
+          <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tRestaurant_Foods">
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="0..1" />
+          <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tProducts_tProductCategory">
+          <End Role="tRestaurant_FoodCustomizedCategory" Type="Self.tRestaurant_FoodCustomizedCategory" Multiplicity="0..1" />
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_FoodCustomizedCategory">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Foods">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tProducts_tRestaurant">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="1" />
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Foods">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_Category_Details_tRestaurant">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="0..1" />
+          <End Role="tRestaurant_Category_Details" Type="Self.tRestaurant_Category_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Category_Details">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_Category_Details_tRestaurant_Category">
+          <End Role="tRestaurant_Category" Type="Self.tRestaurant_Category" Multiplicity="0..1" />
+          <End Role="tRestaurant_Category_Details" Type="Self.tRestaurant_Category_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Category">
+              <PropertyRef Name="fRestaurant_CategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Category_Details">
+              <PropertyRef Name="fRestaurant_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_Foods_tFoodCategory">
+          <End Role="tCategory" Type="Self.tCategory" Multiplicity="1" />
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategory">
+              <PropertyRef Name="fCategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Foods">
+              <PropertyRef Name="fCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_PaymentWay_Detail_tPaymentWay">
+          <End Role="tPaymentWay" Type="Self.tPaymentWay" Multiplicity="1" />
+          <End Role="tRestaurant_PaymentWay_Detail" Type="Self.tRestaurant_PaymentWay_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPaymentWay">
+              <PropertyRef Name="fPaymentwayID" />
+            </Principal>
+            <Dependent Role="tRestaurant_PaymentWay_Detail">
+              <PropertyRef Name="fPaymentwayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_tCategory">
+          <End Role="tCategory" Type="Self.tCategory" Multiplicity="0..1" />
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategory">
+              <PropertyRef Name="fCategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant">
+              <PropertyRef Name="fRestaurant_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_tMemeber">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tRestaurant">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_tRestaurant_PaymentWay_Detail">
+          <End Role="tRestaurant_PaymentWay_Detail" Type="Self.tRestaurant_PaymentWay_Detail" Multiplicity="0..1" />
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_PaymentWay_Detail">
+              <PropertyRef Name="fID" />
+            </Principal>
+            <Dependent Role="tRestaurant">
+              <PropertyRef Name="fPaymentWayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods">
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="1" />
+          <End Role="tRestaurantMeal_Detail" Type="Self.tRestaurantMeal_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tRestaurantMeal_Detail">
+              <PropertyRef Name="fMealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods3">
+          <End Role="tRestaurant_Foods" Type="Self.tRestaurant_Foods" Multiplicity="1" />
+          <End Role="tRestaurantMeal_Detail" Type="Self.tRestaurantMeal_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tRestaurantMeal_Detail">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tMemeber">
+          <End Role="tMemeber" Type="Self.tMemeber" Multiplicity="1" />
+          <End Role="tRestaurantOrders" Type="Self.tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tPaymentWay">
+          <End Role="tPaymentWay" Type="Self.tPaymentWay" Multiplicity="1" />
+          <End Role="tRestaurantOrders" Type="Self.tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPaymentWay">
+              <PropertyRef Name="fPaymentwayID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fPayment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tRestaurant">
+          <End Role="tRestaurant" Type="Self.tRestaurant" Multiplicity="1" />
+          <End Role="tRestaurantOrders" Type="Self.tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tRestaurant_Order_States">
+          <End Role="tRestaurant_Order_States" Type="Self.tRestaurant_Order_States" Multiplicity="1" />
+          <End Role="tRestaurantOrders" Type="Self.tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Order_States">
+              <PropertyRef Name="fStateID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fOrderStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FoodDeliveryModelStoreContainer">
+          <EntitySet Name="ChatRoom" EntityType="Self.ChatRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tAdvertisement" EntityType="Self.tAdvertisement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tAdvertisement_Article" EntityType="Self.tAdvertisement_Article" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tAdvertisement_Price" EntityType="Self.tAdvertisement_Price" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tBrowseHistory" EntityType="Self.tBrowseHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tCategory" EntityType="Self.tCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tComment" EntityType="Self.tComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tFood_CustomizedOption" EntityType="Self.tFood_CustomizedOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tFood_FoodIngrident_Detail" EntityType="Self.tFood_FoodIngrident_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tFood_Ingrident" EntityType="Self.tFood_Ingrident" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMember_Area" EntityType="Self.tMember_Area" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMember_City" EntityType="Self.tMember_City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMember_Wallat" EntityType="Self.tMember_Wallat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMemeber" EntityType="Self.tMemeber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMessage" EntityType="Self.tMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMessage_Board" EntityType="Self.tMessage_Board" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMyFavorite" EntityType="Self.tMyFavorite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMyFavorite_RestaurantNews" EntityType="Self.tMyFavorite_RestaurantNews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMyFavoriteCategory" EntityType="Self.tMyFavoriteCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tNewsType" EntityType="Self.tNewsType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tPaymentWay" EntityType="Self.tPaymentWay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tPhoto" EntityType="Self.tPhoto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurant" EntityType="Self.tRestaurant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurant_Category" EntityType="Self.tRestaurant_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurant_Category_Details" EntityType="Self.tRestaurant_Category_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurant_FoodCustomizedCategory" EntityType="Self.tRestaurant_FoodCustomizedCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurant_Foods" EntityType="Self.tRestaurant_Foods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurant_Order_States" EntityType="Self.tRestaurant_Order_States" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurant_PaymentWay_Detail" EntityType="Self.tRestaurant_PaymentWay_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurantMeal_Detail" EntityType="Self.tRestaurantMeal_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurantOrder_Details" EntityType="Self.tRestaurantOrder_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRestaurantOrders" EntityType="Self.tRestaurantOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRole" EntityType="Self.tRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tShoppingCart" EntityType="Self.tShoppingCart" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_fMyFavorite_tMemeber1" Association="Self.FK_fMyFavorite_tMemeber1">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMyFavorite" EntitySet="tMyFavorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fMyFavorite_tRestaurant2" Association="Self.FK_fMyFavorite_tRestaurant2">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tMyFavorite" EntitySet="tMyFavorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tAdvertisement_tAdvertisement_Price" Association="Self.FK_tAdvertisement_tAdvertisement_Price">
+            <End Role="tAdvertisement_Price" EntitySet="tAdvertisement_Price" />
+            <End Role="tAdvertisement" EntitySet="tAdvertisement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tAdvertisement_tRestaurant" Association="Self.FK_tAdvertisement_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tAdvertisement" EntitySet="tAdvertisement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBrowseHistory_tMemeber1" Association="Self.FK_tBrowseHistory_tMemeber1">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tBrowseHistory" EntitySet="tBrowseHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBrowseHistory_tMyFavorite_RestaurantNews" Association="Self.FK_tBrowseHistory_tMyFavorite_RestaurantNews">
+            <End Role="tMyFavorite_RestaurantNews" EntitySet="tMyFavorite_RestaurantNews" />
+            <End Role="tBrowseHistory" EntitySet="tBrowseHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tComment_tMemeber" Association="Self.FK_tComment_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tComment" EntitySet="tComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tComment_tRestaurant" Association="Self.FK_tComment_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tComment" EntitySet="tComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1" Association="Self.FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1">
+            <End Role="tRestaurant_FoodCustomizedCategory" EntitySet="tRestaurant_FoodCustomizedCategory" />
+            <End Role="tFood_CustomizedOption" EntitySet="tFood_CustomizedOption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFood_FoodIngrident_Detail_tFood_Ingrident" Association="Self.FK_tFood_FoodIngrident_Detail_tFood_Ingrident">
+            <End Role="tFood_Ingrident" EntitySet="tFood_Ingrident" />
+            <End Role="tFood_FoodIngrident_Detail" EntitySet="tFood_FoodIngrident_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFood_FoodIngrident_Detail_tRestaurant_Foods" Association="Self.FK_tFood_FoodIngrident_Detail_tRestaurant_Foods">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tFood_FoodIngrident_Detail" EntitySet="tFood_FoodIngrident_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFoodCategory_tFoodCategory" Association="Self.FK_tFoodCategory_tFoodCategory">
+            <End Role="tCategory" EntitySet="tCategory" />
+            <End Role="tCategory1" EntitySet="tCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMember_Area_tMember_City" Association="Self.FK_tMember_Area_tMember_City">
+            <End Role="tMember_City" EntitySet="tMember_City" />
+            <End Role="tMember_Area" EntitySet="tMember_Area" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMember_Wallat_tMemeber" Association="Self.FK_tMember_Wallat_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMember_Wallat" EntitySet="tMember_Wallat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMemeber_tMember_Area" Association="Self.FK_tMemeber_tMember_Area">
+            <End Role="tMember_Area" EntitySet="tMember_Area" />
+            <End Role="tMemeber" EntitySet="tMemeber" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_Board_tMemeber3" Association="Self.FK_tMessage_Board_tMemeber3">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMessage_Board" EntitySet="tMessage_Board" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_Board_tMessage_Board" Association="Self.FK_tMessage_Board_tMessage_Board">
+            <End Role="tMessage_Board" EntitySet="tMessage_Board" />
+            <End Role="tMessage_Board1" EntitySet="tMessage_Board" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_Board_tRestaurant1" Association="Self.FK_tMessage_Board_tRestaurant1">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tMessage_Board" EntitySet="tMessage_Board" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_tMemeber" Association="Self.FK_tMessage_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMessage" EntitySet="tMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_tMemeber1" Association="Self.FK_tMessage_tMemeber1">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMessage" EntitySet="tMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMyFavorite_RestaurantNews_tNewsType" Association="Self.FK_tMyFavorite_RestaurantNews_tNewsType">
+            <End Role="tNewsType" EntitySet="tNewsType" />
+            <End Role="tMyFavorite_RestaurantNews" EntitySet="tMyFavorite_RestaurantNews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMyFavorite_tMyFavoriteCategory" Association="Self.FK_tMyFavorite_tMyFavoriteCategory">
+            <End Role="tMyFavoriteCategory" EntitySet="tMyFavoriteCategory" />
+            <End Role="tMyFavorite" EntitySet="tMyFavorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tOrder_Details_tOrders" Association="Self.FK_tOrder_Details_tOrders">
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+            <End Role="tRestaurantOrder_Details" EntitySet="tRestaurantOrder_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tOrder_Details_tProducts" Association="Self.FK_tOrder_Details_tProducts">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tRestaurantOrder_Details" EntitySet="tRestaurantOrder_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tFood_Ingrident" Association="Self.FK_tPhoto_tFood_Ingrident">
+            <End Role="tFood_Ingrident" EntitySet="tFood_Ingrident" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tMemeber" Association="Self.FK_tPhoto_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tRestaurant" Association="Self.FK_tPhoto_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tRestaurant_Foods" Association="Self.FK_tPhoto_tRestaurant_Foods">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProducts_tProductCategory" Association="Self.FK_tProducts_tProductCategory">
+            <End Role="tRestaurant_FoodCustomizedCategory" EntitySet="tRestaurant_FoodCustomizedCategory" />
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProducts_tRestaurant" Association="Self.FK_tProducts_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_Category_Details_tRestaurant" Association="Self.FK_tRestaurant_Category_Details_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tRestaurant_Category_Details" EntitySet="tRestaurant_Category_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_Category_Details_tRestaurant_Category" Association="Self.FK_tRestaurant_Category_Details_tRestaurant_Category">
+            <End Role="tRestaurant_Category" EntitySet="tRestaurant_Category" />
+            <End Role="tRestaurant_Category_Details" EntitySet="tRestaurant_Category_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_Foods_tFoodCategory" Association="Self.FK_tRestaurant_Foods_tFoodCategory">
+            <End Role="tCategory" EntitySet="tCategory" />
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_PaymentWay_Detail_tPaymentWay" Association="Self.FK_tRestaurant_PaymentWay_Detail_tPaymentWay">
+            <End Role="tPaymentWay" EntitySet="tPaymentWay" />
+            <End Role="tRestaurant_PaymentWay_Detail" EntitySet="tRestaurant_PaymentWay_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_tCategory" Association="Self.FK_tRestaurant_tCategory">
+            <End Role="tCategory" EntitySet="tCategory" />
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_tMemeber" Association="Self.FK_tRestaurant_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_tRestaurant_PaymentWay_Detail" Association="Self.FK_tRestaurant_tRestaurant_PaymentWay_Detail">
+            <End Role="tRestaurant_PaymentWay_Detail" EntitySet="tRestaurant_PaymentWay_Detail" />
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods" Association="Self.FK_tRestaurantMeal_Detail_tRestaurant_Foods">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tRestaurantMeal_Detail" EntitySet="tRestaurantMeal_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods3" Association="Self.FK_tRestaurantMeal_Detail_tRestaurant_Foods3">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tRestaurantMeal_Detail" EntitySet="tRestaurantMeal_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tMemeber" Association="Self.FK_tRestaurantOrders_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tPaymentWay" Association="Self.FK_tRestaurantOrders_tPaymentWay">
+            <End Role="tPaymentWay" EntitySet="tPaymentWay" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tRestaurant" Association="Self.FK_tRestaurantOrders_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tRestaurant_Order_States" Association="Self.FK_tRestaurantOrders_tRestaurant_Order_States">
+            <End Role="tRestaurant_Order_States" EntitySet="tRestaurant_Order_States" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FoodDeliveryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FoodDeliveryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChatRoom" EntityType="FoodDeliveryModel.ChatRoom" />
+          <EntitySet Name="Messages" EntityType="FoodDeliveryModel.Messages" />
+          <EntitySet Name="sysdiagrams" EntityType="FoodDeliveryModel.sysdiagrams" />
+          <EntitySet Name="tAdvertisement" EntityType="FoodDeliveryModel.tAdvertisement" />
+          <EntitySet Name="tAdvertisement_Article" EntityType="FoodDeliveryModel.tAdvertisement_Article" />
+          <EntitySet Name="tAdvertisement_Price" EntityType="FoodDeliveryModel.tAdvertisement_Price" />
+          <EntitySet Name="tBrowseHistory" EntityType="FoodDeliveryModel.tBrowseHistory" />
+          <EntitySet Name="tCategory" EntityType="FoodDeliveryModel.tCategory" />
+          <EntitySet Name="tComment" EntityType="FoodDeliveryModel.tComment" />
+          <EntitySet Name="tFood_CustomizedOption" EntityType="FoodDeliveryModel.tFood_CustomizedOption" />
+          <EntitySet Name="tFood_FoodIngrident_Detail" EntityType="FoodDeliveryModel.tFood_FoodIngrident_Detail" />
+          <EntitySet Name="tFood_Ingrident" EntityType="FoodDeliveryModel.tFood_Ingrident" />
+          <EntitySet Name="tMember_Area" EntityType="FoodDeliveryModel.tMember_Area" />
+          <EntitySet Name="tMember_City" EntityType="FoodDeliveryModel.tMember_City" />
+          <EntitySet Name="tMember_Wallat" EntityType="FoodDeliveryModel.tMember_Wallat" />
+          <EntitySet Name="tMemeber" EntityType="FoodDeliveryModel.tMemeber" />
+          <EntitySet Name="tMessage" EntityType="FoodDeliveryModel.tMessage" />
+          <EntitySet Name="tMessage_Board" EntityType="FoodDeliveryModel.tMessage_Board" />
+          <EntitySet Name="tMyFavorite" EntityType="FoodDeliveryModel.tMyFavorite" />
+          <EntitySet Name="tMyFavorite_RestaurantNews" EntityType="FoodDeliveryModel.tMyFavorite_RestaurantNews" />
+          <EntitySet Name="tMyFavoriteCategory" EntityType="FoodDeliveryModel.tMyFavoriteCategory" />
+          <EntitySet Name="tNewsType" EntityType="FoodDeliveryModel.tNewsType" />
+          <EntitySet Name="tPaymentWay" EntityType="FoodDeliveryModel.tPaymentWay" />
+          <EntitySet Name="tPhoto" EntityType="FoodDeliveryModel.tPhoto" />
+          <EntitySet Name="tRestaurant" EntityType="FoodDeliveryModel.tRestaurant" />
+          <EntitySet Name="tRestaurant_Category" EntityType="FoodDeliveryModel.tRestaurant_Category" />
+          <EntitySet Name="tRestaurant_Category_Details" EntityType="FoodDeliveryModel.tRestaurant_Category_Details" />
+          <EntitySet Name="tRestaurant_FoodCustomizedCategory" EntityType="FoodDeliveryModel.tRestaurant_FoodCustomizedCategory" />
+          <EntitySet Name="tRestaurant_Foods" EntityType="FoodDeliveryModel.tRestaurant_Foods" />
+          <EntitySet Name="tRestaurant_Order_States" EntityType="FoodDeliveryModel.tRestaurant_Order_States" />
+          <EntitySet Name="tRestaurant_PaymentWay_Detail" EntityType="FoodDeliveryModel.tRestaurant_PaymentWay_Detail" />
+          <EntitySet Name="tRestaurantMeal_Detail" EntityType="FoodDeliveryModel.tRestaurantMeal_Detail" />
+          <EntitySet Name="tRestaurantOrder_Details" EntityType="FoodDeliveryModel.tRestaurantOrder_Details" />
+          <EntitySet Name="tRestaurantOrders" EntityType="FoodDeliveryModel.tRestaurantOrders" />
+          <EntitySet Name="tRole" EntityType="FoodDeliveryModel.tRole" />
+          <EntitySet Name="tShoppingCart" EntityType="FoodDeliveryModel.tShoppingCart" />
+          <AssociationSet Name="FK_tAdvertisement_tAdvertisement_Price" Association="FoodDeliveryModel.FK_tAdvertisement_tAdvertisement_Price">
+            <End Role="tAdvertisement_Price" EntitySet="tAdvertisement_Price" />
+            <End Role="tAdvertisement" EntitySet="tAdvertisement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tAdvertisement_tRestaurant" Association="FoodDeliveryModel.FK_tAdvertisement_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tAdvertisement" EntitySet="tAdvertisement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBrowseHistory_tMemeber1" Association="FoodDeliveryModel.FK_tBrowseHistory_tMemeber1">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tBrowseHistory" EntitySet="tBrowseHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBrowseHistory_tMyFavorite_RestaurantNews" Association="FoodDeliveryModel.FK_tBrowseHistory_tMyFavorite_RestaurantNews">
+            <End Role="tMyFavorite_RestaurantNews" EntitySet="tMyFavorite_RestaurantNews" />
+            <End Role="tBrowseHistory" EntitySet="tBrowseHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFoodCategory_tFoodCategory" Association="FoodDeliveryModel.FK_tFoodCategory_tFoodCategory">
+            <End Role="tCategory" EntitySet="tCategory" />
+            <End Role="tCategory1" EntitySet="tCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_Foods_tFoodCategory" Association="FoodDeliveryModel.FK_tRestaurant_Foods_tFoodCategory">
+            <End Role="tCategory" EntitySet="tCategory" />
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_tCategory" Association="FoodDeliveryModel.FK_tRestaurant_tCategory">
+            <End Role="tCategory" EntitySet="tCategory" />
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tComment_tMemeber" Association="FoodDeliveryModel.FK_tComment_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tComment" EntitySet="tComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tComment_tRestaurant" Association="FoodDeliveryModel.FK_tComment_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tComment" EntitySet="tComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1" Association="FoodDeliveryModel.FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1">
+            <End Role="tRestaurant_FoodCustomizedCategory" EntitySet="tRestaurant_FoodCustomizedCategory" />
+            <End Role="tFood_CustomizedOption" EntitySet="tFood_CustomizedOption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFood_FoodIngrident_Detail_tFood_Ingrident" Association="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tFood_Ingrident">
+            <End Role="tFood_Ingrident" EntitySet="tFood_Ingrident" />
+            <End Role="tFood_FoodIngrident_Detail" EntitySet="tFood_FoodIngrident_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFood_FoodIngrident_Detail_tRestaurant_Foods" Association="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tRestaurant_Foods">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tFood_FoodIngrident_Detail" EntitySet="tFood_FoodIngrident_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tFood_Ingrident" Association="FoodDeliveryModel.FK_tPhoto_tFood_Ingrident">
+            <End Role="tFood_Ingrident" EntitySet="tFood_Ingrident" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMember_Area_tMember_City" Association="FoodDeliveryModel.FK_tMember_Area_tMember_City">
+            <End Role="tMember_City" EntitySet="tMember_City" />
+            <End Role="tMember_Area" EntitySet="tMember_Area" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMemeber_tMember_Area" Association="FoodDeliveryModel.FK_tMemeber_tMember_Area">
+            <End Role="tMember_Area" EntitySet="tMember_Area" />
+            <End Role="tMemeber" EntitySet="tMemeber" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMember_Wallat_tMemeber" Association="FoodDeliveryModel.FK_tMember_Wallat_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMember_Wallat" EntitySet="tMember_Wallat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fMyFavorite_tMemeber1" Association="FoodDeliveryModel.FK_fMyFavorite_tMemeber1">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMyFavorite" EntitySet="tMyFavorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_Board_tMemeber3" Association="FoodDeliveryModel.FK_tMessage_Board_tMemeber3">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMessage_Board" EntitySet="tMessage_Board" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_tMemeber" Association="FoodDeliveryModel.FK_tMessage_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMessage" EntitySet="tMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_tMemeber1" Association="FoodDeliveryModel.FK_tMessage_tMemeber1">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tMessage" EntitySet="tMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tMemeber" Association="FoodDeliveryModel.FK_tPhoto_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_tMemeber" Association="FoodDeliveryModel.FK_tRestaurant_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tMemeber" Association="FoodDeliveryModel.FK_tRestaurantOrders_tMemeber">
+            <End Role="tMemeber" EntitySet="tMemeber" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_Board_tMessage_Board" Association="FoodDeliveryModel.FK_tMessage_Board_tMessage_Board">
+            <End Role="tMessage_Board" EntitySet="tMessage_Board" />
+            <End Role="tMessage_Board1" EntitySet="tMessage_Board" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_Board_tRestaurant1" Association="FoodDeliveryModel.FK_tMessage_Board_tRestaurant1">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tMessage_Board" EntitySet="tMessage_Board" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fMyFavorite_tRestaurant2" Association="FoodDeliveryModel.FK_fMyFavorite_tRestaurant2">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tMyFavorite" EntitySet="tMyFavorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMyFavorite_tMyFavoriteCategory" Association="FoodDeliveryModel.FK_tMyFavorite_tMyFavoriteCategory">
+            <End Role="tMyFavoriteCategory" EntitySet="tMyFavoriteCategory" />
+            <End Role="tMyFavorite" EntitySet="tMyFavorite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMyFavorite_RestaurantNews_tNewsType" Association="FoodDeliveryModel.FK_tMyFavorite_RestaurantNews_tNewsType">
+            <End Role="tNewsType" EntitySet="tNewsType" />
+            <End Role="tMyFavorite_RestaurantNews" EntitySet="tMyFavorite_RestaurantNews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_PaymentWay_Detail_tPaymentWay" Association="FoodDeliveryModel.FK_tRestaurant_PaymentWay_Detail_tPaymentWay">
+            <End Role="tPaymentWay" EntitySet="tPaymentWay" />
+            <End Role="tRestaurant_PaymentWay_Detail" EntitySet="tRestaurant_PaymentWay_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tPaymentWay" Association="FoodDeliveryModel.FK_tRestaurantOrders_tPaymentWay">
+            <End Role="tPaymentWay" EntitySet="tPaymentWay" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tRestaurant" Association="FoodDeliveryModel.FK_tPhoto_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tRestaurant_Foods" Association="FoodDeliveryModel.FK_tPhoto_tRestaurant_Foods">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tPhoto" EntitySet="tPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProducts_tRestaurant" Association="FoodDeliveryModel.FK_tProducts_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_Category_Details_tRestaurant" Association="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tRestaurant_Category_Details" EntitySet="tRestaurant_Category_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_tRestaurant_PaymentWay_Detail" Association="FoodDeliveryModel.FK_tRestaurant_tRestaurant_PaymentWay_Detail">
+            <End Role="tRestaurant_PaymentWay_Detail" EntitySet="tRestaurant_PaymentWay_Detail" />
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tRestaurant" Association="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant">
+            <End Role="tRestaurant" EntitySet="tRestaurant" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurant_Category_Details_tRestaurant_Category" Association="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant_Category">
+            <End Role="tRestaurant_Category" EntitySet="tRestaurant_Category" />
+            <End Role="tRestaurant_Category_Details" EntitySet="tRestaurant_Category_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProducts_tProductCategory" Association="FoodDeliveryModel.FK_tProducts_tProductCategory">
+            <End Role="tRestaurant_FoodCustomizedCategory" EntitySet="tRestaurant_FoodCustomizedCategory" />
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tOrder_Details_tProducts" Association="FoodDeliveryModel.FK_tOrder_Details_tProducts">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tRestaurantOrder_Details" EntitySet="tRestaurantOrder_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods" Association="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tRestaurantMeal_Detail" EntitySet="tRestaurantMeal_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods3" Association="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods3">
+            <End Role="tRestaurant_Foods" EntitySet="tRestaurant_Foods" />
+            <End Role="tRestaurantMeal_Detail" EntitySet="tRestaurantMeal_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRestaurantOrders_tRestaurant_Order_States" Association="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant_Order_States">
+            <End Role="tRestaurant_Order_States" EntitySet="tRestaurant_Order_States" />
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tOrder_Details_tOrders" Association="FoodDeliveryModel.FK_tOrder_Details_tOrders">
+            <End Role="tRestaurantOrders" EntitySet="tRestaurantOrders" />
+            <End Role="tRestaurantOrder_Details" EntitySet="tRestaurantOrder_Details" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ChatRoom">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Message" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="MemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RestaurantID" Type="Int32" />
+          <Property Name="RestaurantName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Read" Type="Boolean" />
+          <Property Name="fFrom" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Message" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmptyMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="fRestaurantID" Type="Int32" />
+          <Property Name="fMemberID" Type="Int32" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="fMemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tAdvertisement">
+          <Key>
+            <PropertyRef Name="fAdvertisementID" />
+          </Key>
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" />
+          <Property Name="fAdvertisementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fDays" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fAppliedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fMediaIntroduction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fClickCount" Type="Int32" />
+          <Property Name="fPriceRegionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tAdvertisement_Price" Relationship="FoodDeliveryModel.FK_tAdvertisement_tAdvertisement_Price" FromRole="tAdvertisement" ToRole="tAdvertisement_Price" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tAdvertisement_tRestaurant" FromRole="tAdvertisement" ToRole="tRestaurant" />
+        </EntityType>
+        <EntityType Name="tAdvertisement_Article">
+          <Key>
+            <PropertyRef Name="fId" />
+          </Key>
+          <Property Name="fId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fSubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fContentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fIsPublish" Type="Boolean" />
+          <Property Name="fCreateDate" Type="DateTime" Precision="3" />
+          <Property Name="fUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="fImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="fHtml" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fRestaurantID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tAdvertisement_Price">
+          <Key>
+            <PropertyRef Name="fPriceReigonID" />
+          </Key>
+          <Property Name="fPriceReigonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fPriceReigon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tAdvertisement" Relationship="FoodDeliveryModel.FK_tAdvertisement_tAdvertisement_Price" FromRole="tAdvertisement_Price" ToRole="tAdvertisement" />
+        </EntityType>
+        <EntityType Name="tBrowseHistory">
+          <Key>
+            <PropertyRef Name="fBrowseID" />
+          </Key>
+          <Property Name="fMemberID" Type="Int32" Nullable="false" />
+          <Property Name="fArticleID" Type="Int32" />
+          <Property Name="fBrowseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tBrowseHistory_tMemeber1" FromRole="tBrowseHistory" ToRole="tMemeber" />
+          <NavigationProperty Name="tMyFavorite_RestaurantNews" Relationship="FoodDeliveryModel.FK_tBrowseHistory_tMyFavorite_RestaurantNews" FromRole="tBrowseHistory" ToRole="tMyFavorite_RestaurantNews" />
+        </EntityType>
+        <EntityType Name="tCategory">
+          <Key>
+            <PropertyRef Name="fCategoryID" />
+          </Key>
+          <Property Name="fCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fCategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fParentID" Type="Int32" />
+          <Property Name="fModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fCategoryDescription" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tCategory1" Relationship="FoodDeliveryModel.FK_tFoodCategory_tFoodCategory" FromRole="tCategory" ToRole="tCategory1" />
+          <NavigationProperty Name="tCategory2" Relationship="FoodDeliveryModel.FK_tFoodCategory_tFoodCategory" FromRole="tCategory1" ToRole="tCategory" />
+          <NavigationProperty Name="tRestaurant_Foods" Relationship="FoodDeliveryModel.FK_tRestaurant_Foods_tFoodCategory" FromRole="tCategory" ToRole="tRestaurant_Foods" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tRestaurant_tCategory" FromRole="tCategory" ToRole="tRestaurant" />
+        </EntityType>
+        <EntityType Name="tComment">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fMemberID" Type="Int32" Nullable="false" />
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" />
+          <Property Name="fStars" Type="Int32" />
+          <Property Name="fComment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fLike" Type="Boolean" />
+          <Property Name="fDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tComment_tMemeber" FromRole="tComment" ToRole="tMemeber" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tComment_tRestaurant" FromRole="tComment" ToRole="tRestaurant" />
+        </EntityType>
+        <EntityType Name="tFood_CustomizedOption">
+          <Key>
+            <PropertyRef Name="fCustomizedOptionID" />
+          </Key>
+          <Property Name="fCustomizedOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fCustomizedCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="fCustomizedOptionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPrice" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="tRestaurant_FoodCustomizedCategory" Relationship="FoodDeliveryModel.FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1" FromRole="tFood_CustomizedOption" ToRole="tRestaurant_FoodCustomizedCategory" />
+        </EntityType>
+        <EntityType Name="tFood_FoodIngrident_Detail">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fFoodID" Type="Int32" Nullable="false" />
+          <Property Name="fFood_IngridentID" Type="Int32" />
+          <NavigationProperty Name="tFood_Ingrident" Relationship="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tFood_Ingrident" FromRole="tFood_FoodIngrident_Detail" ToRole="tFood_Ingrident" />
+          <NavigationProperty Name="tRestaurant_Foods" Relationship="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tRestaurant_Foods" FromRole="tFood_FoodIngrident_Detail" ToRole="tRestaurant_Foods" />
+        </EntityType>
+        <EntityType Name="tFood_Ingrident">
+          <Key>
+            <PropertyRef Name="fFood_IngridentID" />
+          </Key>
+          <Property Name="fFood_IngridentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPhotoID" Type="Int32" />
+          <NavigationProperty Name="tFood_FoodIngrident_Detail" Relationship="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tFood_Ingrident" FromRole="tFood_Ingrident" ToRole="tFood_FoodIngrident_Detail" />
+          <NavigationProperty Name="tPhoto" Relationship="FoodDeliveryModel.FK_tPhoto_tFood_Ingrident" FromRole="tFood_Ingrident" ToRole="tPhoto" />
+        </EntityType>
+        <EntityType Name="tMember_Area">
+          <Key>
+            <PropertyRef Name="fAreaID" />
+          </Key>
+          <Property Name="fAreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fAreaName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tMember_City" Relationship="FoodDeliveryModel.FK_tMember_Area_tMember_City" FromRole="tMember_Area" ToRole="tMember_City" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tMemeber_tMember_Area" FromRole="tMember_Area" ToRole="tMemeber" />
+        </EntityType>
+        <EntityType Name="tMember_City">
+          <Key>
+            <PropertyRef Name="fCityID" />
+          </Key>
+          <Property Name="fCityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fCityName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tMember_Area" Relationship="FoodDeliveryModel.FK_tMember_Area_tMember_City" FromRole="tMember_City" ToRole="tMember_Area" />
+        </EntityType>
+        <EntityType Name="tMember_Wallat">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fMemberID" Type="Int32" Nullable="false" />
+          <Property Name="fWallat_Surplus" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="fWithdraw" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="fDeposit" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tMember_Wallat_tMemeber" FromRole="tMember_Wallat" ToRole="tMemeber" />
+        </EntityType>
+        <EntityType Name="tMemeber">
+          <Key>
+            <PropertyRef Name="fMemberID" />
+          </Key>
+          <Property Name="fMemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fMemeberName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPasswordConfirm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPhotoID" Type="Int32" />
+          <Property Name="fAreaID" Type="Int32" Nullable="false" />
+          <Property Name="fAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fLatitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fLongitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fBirth" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fGender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fJoinDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCreditAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCollectionPoint" Type="Int32" />
+          <Property Name="fWalletTotalMoney" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fRoleID" Type="Int32" Nullable="false" />
+          <Property Name="fReportsTo" Type="Int32" />
+          <Property Name="fActivated" Type="Boolean" />
+          <Property Name="fValidNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tBrowseHistory" Relationship="FoodDeliveryModel.FK_tBrowseHistory_tMemeber1" FromRole="tMemeber" ToRole="tBrowseHistory" />
+          <NavigationProperty Name="tComment" Relationship="FoodDeliveryModel.FK_tComment_tMemeber" FromRole="tMemeber" ToRole="tComment" />
+          <NavigationProperty Name="tMember_Area" Relationship="FoodDeliveryModel.FK_tMemeber_tMember_Area" FromRole="tMemeber" ToRole="tMember_Area" />
+          <NavigationProperty Name="tMember_Wallat" Relationship="FoodDeliveryModel.FK_tMember_Wallat_tMemeber" FromRole="tMemeber" ToRole="tMember_Wallat" />
+          <NavigationProperty Name="tMyFavorite" Relationship="FoodDeliveryModel.FK_fMyFavorite_tMemeber1" FromRole="tMemeber" ToRole="tMyFavorite" />
+          <NavigationProperty Name="tMessage_Board" Relationship="FoodDeliveryModel.FK_tMessage_Board_tMemeber3" FromRole="tMemeber" ToRole="tMessage_Board" />
+          <NavigationProperty Name="tMessage" Relationship="FoodDeliveryModel.FK_tMessage_tMemeber" FromRole="tMemeber" ToRole="tMessage" />
+          <NavigationProperty Name="tMessage1" Relationship="FoodDeliveryModel.FK_tMessage_tMemeber1" FromRole="tMemeber" ToRole="tMessage" />
+          <NavigationProperty Name="tPhoto" Relationship="FoodDeliveryModel.FK_tPhoto_tMemeber" FromRole="tMemeber" ToRole="tPhoto" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tRestaurant_tMemeber" FromRole="tMemeber" ToRole="tRestaurant" />
+          <NavigationProperty Name="tRestaurantOrders" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tMemeber" FromRole="tMemeber" ToRole="tRestaurantOrders" />
+        </EntityType>
+        <EntityType Name="tMessage">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fFromID" Type="Int32" Nullable="false" />
+          <Property Name="fToID" Type="Int32" Nullable="false" />
+          <Property Name="fMessage" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fRead" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tMessage_tMemeber" FromRole="tMessage" ToRole="tMemeber" />
+          <NavigationProperty Name="tMemeber1" Relationship="FoodDeliveryModel.FK_tMessage_tMemeber1" FromRole="tMessage" ToRole="tMemeber" />
+        </EntityType>
+        <EntityType Name="tMessage_Board">
+          <Key>
+            <PropertyRef Name="fMessageBoard_ID" />
+          </Key>
+          <Property Name="fMessageBoard_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fFromID" Type="Int32" Nullable="false" />
+          <Property Name="fToID" Type="Int32" Nullable="false" />
+          <Property Name="fMessage" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fParentID" Type="Int32" />
+          <Property Name="fRead" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tMessage_Board_tMemeber3" FromRole="tMessage_Board" ToRole="tMemeber" />
+          <NavigationProperty Name="tMessage_Board1" Relationship="FoodDeliveryModel.FK_tMessage_Board_tMessage_Board" FromRole="tMessage_Board" ToRole="tMessage_Board1" />
+          <NavigationProperty Name="tMessage_Board2" Relationship="FoodDeliveryModel.FK_tMessage_Board_tMessage_Board" FromRole="tMessage_Board1" ToRole="tMessage_Board" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tMessage_Board_tRestaurant1" FromRole="tMessage_Board" ToRole="tRestaurant" />
+        </EntityType>
+        <EntityType Name="tMyFavorite">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fMemberID" Type="Int32" Nullable="false" />
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" />
+          <Property Name="fFavCategoryID" Type="Int32" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_fMyFavorite_tMemeber1" FromRole="tMyFavorite" ToRole="tMemeber" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_fMyFavorite_tRestaurant2" FromRole="tMyFavorite" ToRole="tRestaurant" />
+          <NavigationProperty Name="tMyFavoriteCategory" Relationship="FoodDeliveryModel.FK_tMyFavorite_tMyFavoriteCategory" FromRole="tMyFavorite" ToRole="tMyFavoriteCategory" />
+        </EntityType>
+        <EntityType Name="tMyFavorite_RestaurantNews">
+          <Key>
+            <PropertyRef Name="fArticleID" />
+          </Key>
+          <Property Name="fArticleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" />
+          <Property Name="fNewsTypeID" Type="Int32" Nullable="false" />
+          <Property Name="fNews" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fPublishedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fTitle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tBrowseHistory" Relationship="FoodDeliveryModel.FK_tBrowseHistory_tMyFavorite_RestaurantNews" FromRole="tMyFavorite_RestaurantNews" ToRole="tBrowseHistory" />
+          <NavigationProperty Name="tNewsType" Relationship="FoodDeliveryModel.FK_tMyFavorite_RestaurantNews_tNewsType" FromRole="tMyFavorite_RestaurantNews" ToRole="tNewsType" />
+        </EntityType>
+        <EntityType Name="tMyFavoriteCategory">
+          <Key>
+            <PropertyRef Name="fFavCategoryID" />
+          </Key>
+          <Property Name="fFavCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fFavCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tMyFavorite" Relationship="FoodDeliveryModel.FK_tMyFavorite_tMyFavoriteCategory" FromRole="tMyFavoriteCategory" ToRole="tMyFavorite" />
+        </EntityType>
+        <EntityType Name="tNewsType">
+          <Key>
+            <PropertyRef Name="fNewsTypeID" />
+          </Key>
+          <Property Name="fNewsTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fNewsTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tMyFavorite_RestaurantNews" Relationship="FoodDeliveryModel.FK_tMyFavorite_RestaurantNews_tNewsType" FromRole="tNewsType" ToRole="tMyFavorite_RestaurantNews" />
+        </EntityType>
+        <EntityType Name="tPaymentWay">
+          <Key>
+            <PropertyRef Name="fPaymentwayID" />
+          </Key>
+          <Property Name="fPaymentwayID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fPaymentway" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tRestaurant_PaymentWay_Detail" Relationship="FoodDeliveryModel.FK_tRestaurant_PaymentWay_Detail_tPaymentWay" FromRole="tPaymentWay" ToRole="tRestaurant_PaymentWay_Detail" />
+          <NavigationProperty Name="tRestaurantOrders" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tPaymentWay" FromRole="tPaymentWay" ToRole="tRestaurantOrders" />
+        </EntityType>
+        <EntityType Name="tPhoto">
+          <Key>
+            <PropertyRef Name="fPhotoID" />
+          </Key>
+          <Property Name="fPhotoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fRestaurantID" Type="Int32" />
+          <Property Name="fMemberID" Type="Int32" />
+          <Property Name="fIngridentID" Type="Int32" />
+          <Property Name="fFoodID" Type="Int32" />
+          <Property Name="fDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fFoodImage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPhotoPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fBytesImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="tFood_Ingrident" Relationship="FoodDeliveryModel.FK_tPhoto_tFood_Ingrident" FromRole="tPhoto" ToRole="tFood_Ingrident" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tPhoto_tMemeber" FromRole="tPhoto" ToRole="tMemeber" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tPhoto_tRestaurant" FromRole="tPhoto" ToRole="tRestaurant" />
+          <NavigationProperty Name="tRestaurant_Foods" Relationship="FoodDeliveryModel.FK_tPhoto_tRestaurant_Foods" FromRole="tPhoto" ToRole="tRestaurant_Foods" />
+        </EntityType>
+        <EntityType Name="tRestaurant">
+          <Key>
+            <PropertyRef Name="fRestaurantID" />
+          </Key>
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fMemberID" Type="Int32" Nullable="false" />
+          <Property Name="fRestaurant_CategoryID" Type="Int32" />
+          <Property Name="fOpenTime" Type="Time" Precision="7" />
+          <Property Name="fRoutine_RestDay_per_week_" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCloseTime" Type="Time" Precision="7" />
+          <Property Name="fPaymentWayID" Type="Int32" />
+          <Property Name="fPhotoID" Type="Int32" />
+          <Property Name="fSpecial_RestDay_per_month_" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fRestaurantName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fAveragePricePerGuest" Type="Int32" />
+          <NavigationProperty Name="tAdvertisement" Relationship="FoodDeliveryModel.FK_tAdvertisement_tRestaurant" FromRole="tRestaurant" ToRole="tAdvertisement" />
+          <NavigationProperty Name="tCategory" Relationship="FoodDeliveryModel.FK_tRestaurant_tCategory" FromRole="tRestaurant" ToRole="tCategory" />
+          <NavigationProperty Name="tComment" Relationship="FoodDeliveryModel.FK_tComment_tRestaurant" FromRole="tRestaurant" ToRole="tComment" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tRestaurant_tMemeber" FromRole="tRestaurant" ToRole="tMemeber" />
+          <NavigationProperty Name="tMessage_Board" Relationship="FoodDeliveryModel.FK_tMessage_Board_tRestaurant1" FromRole="tRestaurant" ToRole="tMessage_Board" />
+          <NavigationProperty Name="tMyFavorite" Relationship="FoodDeliveryModel.FK_fMyFavorite_tRestaurant2" FromRole="tRestaurant" ToRole="tMyFavorite" />
+          <NavigationProperty Name="tPhoto" Relationship="FoodDeliveryModel.FK_tPhoto_tRestaurant" FromRole="tRestaurant" ToRole="tPhoto" />
+          <NavigationProperty Name="tRestaurant_Foods" Relationship="FoodDeliveryModel.FK_tProducts_tRestaurant" FromRole="tRestaurant" ToRole="tRestaurant_Foods" />
+          <NavigationProperty Name="tRestaurant_Category_Details" Relationship="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant" FromRole="tRestaurant" ToRole="tRestaurant_Category_Details" />
+          <NavigationProperty Name="tRestaurant_PaymentWay_Detail" Relationship="FoodDeliveryModel.FK_tRestaurant_tRestaurant_PaymentWay_Detail" FromRole="tRestaurant" ToRole="tRestaurant_PaymentWay_Detail" />
+          <NavigationProperty Name="tRestaurantOrders" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant" FromRole="tRestaurant" ToRole="tRestaurantOrders" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Category">
+          <Key>
+            <PropertyRef Name="fRestaurant_CategoryID" />
+          </Key>
+          <Property Name="fRestaurant_CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fCategory_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCategory_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fBuildDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="tRestaurant_Category_Details" Relationship="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant_Category" FromRole="tRestaurant_Category" ToRole="tRestaurant_Category_Details" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Category_Details">
+          <Key>
+            <PropertyRef Name="fId" />
+          </Key>
+          <Property Name="fId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fRestaurantID" Type="Int32" />
+          <Property Name="fRestaurant_CategoryID" Type="Int32" />
+          <Property Name="fBuildDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant" FromRole="tRestaurant_Category_Details" ToRole="tRestaurant" />
+          <NavigationProperty Name="tRestaurant_Category" Relationship="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant_Category" FromRole="tRestaurant_Category_Details" ToRole="tRestaurant_Category" />
+        </EntityType>
+        <EntityType Name="tRestaurant_FoodCustomizedCategory">
+          <Key>
+            <PropertyRef Name="fCustomizedCategoryID" />
+          </Key>
+          <Property Name="fCustomizedCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fCustomizedCategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fParentID" Type="Int32" />
+          <Property Name="fModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fCategoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fRestaurantID" Type="Int32" />
+          <NavigationProperty Name="tFood_CustomizedOption" Relationship="FoodDeliveryModel.FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1" FromRole="tRestaurant_FoodCustomizedCategory" ToRole="tFood_CustomizedOption" />
+          <NavigationProperty Name="tRestaurant_Foods" Relationship="FoodDeliveryModel.FK_tProducts_tProductCategory" FromRole="tRestaurant_FoodCustomizedCategory" ToRole="tRestaurant_Foods" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Foods">
+          <Key>
+            <PropertyRef Name="fFoodID" />
+          </Key>
+          <Property Name="fFoodID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fFoodName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCustomizedCategoryID" Type="Int32" />
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" />
+          <Property Name="fRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="fCost" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="fAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="fDiscount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="fRaw_Cooked" Type="Boolean" Nullable="false" />
+          <Property Name="fModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="fPhotoID" Type="Int32" />
+          <Property Name="fCookTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="fCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="fIsMeal" Type="Boolean" Nullable="false" />
+          <Property Name="fFoodDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tCategory" Relationship="FoodDeliveryModel.FK_tRestaurant_Foods_tFoodCategory" FromRole="tRestaurant_Foods" ToRole="tCategory" />
+          <NavigationProperty Name="tFood_FoodIngrident_Detail" Relationship="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tRestaurant_Foods" FromRole="tRestaurant_Foods" ToRole="tFood_FoodIngrident_Detail" />
+          <NavigationProperty Name="tPhoto" Relationship="FoodDeliveryModel.FK_tPhoto_tRestaurant_Foods" FromRole="tRestaurant_Foods" ToRole="tPhoto" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tProducts_tRestaurant" FromRole="tRestaurant_Foods" ToRole="tRestaurant" />
+          <NavigationProperty Name="tRestaurant_FoodCustomizedCategory" Relationship="FoodDeliveryModel.FK_tProducts_tProductCategory" FromRole="tRestaurant_Foods" ToRole="tRestaurant_FoodCustomizedCategory" />
+          <NavigationProperty Name="tRestaurantOrder_Details" Relationship="FoodDeliveryModel.FK_tOrder_Details_tProducts" FromRole="tRestaurant_Foods" ToRole="tRestaurantOrder_Details" />
+          <NavigationProperty Name="tRestaurantMeal_Detail" Relationship="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods" FromRole="tRestaurant_Foods" ToRole="tRestaurantMeal_Detail" />
+          <NavigationProperty Name="tRestaurantMeal_Detail1" Relationship="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods3" FromRole="tRestaurant_Foods" ToRole="tRestaurantMeal_Detail" />
+        </EntityType>
+        <EntityType Name="tRestaurant_Order_States">
+          <Key>
+            <PropertyRef Name="fStateID" />
+          </Key>
+          <Property Name="fStateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fState_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tRestaurantOrders" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant_Order_States" FromRole="tRestaurant_Order_States" ToRole="tRestaurantOrders" />
+        </EntityType>
+        <EntityType Name="tRestaurant_PaymentWay_Detail">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" />
+          <Property Name="fPaymentwayID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tPaymentWay" Relationship="FoodDeliveryModel.FK_tRestaurant_PaymentWay_Detail_tPaymentWay" FromRole="tRestaurant_PaymentWay_Detail" ToRole="tPaymentWay" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tRestaurant_tRestaurant_PaymentWay_Detail" FromRole="tRestaurant_PaymentWay_Detail" ToRole="tRestaurant" />
+        </EntityType>
+        <EntityType Name="tRestaurantMeal_Detail">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fMealID" Type="Int32" Nullable="false" />
+          <Property Name="fFoodID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tRestaurant_Foods" Relationship="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods" FromRole="tRestaurantMeal_Detail" ToRole="tRestaurant_Foods" />
+          <NavigationProperty Name="tRestaurant_Foods1" Relationship="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods3" FromRole="tRestaurantMeal_Detail" ToRole="tRestaurant_Foods" />
+        </EntityType>
+        <EntityType Name="tRestaurantOrder_Details">
+          <Key>
+            <PropertyRef Name="fID" />
+          </Key>
+          <Property Name="fID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fOrderID" Type="Int32" Nullable="false" />
+          <Property Name="fFoodID" Type="Int32" Nullable="false" />
+          <Property Name="fPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="fRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fDiscount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="fQuantity" Type="Int32" />
+          <Property Name="fIsCheckout" Type="Boolean" />
+          <Property Name="fCustomizedOptionID" Type="Int32" />
+          <NavigationProperty Name="tRestaurant_Foods" Relationship="FoodDeliveryModel.FK_tOrder_Details_tProducts" FromRole="tRestaurantOrder_Details" ToRole="tRestaurant_Foods" />
+          <NavigationProperty Name="tRestaurantOrders" Relationship="FoodDeliveryModel.FK_tOrder_Details_tOrders" FromRole="tRestaurantOrder_Details" ToRole="tRestaurantOrders" />
+        </EntityType>
+        <EntityType Name="tRestaurantOrders">
+          <Key>
+            <PropertyRef Name="fOrderID" />
+          </Key>
+          <Property Name="fOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fMemberID" Type="Int32" Nullable="false" />
+          <Property Name="fRestaurantID" Type="Int32" Nullable="false" />
+          <Property Name="fOrderDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fTakeoutTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="fDeliveryTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="fDeliveryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Company_Tax_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fDeliverName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPayment" Type="Int32" Nullable="false" />
+          <Property Name="fRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fOrderStatus" Type="Int32" Nullable="false" />
+          <Property Name="fStar" Type="Int32" />
+          <Property Name="fComment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fIsHistory" Type="Boolean" />
+          <Property Name="fCustomizedOptionID" Type="Int32" />
+          <Property Name="fIsDelay" Type="Boolean" />
+          <NavigationProperty Name="tMemeber" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tMemeber" FromRole="tRestaurantOrders" ToRole="tMemeber" />
+          <NavigationProperty Name="tPaymentWay" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tPaymentWay" FromRole="tRestaurantOrders" ToRole="tPaymentWay" />
+          <NavigationProperty Name="tRestaurant" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant" FromRole="tRestaurantOrders" ToRole="tRestaurant" />
+          <NavigationProperty Name="tRestaurant_Order_States" Relationship="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant_Order_States" FromRole="tRestaurantOrders" ToRole="tRestaurant_Order_States" />
+          <NavigationProperty Name="tRestaurantOrder_Details" Relationship="FoodDeliveryModel.FK_tOrder_Details_tOrders" FromRole="tRestaurantOrders" ToRole="tRestaurantOrder_Details" />
+        </EntityType>
+        <EntityType Name="tRole">
+          <Key>
+            <PropertyRef Name="fRoleID" />
+          </Key>
+          <Property Name="fRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fRoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tShoppingCart">
+          <Key>
+            <PropertyRef Name="fRecordID" />
+          </Key>
+          <Property Name="fRecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fCartID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fMemberID" Type="Int32" />
+          <Property Name="fFoodID" Type="Int32" Nullable="false" />
+          <Property Name="fCustomizedOptionID" Type="Int32" />
+          <Property Name="fQuantity" Type="Int32" />
+          <Property Name="fDateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fMealRecordID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_tAdvertisement_tAdvertisement_Price">
+          <End Type="FoodDeliveryModel.tAdvertisement_Price" Role="tAdvertisement_Price" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tAdvertisement" Role="tAdvertisement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tAdvertisement_Price">
+              <PropertyRef Name="fPriceReigonID" />
+            </Principal>
+            <Dependent Role="tAdvertisement">
+              <PropertyRef Name="fPriceRegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tAdvertisement_tRestaurant">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tAdvertisement" Role="tAdvertisement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tAdvertisement">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tBrowseHistory_tMemeber1">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tBrowseHistory" Role="tBrowseHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tBrowseHistory">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tBrowseHistory_tMyFavorite_RestaurantNews">
+          <End Type="FoodDeliveryModel.tMyFavorite_RestaurantNews" Role="tMyFavorite_RestaurantNews" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tBrowseHistory" Role="tBrowseHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMyFavorite_RestaurantNews">
+              <PropertyRef Name="fArticleID" />
+            </Principal>
+            <Dependent Role="tBrowseHistory">
+              <PropertyRef Name="fArticleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFoodCategory_tFoodCategory">
+          <End Type="FoodDeliveryModel.tCategory" Role="tCategory" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tCategory" Role="tCategory1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategory">
+              <PropertyRef Name="fCategoryID" />
+            </Principal>
+            <Dependent Role="tCategory1">
+              <PropertyRef Name="fParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_Foods_tFoodCategory">
+          <End Type="FoodDeliveryModel.tCategory" Role="tCategory" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategory">
+              <PropertyRef Name="fCategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Foods">
+              <PropertyRef Name="fCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_tCategory">
+          <End Type="FoodDeliveryModel.tCategory" Role="tCategory" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategory">
+              <PropertyRef Name="fCategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant">
+              <PropertyRef Name="fRestaurant_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tComment_tMemeber">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tComment" Role="tComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tComment">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tComment_tRestaurant">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tComment" Role="tComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tComment">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1">
+          <End Type="FoodDeliveryModel.tRestaurant_FoodCustomizedCategory" Role="tRestaurant_FoodCustomizedCategory" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tFood_CustomizedOption" Role="tFood_CustomizedOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_FoodCustomizedCategory">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Principal>
+            <Dependent Role="tFood_CustomizedOption">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFood_FoodIngrident_Detail_tFood_Ingrident">
+          <End Type="FoodDeliveryModel.tFood_Ingrident" Role="tFood_Ingrident" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tFood_FoodIngrident_Detail" Role="tFood_FoodIngrident_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tFood_Ingrident">
+              <PropertyRef Name="fFood_IngridentID" />
+            </Principal>
+            <Dependent Role="tFood_FoodIngrident_Detail">
+              <PropertyRef Name="fFood_IngridentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFood_FoodIngrident_Detail_tRestaurant_Foods">
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tFood_FoodIngrident_Detail" Role="tFood_FoodIngrident_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tFood_FoodIngrident_Detail">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tFood_Ingrident">
+          <End Type="FoodDeliveryModel.tFood_Ingrident" Role="tFood_Ingrident" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tPhoto" Role="tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tFood_Ingrident">
+              <PropertyRef Name="fFood_IngridentID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fIngridentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMember_Area_tMember_City">
+          <End Type="FoodDeliveryModel.tMember_City" Role="tMember_City" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMember_Area" Role="tMember_Area" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMember_City">
+              <PropertyRef Name="fCityID" />
+            </Principal>
+            <Dependent Role="tMember_Area">
+              <PropertyRef Name="fCityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMemeber_tMember_Area">
+          <End Type="FoodDeliveryModel.tMember_Area" Role="tMember_Area" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMember_Area">
+              <PropertyRef Name="fAreaID" />
+            </Principal>
+            <Dependent Role="tMemeber">
+              <PropertyRef Name="fAreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMember_Wallat_tMemeber">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMember_Wallat" Role="tMember_Wallat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMember_Wallat">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fMyFavorite_tMemeber1">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMyFavorite" Role="tMyFavorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMyFavorite">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_Board_tMemeber3">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMessage_Board" Role="tMessage_Board" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMessage_Board">
+              <PropertyRef Name="fFromID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_tMemeber">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMessage" Role="tMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMessage">
+              <PropertyRef Name="fFromID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_tMemeber1">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMessage" Role="tMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tMessage">
+              <PropertyRef Name="fToID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tMemeber">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tPhoto" Role="tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_tMemeber">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tRestaurant">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tMemeber">
+          <End Type="FoodDeliveryModel.tMemeber" Role="tMemeber" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurantOrders" Role="tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMemeber">
+              <PropertyRef Name="fMemberID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fMemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_Board_tMessage_Board">
+          <End Type="FoodDeliveryModel.tMessage_Board" Role="tMessage_Board" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tMessage_Board" Role="tMessage_Board1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMessage_Board">
+              <PropertyRef Name="fMessageBoard_ID" />
+            </Principal>
+            <Dependent Role="tMessage_Board1">
+              <PropertyRef Name="fParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMessage_Board_tRestaurant1">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMessage_Board" Role="tMessage_Board" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tMessage_Board">
+              <PropertyRef Name="fToID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fMyFavorite_tRestaurant2">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMyFavorite" Role="tMyFavorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tMyFavorite">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMyFavorite_tMyFavoriteCategory">
+          <End Type="FoodDeliveryModel.tMyFavoriteCategory" Role="tMyFavoriteCategory" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tMyFavorite" Role="tMyFavorite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMyFavoriteCategory">
+              <PropertyRef Name="fFavCategoryID" />
+            </Principal>
+            <Dependent Role="tMyFavorite">
+              <PropertyRef Name="fFavCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMyFavorite_RestaurantNews_tNewsType">
+          <End Type="FoodDeliveryModel.tNewsType" Role="tNewsType" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tMyFavorite_RestaurantNews" Role="tMyFavorite_RestaurantNews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tNewsType">
+              <PropertyRef Name="fNewsTypeID" />
+            </Principal>
+            <Dependent Role="tMyFavorite_RestaurantNews">
+              <PropertyRef Name="fNewsTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_PaymentWay_Detail_tPaymentWay">
+          <End Type="FoodDeliveryModel.tPaymentWay" Role="tPaymentWay" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurant_PaymentWay_Detail" Role="tRestaurant_PaymentWay_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPaymentWay">
+              <PropertyRef Name="fPaymentwayID" />
+            </Principal>
+            <Dependent Role="tRestaurant_PaymentWay_Detail">
+              <PropertyRef Name="fPaymentwayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tPaymentWay">
+          <End Type="FoodDeliveryModel.tPaymentWay" Role="tPaymentWay" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurantOrders" Role="tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPaymentWay">
+              <PropertyRef Name="fPaymentwayID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fPayment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tRestaurant">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tPhoto" Role="tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPhoto_tRestaurant_Foods">
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tPhoto" Role="tPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tPhoto">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tProducts_tRestaurant">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Foods">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_Category_Details_tRestaurant">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tRestaurant_Category_Details" Role="tRestaurant_Category_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Category_Details">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_tRestaurant_PaymentWay_Detail">
+          <End Type="FoodDeliveryModel.tRestaurant_PaymentWay_Detail" Role="tRestaurant_PaymentWay_Detail" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_PaymentWay_Detail">
+              <PropertyRef Name="fID" />
+            </Principal>
+            <Dependent Role="tRestaurant">
+              <PropertyRef Name="fPaymentWayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tRestaurant">
+          <End Type="FoodDeliveryModel.tRestaurant" Role="tRestaurant" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurantOrders" Role="tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant">
+              <PropertyRef Name="fRestaurantID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fRestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurant_Category_Details_tRestaurant_Category">
+          <End Type="FoodDeliveryModel.tRestaurant_Category" Role="tRestaurant_Category" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tRestaurant_Category_Details" Role="tRestaurant_Category_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Category">
+              <PropertyRef Name="fRestaurant_CategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Category_Details">
+              <PropertyRef Name="fRestaurant_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tProducts_tProductCategory">
+          <End Type="FoodDeliveryModel.tRestaurant_FoodCustomizedCategory" Role="tRestaurant_FoodCustomizedCategory" Multiplicity="0..1" />
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_FoodCustomizedCategory">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Principal>
+            <Dependent Role="tRestaurant_Foods">
+              <PropertyRef Name="fCustomizedCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tOrder_Details_tProducts">
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurantOrder_Details" Role="tRestaurantOrder_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrder_Details">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods">
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurantMeal_Detail" Role="tRestaurantMeal_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tRestaurantMeal_Detail">
+              <PropertyRef Name="fMealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantMeal_Detail_tRestaurant_Foods3">
+          <End Type="FoodDeliveryModel.tRestaurant_Foods" Role="tRestaurant_Foods" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurantMeal_Detail" Role="tRestaurantMeal_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Foods">
+              <PropertyRef Name="fFoodID" />
+            </Principal>
+            <Dependent Role="tRestaurantMeal_Detail">
+              <PropertyRef Name="fFoodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tRestaurantOrders_tRestaurant_Order_States">
+          <End Type="FoodDeliveryModel.tRestaurant_Order_States" Role="tRestaurant_Order_States" Multiplicity="1" />
+          <End Type="FoodDeliveryModel.tRestaurantOrders" Role="tRestaurantOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurant_Order_States">
+              <PropertyRef Name="fStateID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrders">
+              <PropertyRef Name="fOrderStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tOrder_Details_tOrders">
+          <End Type="FoodDeliveryModel.tRestaurantOrders" Role="tRestaurantOrders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FoodDeliveryModel.tRestaurantOrder_Details" Role="tRestaurantOrder_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRestaurantOrders">
+              <PropertyRef Name="fOrderID" />
+            </Principal>
+            <Dependent Role="tRestaurantOrder_Details">
+              <PropertyRef Name="fOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FoodDeliveryModelStoreContainer" CdmEntityContainer="FoodDeliveryEntities">
+          <EntitySetMapping Name="ChatRoom">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.ChatRoom">
+              <MappingFragment StoreEntitySet="ChatRoom">
+                <ScalarProperty Name="fFrom" ColumnName="fFrom" />
+                <ScalarProperty Name="Read" ColumnName="Read" />
+                <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+                <ScalarProperty Name="RestaurantID" ColumnName="RestaurantID" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.Messages">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="fMemberName" ColumnName="fMemberName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="EmptyMessage" ColumnName="EmptyMessage" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tAdvertisement">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tAdvertisement">
+              <MappingFragment StoreEntitySet="tAdvertisement">
+                <ScalarProperty Name="fPriceRegionID" ColumnName="fPriceRegionID" />
+                <ScalarProperty Name="fClickCount" ColumnName="fClickCount" />
+                <ScalarProperty Name="fMediaIntroduction" ColumnName="fMediaIntroduction" />
+                <ScalarProperty Name="fAppliedDate" ColumnName="fAppliedDate" />
+                <ScalarProperty Name="fDays" ColumnName="fDays" />
+                <ScalarProperty Name="fAdvertisementID" ColumnName="fAdvertisementID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tAdvertisement_Article">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tAdvertisement_Article">
+              <MappingFragment StoreEntitySet="tAdvertisement_Article">
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fHtml" ColumnName="fHtml" />
+                <ScalarProperty Name="fImage" ColumnName="fImage" />
+                <ScalarProperty Name="fUpdateDate" ColumnName="fUpdateDate" />
+                <ScalarProperty Name="fCreateDate" ColumnName="fCreateDate" />
+                <ScalarProperty Name="fIsPublish" ColumnName="fIsPublish" />
+                <ScalarProperty Name="fContentText" ColumnName="fContentText" />
+                <ScalarProperty Name="fSubject" ColumnName="fSubject" />
+                <ScalarProperty Name="fId" ColumnName="fId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tAdvertisement_Price">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tAdvertisement_Price">
+              <MappingFragment StoreEntitySet="tAdvertisement_Price">
+                <ScalarProperty Name="fPriceReigon" ColumnName="fPriceReigon" />
+                <ScalarProperty Name="fPriceReigonID" ColumnName="fPriceReigonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tBrowseHistory">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tBrowseHistory">
+              <MappingFragment StoreEntitySet="tBrowseHistory">
+                <ScalarProperty Name="fDateTime" ColumnName="fDateTime" />
+                <ScalarProperty Name="fBrowseID" ColumnName="fBrowseID" />
+                <ScalarProperty Name="fArticleID" ColumnName="fArticleID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tCategory">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tCategory">
+              <MappingFragment StoreEntitySet="tCategory">
+                <ScalarProperty Name="fCategoryDescription" ColumnName="fCategoryDescription" />
+                <ScalarProperty Name="fModifiedDate" ColumnName="fModifiedDate" />
+                <ScalarProperty Name="fParentID" ColumnName="fParentID" />
+                <ScalarProperty Name="fCategoryName" ColumnName="fCategoryName" />
+                <ScalarProperty Name="fCategoryID" ColumnName="fCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tComment">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tComment">
+              <MappingFragment StoreEntitySet="tComment">
+                <ScalarProperty Name="fDate" ColumnName="fDate" />
+                <ScalarProperty Name="fLike" ColumnName="fLike" />
+                <ScalarProperty Name="fComment" ColumnName="fComment" />
+                <ScalarProperty Name="fStars" ColumnName="fStars" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tFood_CustomizedOption">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tFood_CustomizedOption">
+              <MappingFragment StoreEntitySet="tFood_CustomizedOption">
+                <ScalarProperty Name="fPrice" ColumnName="fPrice" />
+                <ScalarProperty Name="fCustomizedOptionName" ColumnName="fCustomizedOptionName" />
+                <ScalarProperty Name="fCustomizedCategoryID" ColumnName="fCustomizedCategoryID" />
+                <ScalarProperty Name="fCustomizedOptionID" ColumnName="fCustomizedOptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tFood_FoodIngrident_Detail">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tFood_FoodIngrident_Detail">
+              <MappingFragment StoreEntitySet="tFood_FoodIngrident_Detail">
+                <ScalarProperty Name="fFood_IngridentID" ColumnName="fFood_IngridentID" />
+                <ScalarProperty Name="fFoodID" ColumnName="fFoodID" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tFood_Ingrident">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tFood_Ingrident">
+              <MappingFragment StoreEntitySet="tFood_Ingrident">
+                <ScalarProperty Name="fPhotoID" ColumnName="fPhotoID" />
+                <ScalarProperty Name="fName" ColumnName="fName" />
+                <ScalarProperty Name="fFood_IngridentID" ColumnName="fFood_IngridentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMember_Area">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMember_Area">
+              <MappingFragment StoreEntitySet="tMember_Area">
+                <ScalarProperty Name="fCityID" ColumnName="fCityID" />
+                <ScalarProperty Name="fAreaName" ColumnName="fAreaName" />
+                <ScalarProperty Name="fAreaID" ColumnName="fAreaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMember_City">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMember_City">
+              <MappingFragment StoreEntitySet="tMember_City">
+                <ScalarProperty Name="fCityName" ColumnName="fCityName" />
+                <ScalarProperty Name="fCityID" ColumnName="fCityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMember_Wallat">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMember_Wallat">
+              <MappingFragment StoreEntitySet="tMember_Wallat">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="fDeposit" ColumnName="fDeposit" />
+                <ScalarProperty Name="fWithdraw" ColumnName="fWithdraw" />
+                <ScalarProperty Name="fWallat_Surplus" ColumnName="fWallat_Surplus" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMemeber">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMemeber">
+              <MappingFragment StoreEntitySet="tMemeber">
+                <ScalarProperty Name="fValidNumber" ColumnName="fValidNumber" />
+                <ScalarProperty Name="fActivated" ColumnName="fActivated" />
+                <ScalarProperty Name="fReportsTo" ColumnName="fReportsTo" />
+                <ScalarProperty Name="fRoleID" ColumnName="fRoleID" />
+                <ScalarProperty Name="fWalletTotalMoney" ColumnName="fWalletTotalMoney" />
+                <ScalarProperty Name="fCollectionPoint" ColumnName="fCollectionPoint" />
+                <ScalarProperty Name="fCreditAccount" ColumnName="fCreditAccount" />
+                <ScalarProperty Name="fTel" ColumnName="fTel" />
+                <ScalarProperty Name="fPhone" ColumnName="fPhone" />
+                <ScalarProperty Name="fJoinDate" ColumnName="fJoinDate" />
+                <ScalarProperty Name="fGender" ColumnName="fGender" />
+                <ScalarProperty Name="fBirth" ColumnName="fBirth" />
+                <ScalarProperty Name="fLongitude" ColumnName="fLongitude" />
+                <ScalarProperty Name="fLatitude" ColumnName="fLatitude" />
+                <ScalarProperty Name="fAddress" ColumnName="fAddress" />
+                <ScalarProperty Name="fAreaID" ColumnName="fAreaID" />
+                <ScalarProperty Name="fPhotoID" ColumnName="fPhotoID" />
+                <ScalarProperty Name="fPassword" ColumnName="fPassword" />
+                <ScalarProperty Name="fPasswordConfirm" ColumnName="fPasswordConfirm" />
+                <ScalarProperty Name="fEmail" ColumnName="fEmail" />
+                <ScalarProperty Name="fMemeberName" ColumnName="fMemeberName" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMessage">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMessage">
+              <MappingFragment StoreEntitySet="tMessage">
+                <ScalarProperty Name="fRead" ColumnName="fRead" />
+                <ScalarProperty Name="fMessage" ColumnName="fMessage" />
+                <ScalarProperty Name="fToID" ColumnName="fToID" />
+                <ScalarProperty Name="fFromID" ColumnName="fFromID" />
+                <ScalarProperty Name="fDateTime" ColumnName="fDateTime" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMessage_Board">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMessage_Board">
+              <MappingFragment StoreEntitySet="tMessage_Board">
+                <ScalarProperty Name="fRead" ColumnName="fRead" />
+                <ScalarProperty Name="fParentID" ColumnName="fParentID" />
+                <ScalarProperty Name="fMessage" ColumnName="fMessage" />
+                <ScalarProperty Name="fToID" ColumnName="fToID" />
+                <ScalarProperty Name="fFromID" ColumnName="fFromID" />
+                <ScalarProperty Name="fDatetime" ColumnName="fDatetime" />
+                <ScalarProperty Name="fMessageBoard_ID" ColumnName="fMessageBoard_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMyFavorite">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMyFavorite">
+              <MappingFragment StoreEntitySet="tMyFavorite">
+                <ScalarProperty Name="fFavCategoryID" ColumnName="fFavCategoryID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMyFavorite_RestaurantNews">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMyFavorite_RestaurantNews">
+              <MappingFragment StoreEntitySet="tMyFavorite_RestaurantNews">
+                <ScalarProperty Name="fTitle" ColumnName="fTitle" />
+                <ScalarProperty Name="fPublishedDate" ColumnName="fPublishedDate" />
+                <ScalarProperty Name="fNews" ColumnName="fNews" />
+                <ScalarProperty Name="fNewsTypeID" ColumnName="fNewsTypeID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fArticleID" ColumnName="fArticleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMyFavoriteCategory">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tMyFavoriteCategory">
+              <MappingFragment StoreEntitySet="tMyFavoriteCategory">
+                <ScalarProperty Name="fFavCategoryName" ColumnName="fFavCategoryName" />
+                <ScalarProperty Name="fFavCategoryID" ColumnName="fFavCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tNewsType">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tNewsType">
+              <MappingFragment StoreEntitySet="tNewsType">
+                <ScalarProperty Name="fNewsTypeName" ColumnName="fNewsTypeName" />
+                <ScalarProperty Name="fNewsTypeID" ColumnName="fNewsTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tPaymentWay">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tPaymentWay">
+              <MappingFragment StoreEntitySet="tPaymentWay">
+                <ScalarProperty Name="fPaymentway" ColumnName="fPaymentway" />
+                <ScalarProperty Name="fPaymentwayID" ColumnName="fPaymentwayID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tPhoto">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tPhoto">
+              <MappingFragment StoreEntitySet="tPhoto">
+                <ScalarProperty Name="fBytesImage" ColumnName="fBytesImage" />
+                <ScalarProperty Name="fPhotoPath" ColumnName="fPhotoPath" />
+                <ScalarProperty Name="fFoodImage" ColumnName="fFoodImage" />
+                <ScalarProperty Name="fDateTime" ColumnName="fDateTime" />
+                <ScalarProperty Name="fFoodID" ColumnName="fFoodID" />
+                <ScalarProperty Name="fIngridentID" ColumnName="fIngridentID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fPhotoID" ColumnName="fPhotoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurant">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurant">
+              <MappingFragment StoreEntitySet="tRestaurant">
+                <ScalarProperty Name="fAveragePricePerGuest" ColumnName="fAveragePricePerGuest" />
+                <ScalarProperty Name="fDescription" ColumnName="fDescription" />
+                <ScalarProperty Name="fRestaurantName" ColumnName="fRestaurantName" />
+                <ScalarProperty Name="fSpecial_RestDay_per_month_" ColumnName="fSpecial_RestDay(per month)" />
+                <ScalarProperty Name="fPhotoID" ColumnName="fPhotoID" />
+                <ScalarProperty Name="fPaymentWayID" ColumnName="fPaymentWayID" />
+                <ScalarProperty Name="fCloseTime" ColumnName="fCloseTime" />
+                <ScalarProperty Name="fRoutine_RestDay_per_week_" ColumnName="fRoutine_RestDay(per week)" />
+                <ScalarProperty Name="fOpenTime" ColumnName="fOpenTime" />
+                <ScalarProperty Name="fRestaurant_CategoryID" ColumnName="fRestaurant_CategoryID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurant_Category">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurant_Category">
+              <MappingFragment StoreEntitySet="tRestaurant_Category">
+                <ScalarProperty Name="fImage" ColumnName="fImage" />
+                <ScalarProperty Name="fBuildDate" ColumnName="fBuildDate" />
+                <ScalarProperty Name="fCategory_Description" ColumnName="fCategory_Description" />
+                <ScalarProperty Name="fCategory_Name" ColumnName="fCategory_Name" />
+                <ScalarProperty Name="fRestaurant_CategoryID" ColumnName="fRestaurant_CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurant_Category_Details">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurant_Category_Details">
+              <MappingFragment StoreEntitySet="tRestaurant_Category_Details">
+                <ScalarProperty Name="fBuildDate" ColumnName="fBuildDate" />
+                <ScalarProperty Name="fRestaurant_CategoryID" ColumnName="fRestaurant_CategoryID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fId" ColumnName="fId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurant_FoodCustomizedCategory">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurant_FoodCustomizedCategory">
+              <MappingFragment StoreEntitySet="tRestaurant_FoodCustomizedCategory">
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fCategoryDescription" ColumnName="fCategoryDescription" />
+                <ScalarProperty Name="fModifiedDate" ColumnName="fModifiedDate" />
+                <ScalarProperty Name="fParentID" ColumnName="fParentID" />
+                <ScalarProperty Name="fCustomizedCategoryName" ColumnName="fCustomizedCategoryName" />
+                <ScalarProperty Name="fCustomizedCategoryID" ColumnName="fCustomizedCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurant_Foods">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurant_Foods">
+              <MappingFragment StoreEntitySet="tRestaurant_Foods">
+                <ScalarProperty Name="fFoodDescription" ColumnName="fFoodDescription" />
+                <ScalarProperty Name="fIsMeal" ColumnName="fIsMeal" />
+                <ScalarProperty Name="fCategoryID" ColumnName="fCategoryID" />
+                <ScalarProperty Name="fCookTime" ColumnName="fCookTime" />
+                <ScalarProperty Name="fPhotoID" ColumnName="fPhotoID" />
+                <ScalarProperty Name="fModifiedDate" ColumnName="fModifiedDate" />
+                <ScalarProperty Name="fRaw_Cooked" ColumnName="fRaw_Cooked" />
+                <ScalarProperty Name="fDiscount" ColumnName="fDiscount" />
+                <ScalarProperty Name="fAvailable" ColumnName="fAvailable" />
+                <ScalarProperty Name="fCost" ColumnName="fCost" />
+                <ScalarProperty Name="fPrice" ColumnName="fPrice" />
+                <ScalarProperty Name="fRemark" ColumnName="fRemark" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fCustomizedCategoryID" ColumnName="fCustomizedCategoryID" />
+                <ScalarProperty Name="fFoodName" ColumnName="fFoodName" />
+                <ScalarProperty Name="fFoodID" ColumnName="fFoodID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurant_Order_States">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurant_Order_States">
+              <MappingFragment StoreEntitySet="tRestaurant_Order_States">
+                <ScalarProperty Name="fState_Description" ColumnName="fState_Description" />
+                <ScalarProperty Name="fStateID" ColumnName="fStateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurant_PaymentWay_Detail">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurant_PaymentWay_Detail">
+              <MappingFragment StoreEntitySet="tRestaurant_PaymentWay_Detail">
+                <ScalarProperty Name="fPaymentwayID" ColumnName="fPaymentwayID" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurantMeal_Detail">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurantMeal_Detail">
+              <MappingFragment StoreEntitySet="tRestaurantMeal_Detail">
+                <ScalarProperty Name="fFoodID" ColumnName="fFoodID" />
+                <ScalarProperty Name="fMealID" ColumnName="fMealID" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurantOrder_Details">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurantOrder_Details">
+              <MappingFragment StoreEntitySet="tRestaurantOrder_Details">
+                <ScalarProperty Name="fCustomizedOptionID" ColumnName="fCustomizedOptionID" />
+                <ScalarProperty Name="fIsCheckout" ColumnName="fIsCheckout" />
+                <ScalarProperty Name="fQuantity" ColumnName="fQuantity" />
+                <ScalarProperty Name="fDiscount" ColumnName="fDiscount" />
+                <ScalarProperty Name="fRemark" ColumnName="fRemark" />
+                <ScalarProperty Name="fPrice" ColumnName="fPrice" />
+                <ScalarProperty Name="fFoodID" ColumnName="fFoodID" />
+                <ScalarProperty Name="fOrderID" ColumnName="fOrderID" />
+                <ScalarProperty Name="fID" ColumnName="fID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRestaurantOrders">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRestaurantOrders">
+              <MappingFragment StoreEntitySet="tRestaurantOrders">
+                <ScalarProperty Name="fIsDelay" ColumnName="fIsDelay" />
+                <ScalarProperty Name="fCustomizedOptionID" ColumnName="fCustomizedOptionID" />
+                <ScalarProperty Name="fIsHistory" ColumnName="fIsHistory" />
+                <ScalarProperty Name="fComment" ColumnName="fComment" />
+                <ScalarProperty Name="fStar" ColumnName="fStar" />
+                <ScalarProperty Name="fOrderStatus" ColumnName="fOrderStatus" />
+                <ScalarProperty Name="fRemark" ColumnName="fRemark" />
+                <ScalarProperty Name="fPayment" ColumnName="fPayment" />
+                <ScalarProperty Name="fDeliverName" ColumnName="fDeliverName" />
+                <ScalarProperty Name="Company_Tax_ID" ColumnName="Company Tax ID" />
+                <ScalarProperty Name="fDeliveryAddress" ColumnName="fDeliveryAddress" />
+                <ScalarProperty Name="fDeliveryTime" ColumnName="fDeliveryTime" />
+                <ScalarProperty Name="fTakeoutTime" ColumnName="fTakeoutTime" />
+                <ScalarProperty Name="fOrderDatetime" ColumnName="fOrderDatetime" />
+                <ScalarProperty Name="fRestaurantID" ColumnName="fRestaurantID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fOrderID" ColumnName="fOrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRole">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tRole">
+              <MappingFragment StoreEntitySet="tRole">
+                <ScalarProperty Name="fRoleName" ColumnName="fRoleName" />
+                <ScalarProperty Name="fRoleID" ColumnName="fRoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tShoppingCart">
+            <EntityTypeMapping TypeName="FoodDeliveryModel.tShoppingCart">
+              <MappingFragment StoreEntitySet="tShoppingCart">
+                <ScalarProperty Name="fMealRecordID" ColumnName="fMealRecordID" />
+                <ScalarProperty Name="fDateCreated" ColumnName="fDateCreated" />
+                <ScalarProperty Name="fQuantity" ColumnName="fQuantity" />
+                <ScalarProperty Name="fCustomizedOptionID" ColumnName="fCustomizedOptionID" />
+                <ScalarProperty Name="fFoodID" ColumnName="fFoodID" />
+                <ScalarProperty Name="fMemberID" ColumnName="fMemberID" />
+                <ScalarProperty Name="fCartID" ColumnName="fCartID" />
+                <ScalarProperty Name="fRecordID" ColumnName="fRecordID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

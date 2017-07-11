@@ -1,0 +1,176 @@
+﻿@model IEnumerable<FoodDeliveryTemplete.ViewModels.CartListViewModel>
+@using FoodDeliveryTemplete.ViewModels
+@section style
+{
+    <style>
+        h4, h5, h6 {
+            color: #2b2f40;
+            font-weight: 500;
+            font-family: 'Microsoft YaHei';
+        }
+
+        p {
+            color: lightblue;
+            font-family: 'Microsoft YaHei';
+        }
+        /*評點*/
+        .s {
+            -webkit-filter: grayscale(10);
+        }
+
+        .n {
+            -webkit-filter: grayscale(0);
+        }
+    </style>
+}
+<div class="row">
+    <div class="row">
+        <div class="col-lg-4">
+            <p>最近訂單</p>
+            <p>送餐狀態</p>
+            <p>線上評論</p>
+        </div>
+        <div class="col-lg-8">
+            <br />
+            <h4>會員訂單明細:</h4>
+            <div style="overflow:auto;height:700px;margin:30px">
+                @foreach (var _CartListViewModel in Model)
+                {
+                    decimal SumTotal = 0;
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item">
+                            <h4>餐廳名稱:@_CartListViewModel.fRestaurantName</h4>
+                            <h5>此訂單編號為：@_CartListViewModel.fOrderID</h5>
+                            <h6>訂購時間:@_CartListViewModel.fOrderDatetime</h6>
+                            <h6>餐點狀態:@_CartListViewModel.fState_Description</h6>
+                            <h6>菜色清單:</h6>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>菜色名稱</th>
+                                        <th>價格</th>
+                                        <th>數量</th>
+                                        <th>小計</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var food in _CartListViewModel.FoodNameShowViewModels)
+                                    {
+                                        decimal total = food.fPrice * food.fQuantity;
+                                        if (food.fIsMeal)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @food.fFoodName
+                                                    <ul>
+                                                        @foreach (var fx in food.SubDishCategories)
+                                                        {
+                                                            <li> @fx.fFoodName &nbsp;&nbsp;(@fx.fCustomizedCategoryName)</li>
+                                                        }
+                                                    </ul>
+                                                </td>
+                                                <td>@food.fPrice</td>
+                                                <td>@food.fQuantity</td>
+                                                <td>@total</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>@food.fFoodName &nbsp;&nbsp;(@food.fCustomizedCategoryName)</td>
+                                                <td>@food.fPrice</td>
+                                                <td>@food.fQuantity</td>
+                                                <td>@total</td>
+                                            </tr>
+                                        }
+                                        SumTotal += total;
+                                    }
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <h6>總額 @SumTotal</h6>
+                        </li>
+                    </ul>
+                }
+            </div>
+            @*評點*@
+            <div>
+                <p>餐點評點</p>
+                <img id="good1" name="score" class="s" src="/images/good/good.jpg" style="width:50px;" />
+                <img id="good2" name="score" class="s" src="/images/good/good.jpg" style="width:50px;" />
+                <img id="good3" name="score" class="s" src="/images/good/good.jpg" style="width:50px;" />
+                <img id="good4" name="score" class="s" src="/images/good/good.jpg" style="width:50px;" />
+                <img id="good5" name="score" class="s" src="/images/good/good.jpg" style="width:50px;" />
+                <h2 id="ing">打分中...</h2>
+                <h2 id="finish"></h2>
+            </div>
+            <div>
+                <p>餐點評論</p>
+                <textarea cols="50" rows="5">
+                    寫下您對於餐點的評論...
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section script{
+    <script>
+        //評分
+        //1.滑鼠滑過去時星星會亮,會出現提示打分中...n
+        //三個註冊事件  滑過去  點擊  滑離開變暗
+        //滑動到個數和亮與否有關(偵測到滑動次數的方式?) 亮和出現提示同時出現
+        //滑動個數是變數
+        //2.滑鼠click事件,評分星星亮,出現你給幾個星
+        window.onload = function () {
+            var score = document.getElementsByName("score");
+
+            for (var i = 0; i < score.length; i++) {
+                score[i].onmousemove = function () { mousemove(this.id) };
+                score[i].onmouseleave = function () { mouseleave(this.id) };
+                score[i].onclick = function () { mouseclick(this.id) };
+            }
+        }
+        function mousemove(id) {
+            for (var i = 1; i <= id.substr(4) ; i++) {
+                document.getElementById("good" + i).className = "n";
+                document.getElementById("ing").innerHTML = "評讚中..." + i;
+            }
+
+
+        }
+
+        function mouseleave(id) {
+            for (var i = 1; i <= score.length; i++) {
+                document.getElementById("good" + i).className = "s";
+
+            }
+
+        }
+        function mouseclick(id) {
+            var score = document.getElementsByName("score");
+
+
+            for (var i = 0; i < score.length; i++) {
+                if (score[i].onmousemove == null) {
+                    document.getElementById("finish").innerHTML = "";
+                    document.getElementById("ing").innerHTML = "評讚中...";
+                    score[i].onmousemove = function () { mousemove(this.id) };
+                    score[i].onmouseleave = function () { mouseleave(this.id) };
+                }
+                else {
+
+                    document.getElementById("finish").innerHTML = "共" + id.substr(4) + "個讚";
+                    document.getElementById("ing").innerHTML = "請任意點擊任何讚，重新評價";
+                    score[i].onmousemove = null;
+                    score[i].onmouseleave = null;
+                }
+            }
+
+        }
+
+    </script>
+}

@@ -1,0 +1,102 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+@section style{
+
+
+
+}
+
+@section script{
+
+  <script>
+      $(document).ready(function () {
+
+          act_manage('管理您參與的活動');
+          
+      })
+
+
+      function act_manage(message)
+      {
+          var url = '@Url.Action("InvolvedActivities_Manage", "RestaurantActivities",new { Area="yuwang", resID=ViewBag.resid })';
+          $('#main').load(url, function () {
+
+              
+
+              $('#show_edit_del_div').text(message);
+
+              $('button.btn_delete_act').click(function () {
+                  //alert($(this).val())
+                  fID = $(this).val();
+                  var url = '@Url.Action("Delete_Involved_Activity", "RestaurantActivities",new { Area="yuwang"})';
+                  $.ajax({
+                      url: url,
+                      type: 'POST',
+                      data: { fID: fID },
+                      async:false,
+                      success: function (result) {
+                          if (result == "已刪除") {
+                              //$('#show_edit_del_div').text('已刪除')
+                              act_manage('已刪除')
+                          }
+                      },
+                      cache: false
+                  });
+              })
+
+              $('#act_sel').change(function () {
+                  var catID = $(this).val();
+                  var cat_desc = $(this).parent().parent().find('#'+catID).val();
+                  //alert(catID);
+                  //alert(cat_desc);
+                  $('.thumbnail').find('h3').text(cat_desc);
+              })
+
+              document.getElementById("act_sel").value = 1;
+              var desc= $('#act_sel').parent().find('#1').val();
+              $('.thumbnail').find('h3').text(desc);
+
+              ///未完成
+              $('#act_add').click(function () {
+                  var act_id = $(this).prev().find('option:selected').val();
+                  //alert(act_id);
+                  var url = '@Url.Action("Add_Activity", "RestaurantActivities",new { Area="yuwang"})';
+                  $.ajax({
+                      url: url,
+                      type: 'POST',
+                      data: { actID: act_id,resID:@ViewBag.resid },
+                      async: false,
+                      success: function (result) {
+                          if (result == "參與活動成功") {
+                              act_manage('參與活動成功')
+                          }
+                          if (result == "您已參與活動") {
+                              act_manage('您已參與該活動了!')
+                          }
+                      },
+                      cache: false
+                  });
+              })
+          })
+      }
+    </script>
+
+
+}
+<div class="container" >
+    <div class="row">
+        <div class="col-lg-12">
+            <div  class="alert alert-info" role="alert"> <h3 id="show_edit_del_div"></h3></div>
+        </div>
+        
+    </div>
+    <div class="row" id="main">
+
+    </div>
+
+</div>

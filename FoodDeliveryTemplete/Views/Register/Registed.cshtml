@@ -1,0 +1,259 @@
+﻿
+@model FoodDeliveryTemplete.ViewModel.MemberRegistedViewModel
+@{
+    ViewBag.Title = "食速列車-會員註冊";
+    Layout = "~/Views/Register/_RegisterPage.cshtml";
+}
+@section style
+{
+    <style>
+    .centered-form {
+        margin-top: 60px;
+    }
+
+    .centered-form .panel {
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+    }
+
+    .thumb {
+        width: 250px;
+    }
+
+    .bg {
+        display: inline;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        opacity: 0.7;
+    }
+    .self-control {
+        background-color:white;
+    }
+    .self-control input {
+        border-color: #5bc0de;
+        border-radius:5px;
+        width: 80%;
+    }
+    .form-horizontal label {
+        color:#ff6a00;
+        font-family:'標楷體';
+        font-size:16px;        
+    }
+    .form-group select{
+        border-color: #5bc0de;
+        border-radius:5px;
+        width: 80%;
+    }
+</style>
+}
+
+<div class="bg"></div><!--登入效果黑屏-->
+<div class="container">
+    <div class="row centered-form">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-4 col-sm-offset-0"  style="z-index:1001">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h2 style="font-size:20px;text-align:center" class="panel-title">會員註冊填寫資料</h2>
+                    </div>
+                    <div class="panel-body self-control">
+
+                        @using (Html.BeginForm("Registed", "Register", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fEmail, new { @class = "col-sm-3 control-label",style= "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(m => m.fEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "電子郵件" } })
+                                    @Html.ValidationMessageFor(m => m.fEmail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fPassword, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(m => m.fPassword, new { htmlAttributes = new { @class = "form-control", placeholder = "密碼" } })
+                                    @Html.ValidationMessageFor(m => m.fPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fPasswordConfirm, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(m => m.fPasswordConfirm, new { htmlAttributes = new { @class = "form-control", placeholder = "密碼確認" } })
+                                    @Html.ValidationMessageFor(m => m.fPasswordConfirm, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.fMemeberName, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(m => m.fMemeberName, new { htmlAttributes = new { @class = "form-control", placeholder = "會員名稱" } })
+                                    @Html.ValidationMessageFor(m => m.fMemeberName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>                               
+                              
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fGender, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+
+                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.fGender, "男", new { @class = "radio-inline form-inline", style = "padding-top:14px;" }) 男</label>
+
+                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.fGender, "女", new { @class = "radio-inline form-inline", style = "padding-top:14px;" }) 女</label>
+
+                                        @Html.ValidationMessageFor(m => m.fGender, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fBirth, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(m => m.fBirth, new { htmlAttributes = new { type = "date", @class = "form-control", placeholder = "生日" } })
+                                        @Html.ValidationMessageFor(m => m.fBirth, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fPhone, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(m => m.fPhone, new { htmlAttributes = new { @class = "form-control", placeholder = "手機" } })
+                                        @Html.ValidationMessageFor(m => m.fPhone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fTel, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(m => m.fTel, new { htmlAttributes = new { @class = "form-control", placeholder = "電話" } })
+                                        @Html.ValidationMessageFor(m => m.fTel, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("居住城市", new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                    <div class="col-sm-9">
+                                        @{
+                                            var city = new SelectList(ViewBag.datas, "fCityID", "fCityName");
+                                        }
+                                        @Html.DropDownList("fCityID", city, "請選擇城市", new { id = "fCityID", @class = "form-control" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fAreaID, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                    <div class="col-sm-9">
+                                        <select class="form-control"  id="fAreaID" name="fAreaID" ><option></option></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fAddress, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(m => m.fAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "地址" } })
+                                        @Html.ValidationMessageFor(m => m.fAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.fPhotoID, new { @class = "col-sm-3 control-label", style = "padding-top:14px;" })
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control" placeholder="照片" id="memberPhoto" name="memberPhoto" />
+                                        <br />
+                                        @ViewBag.message
+                                        <div id="photozone">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <button type="submit" class="btn btn-info" style="width:100%;">註冊</button>
+                                    </div>
+                                </div>
+      }
+
+                        <button type="button" class="btn btn-success" id="demo">Demo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      
+@section script{    
+    <script>
+        var thefile = this.File;
+        $(document).ready(function () {
+            //----------連動下拉是選單-------
+            $('#fCityID').change(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("GetArea","Register")',
+                    data: { id: $('#fCityID').val() },
+                    success: function (data) {
+                        $('#fAreaID').empty();
+                        //$('#fCityID option[value=""]').remove();
+                        $.each(data, function (idx, area) {
+                            $('#fAreaID').append('<option Value ="' + area.Value + '">' + area.Text + '</option>')
+                        })
+                    }
+                })
+            })
+            //------預覽上傳圖片--------
+            $('#memberPhoto').change(function () {
+
+                var thefile = this.files[0];
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#photozone').empty();
+                    //console.log(e.target.result);
+                    var filecontent = e.target.result;
+
+                    var imgobj = $("<img/>");
+                    imgobj.attr({ 'src': filecontent, 'class': 'thumb' });
+                    $('#photozone').append(imgobj);
+                }
+                reader.readAsDataURL(thefile);
+            })
+
+            //------------驗證信箱是否被註冊過
+            $('#fEmail').blur(function () {
+                var email = $(this).val();
+
+                $.getJSON('@Url.Action("ValidEmail","Register")', { "email": email }, function (data) {
+                    $('span[data-valmsg-for="fEmail"]').text(data)
+                })
+            })
+
+            //demo-------------
+            $('#demo').click(function () {
+                $('#fEmail').val("b96613009@ntu.edu.tw");
+                $('#fPassword').val("0000");
+                $('#fPasswordConfirm').val("0000");
+                $('input[value="男"]').prop('checked', true);
+                $('#fBirth').val("1988-10-25");
+                $('#fMemeberName').val("阿育王");
+                $('#fTel').val("02-2776-6524");
+                $('#fPhone').val("0937-907-439");
+                $('#fAddress').val("秀朗國小");
+
+
+
+            })
+        })
+    </script>
+}
+
+

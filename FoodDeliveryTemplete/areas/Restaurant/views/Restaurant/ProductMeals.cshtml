@@ -1,0 +1,72 @@
+﻿
+
+@model IEnumerable<FoodDeliveryTemplete.Models.tRestaurant_Foods>
+<table class="table table-bordered table-hover">
+    <thead style="background-color:#FFAD86">
+        <tr>
+            <td></td>
+            <td>@Html.DisplayNameFor(c => c.fFoodName)</td>
+            <td>@Html.DisplayNameFor(c => c.tCategory.fCategoryName)</td>
+            <td>@Html.DisplayNameFor(c => c.fPrice)</td>
+            <td>@Html.DisplayNameFor(c => c.fCost)</td>
+            @*<td>@Html.DisplayNameFor(c => c.fDiscount)</td>*@
+            <td>@Html.DisplayNameFor(c => c.fCookTime)</td>
+            <td class="setFoodDescription">@Html.DisplayNameFor(c => c.fFoodDescription)</td>
+            <td>@Html.Label("編輯")</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var _Product in Model)
+        {
+            <tr>
+                <td>@Html.CheckBox("FoodID", false, _Product.fFoodID)@Html.HiddenFor(c => _Product.fFoodID)</td>
+                <td>@Html.DisplayFor(c => _Product.fFoodName)</td>
+                <td>@Html.DisplayFor(c => _Product.tCategory.fCategoryName)</td>
+                <td>@Html.DisplayFor(c => _Product.fPrice)</td>
+                <td>@Html.DisplayFor(c => _Product.fCost)</td>
+                @*<td>@Html.DisplayFor(c => _Product.fDiscount)</td>*@
+                <td>@Html.DisplayFor(c => _Product.fCookTime)</td>
+                <td>
+                    @*@Html.DisplayFor(c => _Product.fFoodDescription)*@
+                    @Html.TextAreaFor(c => _Product.fFoodDescription, 3, 35, new { @class = "textArea" })
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.ActionLink("編輯", "ProductUpdate", "Product", new { ProductID = _Product.fFoodID }, new { @class = "btn btn-info btn-lg glyphicon glyphicon-pencil", style = "color:white" })
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.ActionLink("刪除", "ProductDelete", "Restaurant", new { id = _Product.fFoodID }, new { @class = "btn btn-danger btn-lg glyphicon glyphicon-trash", style = "color:white" })
+                            @*@Html.ActionLink("刪除", "Delete", "tRestaurant_Foods", new { id = _Product.fFoodID }, new { @class = "btn btn-info"})*@
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @*<p>商品下架</p>*@
+                            @Html.ActionLink("下架", "ProductUpdateOff", "Product", new { ProductID = _Product.fFoodID }, new { @class = "btn btn-warning btn-lg glyphicon glyphicon-sort", style = "color:white" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="ProductCount" style="text-align:center">
+    @for (int c = 1; c <= @ViewBag.productcount; c++)
+    {
+        <a>
+            @Html.Label("" + c + "", new { @class = "btn btn-warning productpagebtn", value = c })
+        </a>
+    }
+</div>
+
+<script>
+    $(".productpagebtn").on("click", function () {
+        var pagenumber = $(this).attr("value");
+        //console.log(pagenumber)
+        $('#tabs-2').load('@Url.Action("ProductMeals", "Restaurant")' + "?page=" + pagenumber);
+    })
+    $("tbody>tr").hover(function () {
+        $(this).children().css("background-color", "#EAC100");//進來時
+    }, function () {
+        $(this).children().css("background-color", "#FFD1A4");//離開時
+    });
+</script>

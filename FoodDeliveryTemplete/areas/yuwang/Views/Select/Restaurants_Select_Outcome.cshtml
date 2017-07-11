@@ -1,0 +1,80 @@
+﻿
+@model IEnumerable<FoodDeliveryTemplete.Areas.yuwang.ViewModel.RestaurantSelect>
+
+
+@foreach (var restaurant in Model)
+            {
+    <div class="thumbnail col-lg-4">
+        <div class="thumbnail">
+
+            <img src="@Url.Action("GetImageByte","Select",new { id=restaurant.fMemberID})" class="thumbnail" style="width:240px;height:180px" />
+            <div class="caption">
+                <div class="row">
+                    <div class="alert alert-danger " role="alert" style="text-align:center;height:45px;padding-top:2px;padding-bottom:2px;margin:3px">
+                        <h4>@restaurant.fRestaurantName</h4>
+                    </div>
+                </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-info btn-pophover" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="@foreach (var food in restaurant.fRestaurant_Foods)
+                                    {
+                                        @food.fFoodName <text> (</text> @food.fPrice<text>元)</text>
+                                        <text><br/></text>
+                                    }
+                                    ">
+                                看菜單
+                            </button>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-warning btn-pophover" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="@foreach (var category in restaurant.fRestaurant_Categories)
+                                    {
+                                        @category.tRestaurant_Category.fCategory_Name
+                                        <text><br/></text>
+                                    }
+                                    ">
+                                找活動
+                            </button>
+                        </div>
+
+                        <input type="text" class="hidden" value="@restaurant.fMemberID" />
+                        <div class="offset col-sm-4"><a href="@Url.Action("RestaurantBlog","Blog",new { Area="Member",id= restaurant.fRestaurantID,distance=restaurant.fDistance})" class="btn btn-danger distance_cal" role="button" title="訂餐">訂餐去</a><input type="hidden" value="@restaurant.fDistance"></div>
+                        @*<div class="col-sm-4"><button  class="btn btn-danger order_btn" title="訂餐">訂餐<span class="glyphicon glyphicon-shopping-cart"></span></button></div>
+            <input type="text" class="hidden" id="@restaurant.fMemberID" value="@restaurant.fMemberID" />*@
+                        @*<div class="col-sm-4">
+                            <button class="btn btn-warning add_myfav">按讚<span class="glyphicon glyphicon-thumbs-up"></span></button>
+                        </div>*@
+                   </div>
+                   @*<div class="row">
+                        <div style="width: 60px;height: 20px;padding-left: 15px;padding-right: 5px;" class="col-sm-3"><label class="label label-success"><span class="glyphicon glyphicon-heart"></span>:<span style="width:30px" class="badge alert-success">@restaurant.fMyFavCounts</span></label></div>
+                        <div style="width: 60px;height: 20px;padding-left: 5px;padding-right: 5px;" class="col-sm-3"><label class="label label-success"><span class="glyphicon glyphicon-shopping-cart"></span>:<span style="width:30px"class="badge alert-success">@restaurant.fOrderCounts</span></label></div>
+                        <div style="width: 60px;height: 20px;padding-left: 5px;padding-right: 5px;" class="col-sm-3"><label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span>:<span style="width:30px"class="badge alert-success">@restaurant.fLikeCounts</span></label></div>
+                        <div style="width: 60px;height: 20px;padding-left: 5px;padding-right: 15px;" class="col-sm-3"><label class="label label-success"><span class="glyphicon glyphicon-star"></span>:<span style="width:30px" class="badge alert-success">@restaurant.fStarsCounts</span ></label></div>
+                    </div>*@
+                <div class="row">
+                    <div class="col-lg-6"><label class="label label-success"><span class="glyphicon glyphicon-heart"></span>收藏數量:<span class="badge alert-success">@restaurant.fMyFavCounts</span></label></div>
+                    <div class="col-lg-6"><label class="label label-success"><span class="glyphicon glyphicon-shopping-cart"></span>訂購數量:<span class="badge alert-success">@restaurant.fOrderCounts</span></label></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6"><label class="label label-success"><span class="glyphicon glyphicon-thumbs-up"></span>按讚數量:<span class="badge alert-success">@restaurant.fLikeCounts</span></label></div>
+                    <div class="col-lg-6"><label class="label label-success"><span class="glyphicon glyphicon-star"></span>平均星等:<span class="badge alert-success">@restaurant.fStarsCounts</span></label></div>
+                </div>
+
+
+                <div class="row">
+                        <div style="margin:3px;padding-top:2px;padding-bottom:2px" class="alert alert-warning" role="alert">開店日: @restaurant.fJoinDate.ToShortDateString() 均消: @restaurant.fAveragePricePerGuest 元 </div>
+                        <div style="margin:3px;padding-top:2px;padding-bottom:2px" class="alert alert-danger" role="alert">距離: @restaurant.fDistance 公里  外送時間: <span style="font-size:30px">@restaurant.fAverageArrivalTime.TotalMinutes 分</span></div>
+                        @*<li class="list-group-item list-group-item-success">@restaurant.fJoinDate</li>*@
+                        @*開店日期: @Html.DisplayFor(r => restaurant.fJoinDate, new { htmlAttributes = new { @class = "list-group-item list-group-item-success" } })*@
+                       
+                        @*<li class="list-group-item list-group-item-warning">開店日期: @restaurant.fJoinDate.ToShortDateString() 平均消費: @restaurant.fAveragePricePerGuest 元</li>
+                        <li class="list-group-item list-group-item-warning">距離: @restaurant.fDistance 公里 平均外送時間:@restaurant.fAverageArrivalTime</li>*@
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+ 
+}

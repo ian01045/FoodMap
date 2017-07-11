@@ -1,0 +1,64 @@
+﻿@model FoodDeliveryTemplete.ViewModel.InformationRestaurantViewModel
+@{
+    ViewBag.Title = "InformationRestaurant";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">餐廳開店資訊</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center"> <img  src="@Url.Action("GetImageByte","MemberArea",new {Area="Member", id = Model.fMemberID})" class="img-circle img-responsive"> </div>
+
+                        <div class="col-md-9 col-lg-9">
+                            <table class="table table-user-information">                               
+                                    <tr>
+                                        <td width="150px">餐廳名稱:</td>
+                                        <td>@Model.fRestaurantName</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="150px">開店時間:</td>
+                                        <td>@Model.fOpenTime</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="150px">關店時間:</td>
+                                        <td >@Model.fCloseTime</td>
+                                    </tr>  
+                                    <tr>
+                                        <td width="150px">一週固定店休:</td>
+                                        <td>@Model.fRoutine_RestDay_per_week_</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="150px">提供的付款方式:</td>
+                                        <td>
+                                            @foreach(var payway in Model.PaymentWay_Detail)
+                                            {
+                                                @payway.tPaymentWay.fPaymentway<br>
+                                            }
+                                        </td>
+                                    </tr>
+                                <tr>
+                                    <td width="150px">餐廳平均消費:</td>
+                                    <td> @Model.fAveragePricePerGuest </td>
+                                </tr>   
+                                    <tr>
+                                        <td width="150px">餐廳簡介:</td>
+                                        <td>@Model.fDescription</td>
+                                    </tr>                              
+                            </table>
+
+                            @Html.ActionLink("修改開店資料", "InformationRestaurantModifyForm", "Restaurant", new { id = Model.fMemberID }, new { @class = "btn btn-warning" })                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

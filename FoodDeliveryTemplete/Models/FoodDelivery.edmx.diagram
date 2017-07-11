@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e5ecf2d234b24b8fb5379a8dd8c553a4" Name="Diagram1" ZoomLevel="65">
+        <EntityTypeShape EntityType="FoodDeliveryModel.ChatRoom" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.Messages" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tAdvertisement" Width="1.5" PointX="10.5" PointY="18.625" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tAdvertisement_Article" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tAdvertisement_Price" Width="1.5" PointX="8.25" PointY="29.25" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tBrowseHistory" Width="1.5" PointX="5.25" PointY="8.375" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tCategory" Width="1.5" PointX="3" PointY="22.625" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tComment" Width="1.5" PointX="13.5" PointY="18.625" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tFood_CustomizedOption" Width="1.5" PointX="10.5" PointY="29" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tFood_FoodIngrident_Detail" Width="1.5" PointX="12.75" PointY="24" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tFood_Ingrident" Width="1.5" PointX="8.25" PointY="11.375" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMember_Area" Width="1.5" PointX="0.75" PointY="13.375" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMember_City" Width="1.5" PointX="1.5" PointY="7.5" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMember_Wallat" Width="1.5" PointX="5.25" PointY="27.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMemeber" Width="1.5" PointX="3" PointY="10.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMessage" Width="1.5" PointX="5.25" PointY="4.5" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMessage_Board" Width="1.5" PointX="7.5" PointY="14.5" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMyFavorite" Width="1.5" PointX="7.5" PointY="18.875" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMyFavorite_RestaurantNews" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tMyFavoriteCategory" Width="1.5" PointX="5.25" PointY="14.25" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tNewsType" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tPaymentWay" Width="1.5" PointX="0.75" PointY="19.125" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tPhoto" Width="1.5" PointX="10.5" PointY="14.25" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurant" Width="1.5" PointX="5.25" PointY="17.375" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurant_Category" Width="1.5" PointX="5.25" PointY="23.875" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurant_Category_Details" Width="1.5" PointX="7.5" PointY="21.875" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurant_FoodCustomizedCategory" Width="1.5" PointX="8.25" PointY="25.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurant_Foods" Width="1.5" PointX="10.5" PointY="22.25" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurant_Order_States" Width="1.5" PointX="11.25" PointY="11.25" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurant_PaymentWay_Detail" Width="1.5" PointX="3" PointY="19" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurantMeal_Detail" Width="1.5" PointX="12.75" PointY="26.625" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurantOrder_Details" Width="1.5" PointX="15.75" PointY="18.5" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRestaurantOrders" Width="1.5" PointX="13.5" PointY="12.5" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tRole" Width="1.5" PointX="7.75" PointY="8.75" />
+        <EntityTypeShape EntityType="FoodDeliveryModel.tShoppingCart" Width="1.5" PointX="9.75" PointY="0.75" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tAdvertisement_tAdvertisement_Price" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tAdvertisement_tRestaurant" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tBrowseHistory_tMemeber1" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tBrowseHistory_tMyFavorite_RestaurantNews" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tFoodCategory_tFoodCategory" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurant_Foods_tFoodCategory" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurant_tCategory" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tComment_tMemeber" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tComment_tRestaurant" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tFood_CustomizedOption_tRestaurant_FoodCustomizedCategory1" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tFood_Ingrident" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tFood_FoodIngrident_Detail_tRestaurant_Foods" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tPhoto_tFood_Ingrident" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMember_Area_tMember_City" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMemeber_tMember_Area" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMember_Wallat_tMemeber" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_fMyFavorite_tMemeber1" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMessage_Board_tMemeber3" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMessage_tMemeber" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMessage_tMemeber1" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tPhoto_tMemeber" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurant_tMemeber" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurantOrders_tMemeber" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMessage_Board_tMessage_Board" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMessage_Board_tRestaurant1" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_fMyFavorite_tRestaurant2" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMyFavorite_tMyFavoriteCategory" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tMyFavorite_RestaurantNews_tNewsType" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurant_PaymentWay_Detail_tPaymentWay" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurantOrders_tPaymentWay" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tPhoto_tRestaurant" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tPhoto_tRestaurant_Foods" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tProducts_tRestaurant" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurant_tRestaurant_PaymentWay_Detail" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurant_Category_Details_tRestaurant_Category" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tProducts_tProductCategory" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tOrder_Details_tProducts" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurantMeal_Detail_tRestaurant_Foods3" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tRestaurantOrders_tRestaurant_Order_States" />
+        <AssociationConnector Association="FoodDeliveryModel.FK_tOrder_Details_tOrders" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

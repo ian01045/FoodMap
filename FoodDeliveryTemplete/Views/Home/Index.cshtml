@@ -1,0 +1,817 @@
+﻿@model FoodDeliveryTemplete.Models.LoginView
+@{
+    ViewBag.Title = "Food Delivery";
+}
+@section style{
+    <style>
+        #loading {
+            display:none;        
+        }
+        .alink {
+            font-family:'標楷體';
+            color:#0094ff;
+            font-size:16px
+        }
+    </style>
+
+@*輪播樣式*@
+<style>
+    #abgneBlock {
+        width: 335px;
+        height: 279px;
+        position: relative;
+        overflow: hidden;
+        /*margin-bottom:10px;*/
+        /*border: 1px solid #ccc;*/
+    }
+
+        #abgneBlock ul.list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            position: absolute;
+            width: 9999px;
+            height: 100%;
+        }
+
+            #abgneBlock ul.list li {
+                float: left;
+                width: 335px;
+                height: 100%;
+                padding: 10px;
+            }
+
+        #abgneBlock .list img {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        #abgneBlock ul.playerControl {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 20px;
+        }
+
+            #abgneBlock ul.playerControl li {
+                float: left;
+                width: 15px;
+                height: 15px;
+                cursor: pointer;
+                margin: 5px;
+                /*background: url(images/cir_ctrl.png) no-repeat -10px 0;*/
+                background-color: orange;
+            }
+
+                #abgneBlock ul.playerControl li.current {
+                    background-position: 0 0;
+                    background-color: red;
+                }
+
+
+    #abgneBlock2 {
+        width: 600px;
+        height: 279px;
+        position: relative;
+        overflow: hidden;
+        /*margin-bottom:10px;*/
+        /*border: 1px solid #ccc;*/
+    }
+
+        #abgneBlock2 ul.list2 {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            position: absolute;
+            width: 9999px;
+            height: 100%;
+        }
+
+            #abgneBlock2 ul.list2 li {
+                float: left;
+                width: 600px;
+                height: 100%;
+                padding: 10px;
+            }
+
+        #abgneBlock2 .list2 img {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        #abgneBlock2 ul.playerControl2 {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 20px;
+        }
+
+            #abgneBlock2 ul.playerControl2 li {
+                float: left;
+                width: 15px;
+                height: 15px;
+                cursor: pointer;
+                margin: 5px;
+                /*background: url(images/cir_ctrl.png) no-repeat -10px 0;*/
+                background-color: orange;
+            }
+
+                #abgneBlock2 ul.playerControl2 li.current2 {
+                    background-position: 0 0;
+                    background-color: red;
+                }
+
+
+
+    #abgneBlock3 {
+        width: 335px;
+        height: 279px;
+        position: relative;
+        overflow: hidden;
+        /*margin-bottom:10px;*/
+        /*border: 1px solid #ccc;*/
+    }
+
+        #abgneBlock3 ul.list3 {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            position: absolute;
+            width: 9999px;
+            height: 100%;
+        }
+
+            #abgneBlock3 ul.list3 li {
+                float: left;
+                width: 335px;
+                height: 100%;
+                padding: 10px;
+            }
+
+        #abgneBlock3 .list3 img {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        #abgneBlock3 ul.playerControl3 {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            height: 20px;
+        }
+
+            #abgneBlock3 ul.playerControl3 li {
+                float: left;
+                width: 15px;
+                height: 15px;
+                cursor: pointer;
+                margin: 5px;
+                /*background: url(images/cir_ctrl.png) no-repeat -10px 0;*/
+                background-color: orange;
+            }
+
+                #abgneBlock3 ul.playerControl3 li.current3 {
+                    background-position: 0 0;
+                    background-color: red;
+                }
+</style>
+
+}
+
+@*廣告輪播位置*@
+<section id="portfolio">
+    <!--可以顯示各間餐廳的美食-->
+    <div class="container">
+        <div class="row">
+            <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                <h2>熱門消息</h2>
+                <p>熱門店家、熱門活動快進來看看!</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" height:280px" id="rotation">
+        <div class="row">
+            @*<div class="col-lg-1"></div>*@
+            <div class="col-lg-3">@Html.Action("InfoRotation", "Rotation", new { Area = "yuwang" })</div>
+            <div class="col-lg-6">@Html.Action("AdvertisementRotation", "AdvertisementRotaion", new { Area = "advertisement" })</div>
+            <div class="col-lg-3">@Html.Action("InfoRotation_Food", "Rotation", new { Area = "yuwang" })</div>
+            @*<div class="col-lg-1"></div>*@
+        </div>
+
+    </div>
+    <div id="portfolio-single-wrap">
+        <div id="portfolio-single">
+        </div>
+    </div><!-- /#portfolio-single-wrap -->
+</section>
+<section id="portfolio">
+    <!--可以顯示各間餐廳的美食-->
+    <div class="container">
+        <div class="row">
+            <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                <h2>美食推薦</h2>
+                <p>本月人氣餐點，快來嘗鮮</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="300ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/beefnoodle.jpg" alt="麻辣牛肉麵">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>老張牛肉麵</h3>
+                                    <p>大安區，東門站</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="400ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/brunch.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>HJ.st Brunch</h3>
+                                    <p>松山，文華路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="500ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/hamburger.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>Shake && Shack</h3>
+                                    <p>信義區,101大樓 </p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/spaghatti.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>安里的小天地</h3>
+                                    <p>永和, 新義路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/steak.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">                            
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>Lunar Steak</h3>
+                                    <p>象山捷運站, 忠義路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="800ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/日本料理.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>御閣手作</h3>
+                                    <p>中山區, 中正路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="900ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/港式點心.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>一點心</h3>
+                                    <p>忠孝復興, 復興一路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="1000ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/火鍋.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>溫馨小小火鍋</h3>
+                                    <p>行天宮, 發源街</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="portfolio-single-wrap">
+        <div id="portfolio-single">
+        </div>
+    </div><!-- /#portfolio-single-wrap -->
+</section>
+<section id="features" class="parallax">
+    <div class="container">
+        <div class="row count">
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
+                <i class="fa fa-user"></i>
+                <h3 class="timer">4000</h3>
+                <p>會員總數</p>
+            </div>
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="500ms">
+                <i class="fa fa-desktop"></i>
+                <h3 class="timer">362</h3>
+                <p>餐廳個數</p>
+            </div>
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="700ms">
+                <i class="fa fa-trophy"></i>
+                <h3>4.6</h3>
+                <p>喜愛評價</p>
+            </div>
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="900ms">
+                <i class="fa fa-comment-o"></i>
+                <h3 class="timer">942</h3>
+                <p>平均訂單數(天)</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!--顯示各家餐廳的部落格-->
+<section id="blog">
+    <div class="container">
+        <div class="row">
+            <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1200ms" data-wow-delay="300ms">
+                <h2>餐廳部落格</h2>
+                <p>探索各個餐廳的部落格，依依將他們的美食都挖掘出來成為自己口袋的囊中物吧</p>
+            </div>
+        </div>
+        <div class="blog-posts">
+            <div class="row">
+                <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">
+                    <div class="post-thumb">
+                        <a href="#"><img class="img-responsive" src="~/images/Blog/brunch1.jpg" alt=""></a>
+                        <div class="post-meta">
+                            <span><i class="fa fa-comments-o"></i> 3 Comments</span><!--可以計算留言數量-->
+                            <span><i class="fa fa-heart"></i> 0 Likes</span><!--可以計算多少人喜歡-->
+                        </div>
+                        <div class="post-icon">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                    </div>
+                    <div class="entry-header">
+                        <h3><a href="#">A Little More 早午餐</a></h3>
+                        <span class="date">June 26, 2014</span>
+                        <span class="cetagory">in <strong>Photography</strong></span>
+                    </div>
+                    <div class="entry-content">
+                        <p>忙碌的早晨後，不想油膩、不想太多負擔，就來一份輕食早午餐吧!</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="post-thumb">
+                        <div id="post-carousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#post-carousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#post-carousel" data-slide-to="1"></li>
+                                <li data-target="#post-carousel" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <a href="#"><img class="img-responsive" src="~/images/Blog/france.jpg" alt=""></a>
+                                </div>
+                                <div class="item">
+                                    <a href="#"><img class="img-responsive" src="~/images/Blog/france2.jpg" alt=""></a>
+                                </div>
+                                <div class="item">
+                                    <a href="#"><img class="img-responsive" src="~/images/Blog/france3.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <a class="blog-left-control" href="#post-carousel" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+                            <a class="blog-right-control" href="#post-carousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                        <div class="post-meta">
+                            <span><i class="fa fa-comments-o"></i> 3 Comments</span>
+                            <span><i class="fa fa-heart"></i> 0 Likes</span>
+                        </div>
+                        <div class="post-icon">
+                            <i class="fa fa-picture-o"></i>
+                        </div>
+                    </div>
+                    <div class="entry-header">
+                        <h3><a href="#">Lorem Ipsum Restaurant</a></h3>
+                        <span class="date">Feb. 28, 2009</span>
+                        <span class="cetagory">in <strong>Photography</strong></span>
+                    </div>
+                    <div class="entry-content">
+                        <p>想擁有評價卻不失美味的法式美食嗎? 快來Lorem Ipsum部落格瞧瞧我們的食物。</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="800ms">
+                    <div class="post-thumb">
+                        <a href="#"><img class="img-responsive" src="~/images/Blog/trandition.jpg" alt=""></a>
+                        <div class="post-meta">
+                            <span><i class="fa fa-comments-o"></i> 3 Comments</span>
+                            <span><i class="fa fa-heart"></i> 0 Likes</span>
+                        </div>
+                        <div class="post-icon">
+                            <i class="fa fa-video-camera"></i>
+                        </div>
+                    </div>
+                    <div class="entry-header">
+                        <h3><a href="#">饌家油麵</a></h3>
+                        <span class="date">December 26, 1987</span>
+                        <span class="cetagory">in <strong>Photography</strong></span>
+                    </div>
+                    <div class="entry-content">
+                        <p>承接父親30年的老店，傳承70年代的風味，給您懷念的滋味。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="load-more wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">
+                <a href="#" class="btn btn-loadmore"><i class="fa fa-repeat"></i>更多部落格</a>
+            </div>
+        </div>
+    </div>
+</section><!--尾端各家餐廳的部落格-->
+
+<div class="bg"></div><!--登入效果黑屏-->
+<div id="loginmodal" class="content45">
+    <!--會員登入畫面-->
+    <h3>會員登入</h3>@Html.ActionLink("註冊會員", "ForgotPassword", "Account", new { @class = "pull-right alink" })
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginform" }))
+    {
+        <div id="failLogin" class="col-sm-12">
+
+        </div>
+        @Html.LabelFor(model => model.Account)
+        @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "txtfield", tabindex = "1" } })       
+        @Html.LabelFor(model => model.Password)
+        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "txtfield", tabindex = "2" } })     
+        <label for="Check">
+            <a href="@Url.Action("ForgotPassword","Account",null)" class="pull-right alink" data-transition="fade" >忘記密碼?</a>            
+            <input type="checkbox" name="Check" id="Check" value="Yes" />記住我
+        </label>
+        <div class="center">
+            <input type="submit" name="loginbtn" id="loginbtn" class="btn btn-login" value="登入" tabindex="3">
+            <input type="submit" name="shit" id="shit" class="btn btn-login" style="visibility:hidden">            
+        </div>
+        <div style="margin-top:5px">
+            <a class="btn btn-danger" id="memberbtn">會員</a>
+            <a class="btn btn-success" id="restbtn">美而美</a>
+            <a class="btn btn-info" id="dozo">Dozo</a>
+            <a class="btn btn-warning" id="admin">管理員</a>
+        </div>
+        <img id="loading" src="~/images/Loading/ajax-loader (4).gif" />  <img id="loading" src="~/images/Loading/ajax-loader (4).gif" />
+    }
+</div>
+
+
+
+
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+@section script
+{
+    <script>
+        $(function () {
+            $('#btnLogin').click(function () {
+                $('.bg').fadeIn(200);
+                $('.content45').fadeIn(400);
+            });
+            $('.bg').click(function () {
+                $('.bg').fadeOut(200);
+                $('.content45').fadeOut(200);
+            });
+
+            $('#memberbtn').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('b96613009@ntu.edu.tw');
+                $('#Password').val('0000');
+            })
+            $('#restbtn').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('pretty@gmail.com')
+                $('#Password').val('0000');
+            })
+            $('#dozo').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('dozo@gmail.com');
+                $('#Password').val('0000');
+            })
+            $('#admin').on('click', function (e) {
+                e.preventDefault();
+                $('#Account').val('ian@gmail.com');
+                $('#Password').val('0000');
+            })
+
+            $('#loginbtn').click(function (e) {                
+                var failMsg = "@Url.Action("failLogin","Account")"
+                var JsonData = JSON.stringify({ "Account": $('#Account').val(), "Password": $('#Password').val(), "Check": $('#Check').val() });
+                e.preventDefault();
+                $.ajax({
+                    url: failMsg,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JsonData
+                })
+                .done(function (data) {
+                    if (data.fail != null && data.fail != "") {
+                        var failLogin = $('#failLogin').append("<div ></div>").addClass("alert alert-danger").attr("role", "alert")
+                        failLogin.append('<span></span>').addClass("glyphicon glyphicon-exclamation-sign").attr("aria-hidden", "true").text(data.fail)
+                    } else {
+                        $('#shit').click();
+                    };
+                });
+            });
+
+
+            $(document).ajaxStart(function () {
+                $("#loading").show();
+            });
+
+            $(document).ajaxStop(function () {
+                $("#loading").hide();
+            });
+        });
+    </script>
+
+
+@*廣告輪播*@
+<script>
+        $(document).ready(function () {
+
+
+            // 先取得必要的元素並用 jQuery 包裝
+            // 再來取得 $block 的高度及設定動畫時間
+            var $block = $('#abgneBlock'),
+                $slides = $('ul.list', $block),
+                _width = $block.width(),
+                $li = $('li', $slides),
+                _animateSpeed = 600,
+                // 加入計時器, 輪播時間及控制開關
+                timer, _showSpeed = 3000, _stop = false;
+
+            // 產生 li 選項
+            var _str = '';
+            for (var i = 0, j = $li.length; i < j; i++) {
+                // 每一個 li 都有自己的 className = playerControl_號碼
+                _str += '<li class="playerControl_' + (i + 1) + '" ></li>';
+            }
+
+            // 產生 ul 並把 li 選項加到其中
+            var $playerControl = $('<ul class="playerControl"  ></ul>').html(_str).appendTo($slides.parent()).css('left', function () {
+                // 把 .playerControl 移到置中的位置
+                return (_width - $(this).width()) / 2;
+            });
+
+            // 幫 li 加上 click 事件
+            var $playerControlLi = $playerControl.find('li').click(function () {
+                var $this = $(this);
+                $this.addClass('current').siblings('.current').removeClass('current');
+
+                clearTimeout(timer);
+                // 移動位置到相對應的號碼
+                $slides.stop().animate({
+                    left: _width * $this.index() * -1
+                }, _animateSpeed, function () {
+                    // 當廣告移動到正確位置後, 依判斷來啟動計時器
+                    if (!_stop) timer = setTimeout(move, _showSpeed);
+                });
+
+                return false;
+            }).eq(0).click().end();
+
+            // 如果滑鼠移入 $block 時
+            $block.hover(function () {
+                // 關閉開關及計時器
+                _stop = true;
+                clearTimeout(timer);
+            }, function () {
+                // 如果滑鼠移出 $block 時
+                // 開啟開關及計時器
+                _stop = false;
+                timer = setTimeout(move, _showSpeed);
+            });
+
+            // 計時器使用
+            function move() {
+                var _index = $('.current').index();
+                $playerControlLi.eq((_index + 1) % $playerControlLi.length).click();
+            }
+
+
+            // 先取得必要的元素並用 jQuery 包裝
+            // 再來取得 $block 的高度及設定動畫時間
+            var $block2 = $('#abgneBlock2'),
+                $slides2 = $('ul.list2', $block2),
+                _width2 = $block2.width(),
+                $li2 = $('li', $slides2),
+                _animateSpeed2 = 600,
+                // 加入計時器, 輪播時間及控制開關
+                timer2, _showSpeed2 = 3000, _stop2 = false;
+
+            // 產生 li 選項
+            var _str2 = '';
+            for (var i = 0, j = $li2.length; i < j; i++) {
+                // 每一個 li 都有自己的 className = playerControl_號碼
+                _str2 += '<li class="playerControl_' + (i + 1) + '" ></li>';
+            }
+
+            // 產生 ul 並把 li 選項加到其中
+            var $playerControl2 = $('<ul class="playerControl2"  ></ul>').html(_str2).appendTo($slides2.parent()).css('left', function () {
+                // 把 .playerControl 移到置中的位置
+                return (_width2 - $(this).width()) / 2;
+            });
+
+            // 幫 li 加上 click 事件
+            var $playerControlLi2 = $playerControl2.find('li').click(function () {
+                var $this = $(this);
+                $this.addClass('current2').siblings('.current2').removeClass('current2');
+
+                clearTimeout(timer2);
+                // 移動位置到相對應的號碼
+                $slides2.stop().animate({
+                    left: _width2 * $this.index() * -1
+                }, _animateSpeed2, function () {
+                    // 當廣告移動到正確位置後, 依判斷來啟動計時器
+                    if (!_stop2) timer2 = setTimeout(move2, _showSpeed2);
+                });
+
+                return false;
+            }).eq(0).click().end();
+
+            // 如果滑鼠移入 $block 時
+            $block2.hover(function () {
+                // 關閉開關及計時器
+                _stop2= true;
+                clearTimeout(timer2);
+            }, function () {
+                // 如果滑鼠移出 $block 時
+                // 開啟開關及計時器
+                _stop2 = false;
+                timer2 = setTimeout(move2, _showSpeed2);
+            });
+
+            // 計時器使用
+            function move2() {
+                var _index = $('.current2').index();
+                $playerControlLi2.eq((_index + 1) % $playerControlLi2.length).click();
+            }
+
+
+
+            // 先取得必要的元素並用 jQuery 包裝
+            // 再來取得 $block 的高度及設定動畫時間
+            var $block3 = $('#abgneBlock3'),
+                $slides3 = $('ul.list3', $block3),
+                _width3 = $block3.width(),
+                $li3 = $('li', $slides3),
+                _animateSpeed3 = 600,
+                // 加入計時器, 輪播時間及控制開關
+                timer3, _showSpeed3 = 3000, _stop3 = false;
+
+            // 產生 li 選項
+            var _str3 = '';
+            for (var i = 0, j = $li3.length; i < j; i++) {
+                // 每一個 li 都有自己的 className = playerControl_號碼
+                _str3 += '<li class="playerControl_' + (i + 1) + '" ></li>';
+            }
+
+            // 產生 ul 並把 li 選項加到其中
+            var $playerControl3 = $('<ul class="playerControl3"  ></ul>').html(_str3).appendTo($slides3.parent()).css('left', function () {
+                // 把 .playerControl 移到置中的位置
+                return (_width3 - $(this).width()) / 2;
+            });
+
+            // 幫 li 加上 click 事件
+            var $playerControlLi3 = $playerControl3.find('li').click(function () {
+                var $this = $(this);
+                $this.addClass('current3').siblings('.current3').removeClass('current3');
+
+                clearTimeout(timer3);
+                // 移動位置到相對應的號碼
+                $slides3.stop().animate({
+                    left: _width3 * $this.index() * -1
+                }, _animateSpeed3, function () {
+                    // 當廣告移動到正確位置後, 依判斷來啟動計時器
+                    if (!_stop3) timer3 = setTimeout(move3, _showSpeed3);
+                });
+
+                return false;
+            }).eq(0).click().end();
+
+            // 如果滑鼠移入 $block 時
+            $block3.hover(function () {
+                // 關閉開關及計時器
+                _stop3 = true;
+                clearTimeout(timer3);
+            }, function () {
+                // 如果滑鼠移出 $block 時
+                // 開啟開關及計時器
+                _stop3 = false;
+                timer3 = setTimeout(move3, _showSpeed3);
+            });
+
+            // 計時器使用
+            function move3() {
+                var _index = $('.current3').index();
+                $playerControlLi3.eq((_index + 1) % $playerControlLi3.length).click();
+            }
+        })
+</script>
+}

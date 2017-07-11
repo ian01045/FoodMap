@@ -1,0 +1,356 @@
+﻿
+@{
+    ViewBag.Title = "Food To Train-Restaurant";
+    Layout = "~/Areas/Restaurant/Views/Shared/_RestaurantIndexPage.cshtml";
+}
+@section style{
+
+    }
+
+
+<section id="twitter" class="parallax">
+    <div>
+        <a class="twitter-left-control" href="#twitter-carousel" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+        <a class="twitter-right-control" href="#twitter-carousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="twitter-icon text-center">
+                        @Html.Action("LocationSearchBar", "Select", new { Area = "yuwang" })
+                    </div>
+                    <div id="twitter-carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active wow fadeIn" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                <p>Your Best Choice<a href="#"><span>Train to Food</span></a></p>
+                            </div>
+                            <div class="item">
+                                <p>外送訂餐最好的選擇<a href="#"><span>食速列車</span></a></p>
+                            </div>
+                            @*<div class="item">
+                                    <p>Introducing Shortcode generator for Helix V2 based templates <a href="#"><span>#helixframework #joomla</span> http://bit.ly/1qlgwav</a></p>
+                              </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/#twitter-->
+<section id="portfolio">
+    <!--可以顯示各間餐廳的美食-->
+    <div class="container">
+        <div class="row">
+            <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                <h2>美食推薦</h2>
+                <p>本月人氣餐點，快來嘗鮮</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="300ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/beefnoodle.jpg" alt="麻辣牛肉麵">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>老張牛肉麵</h3>
+                                    <p>大安區，東門站</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="400ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/brunch.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>HJ.st Brunch</h3>
+                                    <p>松山，文華路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="500ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/hamburger.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>Shake && Shack</h3>
+                                    <p>信義區,101大樓 </p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/spaghatti.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>安里的小天地</h3>
+                                    <p>永和, 新義路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/steak.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>Lunar Steak</h3>
+                                    <p>象山捷運站, 忠義路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="800ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/日本料理.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>御閣手作</h3>
+                                    <p>中山區, 中正路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInRightBig" data-wow-duration="1000ms" data-wow-delay="900ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/港式點心.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>一點心</h3>
+                                    <p>忠孝復興, 復興一路</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="folio-item wow fadeInLeftBig" data-wow-duration="1000ms" data-wow-delay="1000ms">
+                    <div class="folio-image">
+                        <img class="img-responsive" src="~/images/MealsRecommand/火鍋.jpg" alt="">
+                    </div>
+                    <div class="overlay">
+                        <div class="overlay-content">
+                            <div class="overlay-text">
+                                <div class="folio-info">
+                                    <h3>溫馨小小火鍋</h3>
+                                    <p>行天宮, 發源街</p>
+                                </div>
+                                <div class="folio-overview">
+                                    <span class="folio-link"><a class="folio-read-more" href="#" data-single_url="portfolio-single.html"><i class="fa fa-link"></i></a></span>
+                                    <span class="folio-expand"><a href="images/portfolio/portfolio-details.jpg" data-lightbox="portfolio"><i class="fa fa-search-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="portfolio-single-wrap">
+        <div id="portfolio-single">
+        </div>
+    </div><!-- /#portfolio-single-wrap -->
+</section>
+<section id="features" class="parallax">
+    <div class="container">
+        <div class="row count">
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
+                <i class="fa fa-user"></i>
+                <h3 class="timer">4000</h3>
+                <p>會員總數</p>
+            </div>
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="500ms">
+                <i class="fa fa-desktop"></i>
+                <h3 class="timer">362</h3>
+                <p>餐廳個數</p>
+            </div>
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="700ms">
+                <i class="fa fa-trophy"></i>
+                <h3>4.6</h3>
+                <p>喜愛評價</p>
+            </div>
+            <div class="col-sm-3 col-xs-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="900ms">
+                <i class="fa fa-comment-o"></i>
+                <h3 class="timer">942</h3>
+                <p>平均訂單數(天)</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!--顯示各家餐廳的部落格-->
+<section id="blog">
+    <div class="container">
+        <div class="row">
+            <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1200ms" data-wow-delay="300ms">
+                <h2>餐廳部落格</h2>
+                <p>探索各個餐廳的部落格，依依將他們的美食都挖掘出來成為自己口袋的囊中物吧</p>
+            </div>
+        </div>
+        <div class="blog-posts">
+            <div class="row">
+                <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">
+                    <div class="post-thumb">
+                        <a href="#"><img class="img-responsive" src="~/images/Blog/brunch1.jpg" alt=""></a>
+                        <div class="post-meta">
+                            <span><i class="fa fa-comments-o"></i> 3 Comments</span><!--可以計算留言數量-->
+                            <span><i class="fa fa-heart"></i> 0 Likes</span><!--可以計算多少人喜歡-->
+                        </div>
+                        <div class="post-icon">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                    </div>
+                    <div class="entry-header">
+                        <h3><a href="#">A Little More 早午餐</a></h3>
+                        <span class="date">June 26, 2014</span>
+                        <span class="cetagory">in <strong>Photography</strong></span>
+                    </div>
+                    <div class="entry-content">
+                        <p>忙碌的早晨後，不想油膩、不想太多負擔，就來一份輕食早午餐吧!</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="post-thumb">
+                        <div id="post-carousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#post-carousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#post-carousel" data-slide-to="1"></li>
+                                <li data-target="#post-carousel" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <a href="#"><img class="img-responsive" src="~/images/Blog/france.jpg" alt=""></a>
+                                </div>
+                                <div class="item">
+                                    <a href="#"><img class="img-responsive" src="~/images/Blog/france2.jpg" alt=""></a>
+                                </div>
+                                <div class="item">
+                                    <a href="#"><img class="img-responsive" src="~/images/Blog/france3.jpg" alt=""></a>
+                                </div>
+                            </div>
+                            <a class="blog-left-control" href="#post-carousel" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+                            <a class="blog-right-control" href="#post-carousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
+                        </div>
+                        <div class="post-meta">
+                            <span><i class="fa fa-comments-o"></i> 3 Comments</span>
+                            <span><i class="fa fa-heart"></i> 0 Likes</span>
+                        </div>
+                        <div class="post-icon">
+                            <i class="fa fa-picture-o"></i>
+                        </div>
+                    </div>
+                    <div class="entry-header">
+                        <h3><a href="#">Lorem Ipsum Restaurant</a></h3>
+                        <span class="date">Feb. 28, 2009</span>
+                        <span class="cetagory">in <strong>Photography</strong></span>
+                    </div>
+                    <div class="entry-content">
+                        <p>想擁有評價卻不失美味的法式美食嗎? 快來Lorem Ipsum部落格瞧瞧我們的食物。</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="800ms">
+                    <div class="post-thumb">
+                        <a href="#"><img class="img-responsive" src="~/images/Blog/trandition.jpg" alt=""></a>
+                        <div class="post-meta">
+                            <span><i class="fa fa-comments-o"></i> 3 Comments</span>
+                            <span><i class="fa fa-heart"></i> 0 Likes</span>
+                        </div>
+                        <div class="post-icon">
+                            <i class="fa fa-video-camera"></i>
+                        </div>
+                    </div>
+                    <div class="entry-header">
+                        <h3><a href="#">饌家油麵</a></h3>
+                        <span class="date">December 26, 1987</span>
+                        <span class="cetagory">in <strong>Photography</strong></span>
+                    </div>
+                    <div class="entry-content">
+                        <p>承接父親30年的老店，傳承70年代的風味，給您懷念的滋味。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="load-more wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">
+                <a href="#" class="btn btn-loadmore"><i class="fa fa-repeat"></i>更多部落格</a>
+            </div>
+        </div>
+    </div>
+</section><!--尾端各家餐廳的部落格-->
+
+
+@section script{
+
+
+
+
+}

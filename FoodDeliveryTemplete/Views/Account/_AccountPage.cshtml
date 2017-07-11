@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/Account.css" rel="stylesheet" />
+    <link href="~/Content/LoginForm.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.glide.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/MyIndexHeaderJavaScript.js"></script>
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/lightbox.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/presets/preset1.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet">
+    <link href="~/Content/sm-clean/sm-clean.css" rel="stylesheet" />
+    <link href="~/Content/sm-simple/sm-core-css.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href="~/css/loading/loading.css" rel="stylesheet" />
+    @RenderSection("style",false)
+</head>
+<body>
+    <div class="loader"></div>
+    <header id="home">
+        <div class="main-nav">
+            <div class="container">
+                <nav role="navigation">
+                    <ul id="main-menu" class="sm sm-clean">
+                        <li>@Html.ActionLink("首頁", "Index", "Home", new { Area = "" }, null)</li>
+                        <li>
+                            <a href="#">尋找美食</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li>
+                                    <a href="#/">年度人氣</a>
+                                    @*<ul>
+                                            <li><a href="#">About Vadikom</a></li>
+                                        </ul>*@
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">遊走餐廳</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li><a href="#">年度人氣</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">美食搜尋</a>
+                        </li>
+                        <li><a href="#">餐廳搜尋</a></li>
+                        <li>
+                            <a style="cursor:pointer">會員專區</a>
+                            <ul>
+                                <li>@Html.ActionLink("登入會員", "LoginView", "Account", new { Area = "" }, null)</li>
+                                <li>
+                                    @Html.ActionLink("註冊會員", "Index", "Home", new { Area = "" }, null)
+                                    <ul>
+                                        <li>
+                                            @Html.ActionLink("一般會員", "Registed", "Register", new { Area = "" }, null)
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("餐廳會員", "RestaurantRegisted", "Register", new { Area = "" }, null)
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>@Html.ActionLink("忘記密碼", "ForgotPassword", "Account", new { Area = "" }, null)</li>
+                                <li>@Html.ActionLink("重設密碼", "ResetPassword", "Account", new { Area = "" }, null)</li>
+                            </ul>
+                        </li>
+                        @*<li>
+                            <a href="#">常見問題</a>
+                            <ul>
+                                <li><a href="#">Dummy item</a></li>
+                                <li><a href="#" class="disabled">Disabled menu item</a></li>
+                                <li>
+                                    <a href="#">more...</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">A</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">more...</a>
+                                            <ul>
+                                                <li><a href="#">Dummy item</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>*@
+                        <li>
+                            <a href="#contact">聯絡我們</a>
+                            @*<ul class="mega-menu">
+                                <li>*@
+                            <!-- The mega drop down contents -->
+                            @*<div style="width:400px;max-width:100%;">
+                                            <div style="padding:5px 24px;">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>*@
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header><!--/#home-->
+    <section>
+        @RenderBody()
+    </section>
+    <footer id="footer">
+        <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="container text-center">
+                <div class="footer-logo">
+                    <h3 style="color:white">與Food To Train互動</h3>
+                </div>
+                <div class="social-icons">
+                    <ul>
+                        <li><a class="envelope" href="#"><i class="fa fa-envelope"></i></a></li>
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>@DateTime.Now.ToString("yyyy  年  MM  月  dd  日")</p>
+                    </div>
+                    <div class="col-sm-6">
+                        &copy; FoodToTrain 已註冊，FoodToTrain版權所有 2017
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.smartmenus.min.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/jquery.inview.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/mousescroll.js"></script>
+    <script src="~/js/smoothscroll.js"></script>
+    <script src="~/js/jquery.countTo.js"></script>
+    <script src="~/js/lightbox.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/html5shiv.js"></script>
+
+    <script>
+    $(window).load(function () {
+        $(".loader").fadeOut(2000);
+    })
+    </script>
+    @RenderSection("script", false)
+</body>
+</html>

@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Administrator/Views/Shared/_AdminIndexPage.cshtml";
+}
+
+@model FoodDeliveryTemplete.Models.tAdvertisement
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>廣告修改</h2>
+<form method="post" action="~/Advertisement/Advertisement/Edit" class="form-horizontal">
+
+
+
+    <div class="form-group">
+        <label for="name" class="col-md-2 control-label">
+            廣告編號
+        </label>
+        <div class="col-md-10">
+            @*<input type="hidden" name="fAdvertisementID" value="@Model.fAdvertisementID" />*@
+            <input type="text" class="form-control" name="fAdvertisementID" id="name" value="@Model.fAdvertisementID" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="desc" class="col-md-2 control-label">
+            廣告餐廳編號
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="fRestaurantID" id="desc" value="@Model.fRestaurantID" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="desc" class="col-md-2 control-label">
+            廣告價錢區域編號
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="fPriceRegionID" id="desc" value="@Model.fPriceRegionID" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="desc" class="col-md-2 control-label">
+            廣告投放日期
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="fAppliedDate" id="desc" value="@Model.fAppliedDate" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="desc" class="col-md-2 control-label">
+            廣告投放天數
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="fDays" id="desc" value="@Model.fDays" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="desc" class="col-md-2 control-label">
+            廣告簡介
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="fMediaIntroduction" id="desc" value="@Model.fMediaIntroduction" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-default">修改</button>
+        </div>
+    </div>
+</form>
+
+

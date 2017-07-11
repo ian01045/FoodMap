@@ -1,0 +1,24 @@
+﻿@model FoodDeliveryTemplete.Models.tMemeber
+@{
+    ViewBag.Title = "會員專區-電子錢包開通";
+    Layout = "~/Areas/Member/Views/Blog/_BlogPage.cshtml";
+}
+
+
+<div class="container" style="margin-bottom:8%;margin-top:6%">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-shopping-cart"></span> @Model.fMemeberName 開通電子錢包</h3>
+        </div>
+        <div class="panel-body">
+            <center><h2>您的電子錢包還尚未開通喔!</h2></center>
+            <center style="margin-top:100px"><a href="@Url.Action("OpenAccount","MemberArea",new {id=Model.fMemberID})" class="btn btn-success"><span class="glyphicon glyphicon-credit-card"> 開通電子錢包帳戶 </span></a></center>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+   

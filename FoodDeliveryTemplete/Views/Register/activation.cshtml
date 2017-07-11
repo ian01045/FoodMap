@@ -1,0 +1,64 @@
+﻿@model FoodDeliveryTemplete.ViewModels.Haoming.ActivationViewModel
+@{
+    ViewBag.Title = "activation";
+}
+
+<h2>驗證畫面</h2>
+<h2>@ViewBag.memberName 您好 恭喜您註冊成功了，已經寄一組驗證碼至您的信箱了</h2>
+<div class="container">
+    @using (Html.BeginForm("activation", "Register", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+    {
+        <div class="form-group">
+            @Html.LabelFor(a => a.fValidNumber, new { @class = "col-sm-3 control-label" })
+            <div class="col-sm-9">
+                @Html.EditorFor(a => a.fValidNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "驗證碼" } })
+                @Html.ValidationMessageFor(a => a.fValidNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-3">
+                <button type="submit" class="btn btn-success">確認</button>
+            </div>
+        </div>
+    }
+    <center>
+        <div>
+            @*@Html.ActionLink("重寄驗證碼", "ResendCode", "Register", new { id =Session["memberId"]}, new { @class = "btn btn-warning" })*@
+            <button id="resend" class="btn btn-warning">重寄驗證碼</button>
+        </div>
+        <div>
+            @*<h2 style="color:#ff0000">@TempData["message"]</h2>*@
+            <h2 style="color:#ff0000">@ViewBag.message</h2>
+        </div>
+        <div id="message">
+
+        </div>
+    </center>
+</div>
+
+
+@section script{   
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#resend').click(function () {
+
+
+
+
+
+                $.ajax({
+                    url: '@Url.Action("ResendCode", "Register",new { id=Session["memberId"] })',
+                    type: 'GET'                    
+                }).done(function (data) {
+                    var message = $('#message').append("<div ></div>").addClass("alert alert-danger").attr("role", "alert")
+                    message.append('<span></span>').addClass("glyphicon glyphicon-exclamation-sign").attr("aria-hidden", "true").text(data.message)
+                })
+
+            })
+
+        })
+    </script>
+    
+}

@@ -1,0 +1,65 @@
+﻿@model  IEnumerable<FoodDeliveryTemplete.ViewModels.FoodNameContentViewModel>
+
+@{
+    decimal subTotal = 0;
+
+
+    foreach (var food in Model)
+    {
+        int i = 0;
+        decimal total = food.fPrice * food.fQuantity;
+    <div id="foodappend">
+        <div class="col-xs-5" style="padding-right: 5px;padding-left:0px;">
+            <h5 style="font-size:14px" class="product-name">
+                <input id="foodid" type="hidden" name="[@i].fRecordID" value="@food.fRecordID" />
+                <strong id="strongfoodname">@food.fFoodName</strong>
+            </h5>
+            @*<h4>
+                    <small id="smalldes">餐點敘述</small>
+                </h4>*@
+        </div>
+        <div class="col-xs-7" style="padding-left:0;">
+            <div class="col-xs-6 text-left" style="padding-right:0;padding-left:0">
+                <h5 style="padding-right:0;padding-left:0">
+                    <strong style="color:#0fb41c">NT$ @food.fPrice</strong>
+                </h5>
+            </div>
+            <div class="col-xs-6" style="padding-left:0px;padding-right:0px;">
+                <div class="input-group">
+                    <a class="btn btn-danger quanminus"style="width:12px;border:none;padding:8px 2px;">-</a>
+                    <input  style="width:60%" type="text" class="form-control numtxt qant"  name="@food.fRecordID"  value="@food.fQuantity" min="1" max="10">
+                    <a class="btn btn-success quanplus " style="font-size:14px;border:none;padding:8px 2px;">+</a>
+                </div>
+            </div>
+        </div>
+        <a class="deletefood" name="@food.fRecordID" style="color:lightskyblue; font-family:'標楷體'; padding-left:90px; cursor:pointer">刪除</a>
+    </div>
+
+        subTotal += total;
+    }
+    <div class="panel-footer cart-footer">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <h4 class="text-right">
+                        總額:
+                        <strong>NT$ @subTotal</strong>
+                    </h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <a class="btn btn-block btn-warning" id="confirmcartlist" href="@Url.Action("CartList", "Cart")">
+                    確認
+                </a>
+            </div>
+        </div>
+        @*<div class="row text-center">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <a class="btn btn-block btn-warning" id="confirmcartlist" href="@Url.Action("CartList", "Cart")">
+                    確認
+                </a>
+            </div>
+        </div>*@
+    </div>
+
+}

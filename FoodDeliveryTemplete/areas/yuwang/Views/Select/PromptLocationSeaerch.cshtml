@@ -1,0 +1,603 @@
+﻿
+@{
+    ViewBag.Title = "PromptLocationSeaerch";
+}
+
+
+@section style{
+
+    @*搜尋列樣式*@
+    <style>
+        body {
+            margin-top: 20px;
+        }
+
+        /*隱藏map和目前位置的div*/
+        #check_yes, #check_no,#map2, #position_now_show2 {
+            display: none;
+        }
+
+
+        /*給導覽列背景色*/
+        /*.modal-content{
+            background-color:orange
+        }
+
+        #city_select2, #city_select_btn, #address, #SelectRestaurant, #GetLocation, #GoRestaurants {
+            background-color: burlywood;
+        }*/
+    </style>
+
+}
+
+
+<h2>PromptLocationSeaerch</h2>
+
+<body>
+    <div class="container">
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#find_location">
+            test1
+        </button>
+
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#find_location">
+            test2
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="find_location" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">請提供定位資訊!</h4>
+                    </div>
+
+                    @using (Html.BeginForm("Index", "Select", FormMethod.Post, new { @class = "" }))
+                    {
+                        <div class="modal-body">
+                            @Html.Action("PromptLocationSearchBar", "Select", new { Area = "yuwang" })
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <div class="alert alert-warning" role="alert" id="check_yes">您在外送區域內，請繼續點餐!</div>
+                                <div class="alert alert-warning" role="alert" id="check_no">您不在外送區域內，建議選擇餐廳搜尋!</div>
+
+                                <button type="submit" class="btn btn-warning">餐廳搜尋</button>
+                                @*<a href="@Url.Action("Index", "Select", new { Area = "yuwang", @class = "btn", sortby = 1, restaurant_categoryID = 0, food_categoryID = 0 })">餐廳搜尋</a>*@
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+</body>
+
+    </div>
+
+
+
+
+
+
+@section script{
+
+    @*使用jquery cookies套件*@
+    <script src="~/Areas/yuwang/Content/carhartl-jquery-cookie-92b7715/jquery.cookie.js"></script>
+
+    @*選擇城市時顯示選擇城市的語法*@
+    <script>
+        $(document).ready(function (e) {
+            $('#city_select2').find('a').click(function (e) {
+                e.preventDefault();
+                var param = $(this).attr("href").replace("#", "");//就是要抓到超連結的值然後把超連結前面的'#'拿掉
+                var concept = $(this).text();
+                $('#search_concept2').text(concept);
+                $('#search_param2').val(param);
+                //alert(param);//可以抓超連結網址
+                //alert(concept);//可以抓選到的城市名
+            });
+
+        });
+    </script>
+
+    @*使用 google map Javascript API要套用的js有API金鑰*@
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe_ZqLA_LQ1fN2Y7CN7FmlrmZw6i8_7Qc">
+    </script>
+
+    @*搜尋位置的語法*@
+    <script>
+
+        var _current_latitude = 1.00001;
+        var _current_longitude = 1.00001;
+        var _restaurant_latitude = 1.00001;
+        var _restaurant_longitude = 1.00001;
+
+        $(document).ready(function () {
+            //避免jquery對cookies做編碼
+            $.cookie.raw = true;
+
+
+            //按下取得目前位置按鈕，取得目前所在地位置座標
+            $('#GetLocation2').click(function () {
+
+                //顯示map和目前位置的div
+                $('#map2').css("display", "block");
+                $('#position_now_show2').css("display", "block");
+
+                //地圖初始化
+                $("#map2").empty();
+                var myOptions = {
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var initialLocation;
+                var map2;
+                map2 = new google.maps.Map(document.getElementById("map2"), myOptions);
+                
+                //取得座標
+                if (navigator.geolocation) {
+                    //var geolocation = window.navigator.geolocation;
+                    // alert("支援HTML5 Geolocation");
+                    navigator.geolocation.getCurrentPosition(successCallback, errorCallback,
+                        { timeout: 15000, maximumAge: 16000, enableHighAccuracy: true });
+                    //geolocation.getCurrentPosition(successCallback, errorCallback,
+                    //       { timeout: 15000, maximumAge: 16000, enableHighAccuracy: true });
+                    //設定取得位置資訊的時間限制  //設定位置資訊的有效期限,馬上取得位置資訊 //要求取得高資精確度的位置資訊
+                } else {
+                    error('Geo Location is not supported');
+                }
+
+                function successCallback(position) {
+
+                    _current_latitude = parseFloat(position.coords.latitude).toFixed(5).toString();//緯度，轉型固定五位小數，再轉成字串
+                    _current_longitude = parseFloat(position.coords.longitude).toFixed(5).toString();//經度，轉型固定五位小數，再轉成字串
+
+                    //alert(_current_latitude + "   " + _current_longitude);
+
+
+                    $('#current_latitude2').val(_current_latitude);
+                    $('#current_longitude2').val(_current_longitude);
+
+                    //把經緯度存入cookies
+                    $.cookie("current_latitude", null, { path: "/" });
+                    $.cookie("current_longitude", null, { path: "/" });
+                    $.cookie("current_latitude", _current_latitude, { path: "/" });
+                    $.cookie("current_longitude", _current_longitude, { path: "/" });
+
+                    //用非同步方法確認使用者提供的位置是否在外送範圍內，顯示訊息給使用者
+                    var current_latitude = $('#current_latitude2').val();
+                    var current_longitude = $('#current_longitude2').val();
+                    $.ajax({
+                        url: "@Url.Action("CheckDistance", "Select",new { Area="yuwang"})",
+                        type: 'POST',
+                        data: { restaurantID: 10, current_latitude: current_latitude, current_longitude: current_longitude },
+                        success: function (result) {
+                            if (10 == result.resId) {
+                                $(check_yes).css("display", "block");
+                                $(check_no).css("display", "none");
+                                var distance= parseFloat(result.distance).toFixed(1)
+                                $.cookie("distance", null, { path: "/" });
+                                $.cookie("distance", distance, { path: "/" });
+                            }
+                            else {
+                                $(check_no).css("display", "block");
+                                $(check_yes).css("display", "none");
+                            }
+
+
+                        },
+                        cache: false
+                    });
+
+                    //把算出來的經緯度傳到地圖，地圖顯示並且標記目前位置
+                    //initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    //map.setCenter(initialLocation);
+
+                    //var myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    //var marker = new google.maps.Marker({
+                    //    position: myLatLng,
+                    //    map: map,
+                    //    draggable: true,
+                    //    animation: google.maps.Animation.DROP,
+                    //    title: '媽 我在這!!'
+                    //});
+
+                    //回傳位置附近的餐廳資訊
+                    var res_lat_lng_list;
+                    $.ajax({
+                        url: "@Url.Action("FindLocationNearByRestaurants", "Select",new { Area="yuwang"})",
+                        type: 'POST',
+                        data: { current_latitude: position.coords.latitude, current_longitude: position.coords.longitude },
+                        success: function (result) {
+                            //console.log(result);
+                            res_lat_lng_list = result;
+                            cache: false
+                        }
+                    })
+                    .done(function () {
+
+                        var lat_now = parseFloat(_current_latitude);
+                        var lng_now = parseFloat(_current_longitude);
+
+
+                        initialLocation = new google.maps.LatLng(lat_now, lng_now);
+                        map2.setCenter(initialLocation);
+
+                        var myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
+
+
+                        var pinColor = "FE7569";
+                        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                            new google.maps.Size(21, 34),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(10, 34));
+                        var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                            new google.maps.Size(40, 37),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(12, 35));
+
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map2,
+                            //draggable: true,
+                            animation: google.maps.Animation.DROP,
+                            title: '媽 我在這!!',
+                            icon: pinImage,
+                            shadow: pinShadow
+                        });
+
+
+                        var cityCircle = new google.maps.Circle({
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 0.6,
+                            strokeWeight: 2,
+                            fillColor: '#FF0000',
+                            fillOpacity: 0.1,
+                            map: map2,
+                            center: myLatLng,
+                            radius: 5000
+                        });
+
+
+
+
+                        for (var i = 0; i < res_lat_lng_list.length; i++) {
+
+                            var lat = parseFloat(res_lat_lng_list[i].lat);
+                            var lng = parseFloat(res_lat_lng_list[i].lng);
+                            var name = res_lat_lng_list[i].name;
+                            var tel = res_lat_lng_list[i].tel;
+                            var address = res_lat_lng_list[i].address;
+                            var memID = res_lat_lng_list[i].memID;
+                            var infowindow = new google.maps.InfoWindow({
+                                //content: contentString
+                            });
+                            //console.log(lat+","+lng)
+                            latlng = new google.maps.LatLng(lat, lng);
+
+                            var pinColor = "00DD00";
+                            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                                new google.maps.Size(21, 34),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(10, 34));
+                            var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                                new google.maps.Size(40, 37),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(12, 35));
+
+
+
+                            var img_tag = "<img src='@Url.Action("GetImageByte","Select",new { Area="yuwang",id="id"})' style='width:120px;height:100px' />"
+                            img_tag = img_tag.replace("id", memID);
+
+                            var name_link="<h4 style='color:#C63300'><a href=" + '@Url.Action("Index", "Cart",new { Area="",@class="btn"})' + ">名稱: "+name+"</a></h4>"
+
+
+                            var marker = new google.maps.Marker({
+                                position: latlng,
+                                map: map2,
+                                animation: google.maps.Animation.DROP,
+                                title: name,
+                                icon: pinImage,
+                                shadow: pinShadow,
+                                //要讀cookies把會員(如果有登入的話)和餐廳id以及目前位置與餐廳的距離傳到購物車畫面
+                                html: img_tag +
+                                      name_link+
+                                      "<h5 style='color:#C63300'>地址: " + address + "</h5>" +
+                                      "<h5 style='color:#C63300'>電話: " + tel + "</h5>"
+
+                            })
+
+                            google.maps.event.addListener(marker, 'click', function () {
+                                infowindow.setContent(this.html);
+                                infowindow.open(map2, this);
+                            });
+
+                        }
+
+                    })
+
+
+                    //用座標回頭找地址，寫入標籤內傳值
+                    var geocoder = new google.maps.Geocoder();
+                    var coord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    geocoder.geocode({ 'latLng': coord }, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            // 如果有資料就會回傳
+                            if (results) {
+                                //console.log(results[0]);
+                                $('#current_address2').val(results[0].formatted_address);
+                                //alert(results[0].formatted_address);
+                                //$('#address').val("");
+                                $('#position_now_show2').text("目前位置: " + results[0].formatted_address);
+                                var current_address = results[0].formatted_address;
+                                //$('#search_concept').text("縣市選擇");
+
+                                //把地址存入cookies
+                                $.cookie("current_address", null, { path: "/" });
+                                $.cookie("current_address", current_address, { path: "/" });
+                            }
+                        }
+
+                    })
+                }
+
+                function errorCallback(error) {
+                    switch (error.code) {
+                        case 0:
+                            alert(error.message);
+                            break;
+                        case 1:
+                            alert("使用者拒絕使用");
+                            break;
+                        case 2:
+                            alert("瀏覽器無法處理");
+                            break;
+                        case 3:
+                            alert("瀏覽器時間到了無法取得位置");
+                            break;
+
+                        default:
+                            alert("who knows");
+                            break;
+                    }
+                }
+
+            })
+
+
+
+
+            //按下搜尋按鈕將textbox內的地址轉座標
+            $('#SelectRestaurant2').click(function () {
+                //顯示map和目前位置的div
+                $('#map2').css("display", "block");
+                $('#position_now_show2').css("display", "block");
+
+                //地圖初始化
+                $('#map2').css("display:", "block");
+                $("map2").empty();
+                var myOptions = {
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map2 = new google.maps.Map(document.getElementById("map2"), myOptions);
+                var initialLocation;
+
+                //取得座標
+                var city = $('#search_concept2').text();
+
+                var address = city + document.getElementById("address2").value;
+                $('#current_address2').val(address);
+                $('#position_now_show2').text("目前位置: " + address);
+
+                //把地址存入cookies
+                $.cookie("current_address", null, { path: "/" });
+                $.cookie("current_address", address, { path: "/" });
+                //alert(address);
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': address }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+
+                        //alert(results[0].geometry.location);
+
+                        _address_latitude = parseFloat(results[0].geometry.location.lat()).toFixed(5).toString();//緯度，轉型固定五位小數，再轉成字串
+                        _address_longitude = parseFloat(results[0].geometry.location.lng()).toFixed(5).toString();//經度，轉型固定五位小數，再轉成字串
+
+                        //alert(_address_latitude + "   " + _address_longitude);
+
+                        $('#current_latitude2').val(_address_latitude);
+                        $('#current_longitude2').val(_address_longitude);
+
+                        //把經緯度存入cookies
+                        $.cookie("current_latitude", null, { path: "/" });
+                        $.cookie("current_longitude", null, { path: "/" });
+                        $.cookie("current_latitude", _address_latitude, { path: "/" });
+                        $.cookie("current_longitude", _address_longitude, { path: "/" });
+
+
+                        //用非同步方法確認使用者提供的位置是否在外送範圍內，顯示訊息給使用者
+                        var current_latitude = $('#current_latitude2').val();
+                        var current_longitude = $('#current_longitude2').val();
+                        $.ajax({
+                            url: "@Url.Action("CheckDistance", "Select",new { Area="yuwang"})",
+                            type: 'POST',
+                            data: { restaurantID: 10, current_latitude: current_latitude, current_longitude: current_longitude },
+                            success: function (result) {
+                                if (10 == result.resId) {
+                                    $(check_yes).css("display", "block");
+                                    $(check_no).css("display", "none");
+                                    var distance = parseFloat(result.distance).toFixed(1)
+                                    $.cookie("distance", null, { path: "/" });
+                                    $.cookie("distance", distance, { path: "/" });
+                                }
+                                else {
+                                    $(check_no).css("display", "block");
+                                    $(check_yes).css("display", "none");
+                                }
+
+
+                            },
+                            cache: false
+                        });
+
+                        //把算出來的經緯度傳到地圖，地圖顯示並且標記目前位置
+                        //initialLocation = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+                        //map.setCenter(initialLocation);
+                        ////map.setCenter(results[0].geometry.location);
+
+
+                        //var myLatLng = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
+                        //var marker = new google.maps.Marker({
+                        //    position:myLatLng,
+                        //    map: map,
+                        //    title: '媽 我在這!!'
+                        //});
+
+                        //var marker = new google.maps.Marker({
+                        //    map: map,
+                        //    position: results[0].geometry.location,
+                        //});
+                        //marker.setTitle(address);
+
+
+                        var lat_now = parseFloat(_address_latitude);
+                        var lng_now = parseFloat(_address_longitude);
+
+                        //回傳位置附近的餐廳資訊
+                        var res_lat_lng_list;
+                        $.ajax({
+                            url: "@Url.Action("FindLocationNearByRestaurants", "Select",new { Area="yuwang"})",
+                            type: 'POST',
+                            data: { current_latitude: lat_now, current_longitude: lng_now },
+                            success: function (result) {
+                                //console.log(result);
+                                res_lat_lng_list = result;
+                                cache: false
+                            }
+                        })
+                    .done(function () {
+
+                        initialLocation = new google.maps.LatLng(lat_now, lng_now);
+                        map2.setCenter(initialLocation);
+
+                        var myLatLng = { lat: lat_now, lng: lng_now };
+
+                        var pinColor = "FE7569";
+                        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                            new google.maps.Size(21, 34),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(10, 34));
+                        var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                            new google.maps.Size(40, 37),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(12, 35));
+
+
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map2,
+                            //draggable: true,
+                            animation: google.maps.Animation.DROP,
+                            title: '媽 我在這!!',
+                            icon: pinImage,
+                            shadow: pinShadow
+                        });
+
+
+                        var cityCircle = new google.maps.Circle({
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 0.6,
+                            strokeWeight: 2,
+                            fillColor: '#FF0000',
+                            fillOpacity: 0.1,
+                            map: map2,
+                            center: myLatLng,
+                            radius: 5000
+                        });
+
+
+
+
+                        for (var i = 0; i < res_lat_lng_list.length; i++) {
+
+                            var lat = parseFloat(res_lat_lng_list[i].lat);
+                            var lng = parseFloat(res_lat_lng_list[i].lng);
+                            var name = res_lat_lng_list[i].name;
+                            var tel = res_lat_lng_list[i].tel;
+                            var address = res_lat_lng_list[i].address;
+                            var memID = res_lat_lng_list[i].memID;
+                            var infowindow = new google.maps.InfoWindow({
+                                //content: contentString
+                            });
+
+
+                            console.log(lat + "," + lng)
+                            latlng = new google.maps.LatLng(lat, lng);
+
+
+                            var pinColor = "00DD00";
+                            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+                                new google.maps.Size(21, 34),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(10, 34));
+                            var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                                new google.maps.Size(40, 37),
+                                new google.maps.Point(0, 0),
+                                new google.maps.Point(12, 35));
+
+                            var img_tag = "<img src='@Url.Action("GetImageByte","Select",new { Area="yuwang",id="id"})' style='width:120px;height:100px' />"
+                            img_tag = img_tag.replace("id", memID);
+
+                            var name_link="<h4 style='color:#C63300'><a href=" + '@Url.Action("Index", "Cart",new { Area="",@class="btn"})' + ">名稱: "+name+"</a></h4>"
+
+
+                            var marker = new google.maps.Marker({
+                                position: latlng,
+                                map: map2,
+                                animation: google.maps.Animation.DROP,
+                                title: name,
+                                icon: pinImage,
+                                shadow: pinShadow,
+                                //要讀cookies把會員(如果有登入的話)和餐廳id以及目前位置與餐廳的距離傳到購物車畫面
+                                html: img_tag +
+                                      name_link+
+                                      "<h5 style='color:#C63300'>地址: " + address + "</h5>" +
+                                      "<h5 style='color:#C63300'>電話: " + tel + "</h5>"
+                                      
+                            })
+
+                            google.maps.event.addListener(marker, 'click', function () {
+                                infowindow.setContent(this.html);
+                                infowindow.open(map2, this);
+                            });
+                        }
+
+                    })
+
+                    } else {
+                        alert("Geocode was not successful for the following reason: " + status);
+                    }
+                });
+            })
+
+
+
+            //跳轉餐廳搜尋
+            @*$('#res_search').click(function () {
+
+                @Html.Action("Index", "Select", new { Area = "yuwang" });
+
+            })*@
+        })
+
+
+    </script>
+
+
+
+}

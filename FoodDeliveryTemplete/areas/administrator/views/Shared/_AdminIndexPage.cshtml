@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/Account.css" rel="stylesheet" />
+    <link href="~/Content/LoginForm.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.glide.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/MyIndexHeaderJavaScript.js"></script>
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/lightbox.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/presets/preset1.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet">
+    <link href="~/Content/sm-clean/sm-clean.css" rel="stylesheet" />
+    <link href="~/Content/sm-simple/sm-core-css.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Buenard:700' rel='stylesheet' type='text/css'>
+    <link href="~/css/loading/loading.css" rel="stylesheet" />
+    <link href="~/Content/jquery.cleditor.css" rel="stylesheet" />
+    @RenderSection("style", false)
+
+
+</head>
+<body>
+    <div class="loader"></div>
+    <a id="menu-toggle" style="background-color: rgba(117, 112, 109, 0.49);" href="#" class="btn-dark btn-lp toggle">
+        <div class="fa">我的功能<span class="glyphicon glyphicon-arrow-down"></span></div>
+    </a>
+    <nav id="sidebar">
+        <ul class="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle">
+                <i class="fa">
+                    <img class="cancelicon" src="~/images/Navbar/cancel.png" />
+                </i>
+            </a>
+            <li class="sidebar-brand">
+                <a href="#top" onclick=$("#menu-close").click();>你的專頁</a>
+            </li>
+            <li>
+                <a>尋找美食</a>
+            </li>
+            <li>
+                <a>尋找餐廳</a>
+            </li>
+            <li>
+                <a>餐廳部落格</a>
+            </li>
+            <li>
+                <a>購物車</a>
+            </li>
+            <li>
+                <a>我的訂單<span class="glyphicon glyphicon-shopping-cart"></span></a>
+            </li>
+            <li>
+                @Html.ActionLink("登出", "AccountLogout", "Home", new { Area = "Member" }, null)
+            </li>
+        </ul>
+    </nav>
+
+    <!--Video Section-->
+    <!--Video Section Ends Here-->
+
+    <header id="home">
+        <section style="padding:180px 0" class="content-section video-section">
+            <div class="pattern-overlay">
+                <a id="bgndVideo" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=PZ4pctQMdg4',containment:'.video-section', quality:'large', autoPlay:true, mute:true, opacity:0.8}"></a>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>肚子餓了嗎?</h1>
+                            <h3>只要動動您的手指即可不用出門就能享用美食</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="main-nav">
+            <div class="container">
+                <nav role="navigation">
+                    <ul id="main-menu" class="sm sm-clean">
+                        <li><a href="#">首頁</a></li>
+                        <li>
+                            <a href="#">尋找美食</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li>
+                                    <a href="#/">年度人氣</a>
+                                    @*<ul>
+                                            <li><a href="#">About Vadikom</a></li>
+                                        </ul>*@
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">遊走餐廳</a>
+                            <ul>
+                                <li><a href="#">本月人氣</a></li>
+                                <li><a href="#">年度人氣</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">美食搜尋</a>
+                        </li>
+                        <li><a href="#">餐廳搜尋</a></li>
+                        <li>
+                            <a href="#">常見問題</a>
+                            <ul>
+                                <li><a href="#">Dummy item</a></li>
+                                <li><a href="#" class="disabled">Disabled menu item</a></li>
+                                <li>
+                                    <a href="#">more...</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">A</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">more...</a>
+                                            <ul>
+                                                <li><a href="#">Dummy item</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#contact">聯絡我們</a>
+                            @*<ul class="mega-menu">
+                                <li>*@
+                            <!-- The mega drop down contents -->
+                            @*<div style="width:400px;max-width:100%;">
+                                            <div style="padding:5px 24px;">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>*@
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    @RenderBody()
+    <section id="contact">
+        <div id="contact-us" class="parallax">
+            <div class="container">
+                <div class="row">
+                    <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                        <h2>聯絡我們</h2>
+                        <p>對於食宿列車網站上的功能或者使用方式的任何問題都可以與我們連絡，我們非常樂意為您服務及解決您的問題</p>
+                    </div>
+                </div>
+                <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form id="main-contact-form" name="contact-form" method="post" action="#">
+                                <div class="row  wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" name="name" class="form-control" placeholder="Name" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control" placeholder="Email Address" required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="subject" class="form-control" placeholder="Subject" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="Enter your message" required="required"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-submit">Send Now</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="contact-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+                                <p>以下是我們的聯絡方式，或者您可以填寫意見涵並傳送給我們，我們隨時願意為您服務:</p>
+                                <ul class="address">
+                                    <li><i class="fa fa-map-marker"></i> <span> 地址:</span>106台北市大安區復興南路一段390號</li>
+                                    <li><i class="fa fa-phone"></i> <span> 電話:</span>0987-178-738</li>
+                                    <li><i class="fa fa-envelope"></i> <span> 信箱:</span><a href="mailto:henry0223@hotmail.com">henry0223@@hotmail.com</a></li>
+                                    <li><i class="fa fa-globe"></i> <span> 網站:</span> <a href="#">www.traintofood.com.tw</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#contact-->
+    <footer id="footer">
+        <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="container text-center">
+                <div class="footer-logo">
+                    <h3 style="color:white">與Food To Train互動</h3>
+                </div>
+                <div class="social-icons">
+                    <ul>
+                        <li><a class="envelope" href="#"><i class="fa fa-envelope"></i></a></li>
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>@DateTime.Now.ToString("yyyy  年  MM  月  dd  日")</p>
+                    </div>
+                    <div class="col-sm-6">
+                        &copy; FoodToTrain 已註冊，FoodToTrain版權所有 2017
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.smartmenus.min.js"></script>
+    <script src="~/js/SECIndexHeaderJavaScript.js"></script>
+    <script src="~/js/jquery.inview.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/mousescroll.js"></script>
+    <script src="~/js/smoothscroll.js"></script>
+    <script src="~/js/jquery.countTo.js"></script>
+    <script src="~/js/lightbox.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/html5shiv.js"></script>
+
+    <script src="~/js/AdvertisementVideo/AdvertisementVideo.js"></script>
+    <script src="~/Scripts/jquery.cleditor.js"></script>
+    <script>
+    $(window).load(function () {
+        $(".loader").fadeOut(2000);
+    })
+    </script>
+    <script>
+        $(function () {
+            //關掉sidebar
+            $(".player").mb_YTPlayer();
+            $("#menu-close").click(function (e) {
+                e.preventDefault();
+                $("#sidebar").toggleClass("active");
+            });
+            //開啟sidebar
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#sidebar").toggleClass("active");
+            });
+
+        });
+    </script>
+
+    @RenderSection("script", false)
+</body>
+</html>
+

@@ -1,0 +1,72 @@
+﻿@model FoodDeliveryTemplete.ViewModels.RestaurantBlogCountStarsViewModel
+
+<p>
+    <div class="showrestaurantstardiv">餐廳評價目前共有 @Model.countstar 人評價</div>
+    <div class="shitstardiv">平均:
+        @if (Model.average == 0)
+        {
+            <span>尚未有評價</span>
+        }
+        @if (Model.average > 0 && Model.average <= 1)
+        {
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+        }
+        @if (Model.average > 1 && Model.average <= 2)
+        {
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+        }
+        @if (Model.average > 2 && Model.average <= 3)
+        {
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+        }
+        @if (Model.average > 3 && Model.average <= 4)
+        {
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+        }
+        @if (Model.average > 4)
+        {
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a>
+            <a>
+                <span class="fa fa-star"></span>
+            </a> 
+        }
+          顆星
+    </div>
+</p>

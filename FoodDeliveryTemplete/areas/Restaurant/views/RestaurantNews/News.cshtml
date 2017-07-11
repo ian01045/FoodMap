@@ -1,0 +1,39 @@
+﻿@model  FoodDeliveryTemplete.ViewModels.Haoming.NavCategoryViewModel
+
+<style>
+    .news_type {
+        color: #0094ff;
+        font-family: "標楷體";
+        font-size: 20px;
+    }
+
+    .news_date {
+        font-family: "標楷體";
+        font-size: 20px;
+    }
+
+    .news_title {
+        font-family: "標楷體";
+        font-size: 20px;
+    }
+</style>
+
+
+@foreach(var news in Model.RestaurantNews)
+{
+    <div class="row">
+        <div class="col-md-9">
+            <a href="@Url.Action("ShowNews","RestaurantNews",new {@Area="Restaurant", id= news.fArticleID })">
+                <div class="news_type">@news.tNewsType.fNewsTypeName</div>
+                <div class="news_date">@news.fPublishedDate</div>
+                <div class="news_title">@news.fTitle</div>
+                <div class="news_txt"></div>
+                <div class="news_more text-right">繼續閱讀>>></div>
+            </a>
+        </div>
+        <div class="col-md-3">
+           <button class="btn btn-danger" name="delete" data-articleid="@news.fArticleID" style="margin-top:55px"><span class="glyphicon glyphicon-trash">刪除此篇消息</span></button>
+        </div>
+
+    </div>
+}

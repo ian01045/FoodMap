@@ -1,0 +1,75 @@
+﻿@model FoodDeliveryTemplete.Models.LoginView
+@{
+    ViewBag.Title = "食速列車";
+    Layout = "~/Views/Blog/_BlogPage.cshtml";
+}
+
+@section style
+{
+    <style>
+        #loading {
+            display: none;
+        }
+
+        .alink {
+            font-family: '標楷體';
+            color: #0094ff;
+            font-size: 16px;
+        }
+    </style>
+}
+
+<div class="container" style="margin-bottom:300px;margin-top:100px">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span  class="glyphicon glyphicon-shopping-cart"></span> 您的餐點</h3>
+        </div>
+        <div class="panel-body">
+            <center><h3>您尚未訂購任何餐點，趕快去購物吧!</h3></center>
+            <center>→@Html.ActionLink("食速列車首頁", "Index", "Home", null, new { style="color:skyblue;font-family:'標楷體'" })←</center>
+        </div>
+    </div>
+</div>
+
+<div class="bg"></div><!--登入效果黑屏-->
+<div id="loginmodal" class="content45">
+    <!--會員登入畫面-->
+    <h3>會員登入</h3>@Html.ActionLink("註冊會員", "ForgotPassword", "Account", new { @class = "pull-right alink" })
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginform" }))
+    {
+        <div id="failLogin" class="col-sm-12">
+
+        </div>
+        @Html.LabelFor(model => model.Account)
+        @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "txtfield", tabindex = "1" } })
+        @Html.LabelFor(model => model.Password)
+        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "txtfield", tabindex = "2" } })
+        <label for="Check">
+            <a href="@Url.Action("ForgotPassword","Account",null)" class="pull-right alink" data-transition="fade">忘記密碼?</a>
+            <input type="checkbox" name="Check" id="Check" value="Yes" />記住我
+        </label>
+        <div class="center">
+            <input type="submit" name="loginbtn" id="loginbtn" class="btn btn-login" value="登入" tabindex="3">
+            <input type="submit" name="shit" id="shit" class="btn btn-login" style="visibility:hidden">
+        </div>
+        <img id="loading" src="~/images/Loading/ajax-loader (4).gif" />  <img id="loading" src="~/images/Loading/ajax-loader (4).gif" />
+    }
+</div>
+
+@section script
+{
+<script>
+    $(function () {
+       
+        //登入畫面
+        $('#btnLogin').click(function () {
+            $('.bg').fadeIn(200);
+            $('.content45').fadeIn(400);
+        });
+        $('.bg').click(function () {
+            $('.bg').fadeOut(200);
+            $('.content45').fadeOut(200);
+        });
+    })
+</script>
+}

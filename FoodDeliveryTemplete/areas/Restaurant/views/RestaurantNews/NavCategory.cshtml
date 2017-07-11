@@ -1,0 +1,20 @@
+﻿@model  FoodDeliveryTemplete.ViewModels.Haoming.NavCategoryViewModel
+
+<style>
+    .navitem{
+         color:#0094ff;
+        font-family:"標楷體";
+        font-size:20px;
+    }
+</style>
+
+
+<div class="list-group" id="ligroup">
+    
+    @foreach (var category in Model.NewsType)
+    {       
+        <li class="list-group-item navitem" data-categoryid="@category.fNewsTypeID">
+           @category.fNewsTypeName
+        </li>
+    }
+</div>

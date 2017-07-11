@@ -1,0 +1,100 @@
+﻿@model  IEnumerable<FoodTrain.Areas.Amy.ViewModel.RestaurantOrderView>
+@*Class訂單管理*@
+@section style
+{
+    <style>
+        .center-block {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @*Usage as a mixin訂單管理*@ .element {
+            .center-block();
+        }
+    </style>
+}
+<div class="panel panel-success">
+    <div class="panel-heading">訂單管理</div>
+    <div class="panel-body">
+        @*<form action="~/RestaurantOrder/Search" method="post">*@
+        @*@Html.BeginForm("Search", "RestaurantOrder",FormMethod.Post)
+            {*@
+        @*<p><label>訂購日期</label><input type="datetime" name="fOrderDatetime"/></p>
+            <p>
+                <label>訂單編號</label>
+                <input type="text" name="fOrderID" />
+                <label>客戶姓名</label>
+                <input type="text" name="fMemeberName"/>
+                <label>訂單狀態</label>
+                <Select name="fOrderStatus">
+                    <Option Value="資料一">已接單</Option>
+                    <Option Value="資料一">製作中</Option>
+                    <Option Value="資料二">外送中</Option>
+                    <Option Value="資料一">已結單</Option>
+                </Select>*@
+        @*可能要增資料庫欄位*@
+        @*<label>付款狀態</label>
+            <Select name="識別名">
+                <Option Value="資料一">尚未付款</Option>
+                <Option Value="資料一">付款完成</Option>
+            </Select>*@
+
+        @*<a href="#" class="btn btn-primary btn-warning">搜尋</a>*@
+        @*<input type="submit" value="搜尋" class="btn btn-primary btn-warning" />*@
+        @* } *@
+        @*</form>*@
+        @*</p>*@
+        <h3>餐廳訂單內容</h3>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>訂購日期</th>
+                    <th>姓名</th>
+                    <th>電話</th>
+                    <th>付款方式</th>
+                    <th>金額</th>
+                    <th>訂單狀態</th>
+                    <th>訂單狀態修改</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+            {
+                    <tr>
+                        <td>@order.fOrderID<input type="hidden" name="fOrderID" value="@order.fOrderID" /></td>
+                        <td>@order.fOrderDatetime</td>
+                        <td>@order.fMemeberName</td>
+                        <td>@order.fPhone</td>
+                        <td>@order.fPayment</td>
+                        <td>@order.fPrice</td>
+                        <td>@order.fOrderStatus</td>
+                        <td>
+                            @using (Html.BeginForm("Edit", "RestaurantOrder", FormMethod.Post))
+                            {
+                                <input type="hidden" value="@order.fOrderID" name="fOrderID"/>
+                                <Select name="fOrderStatus">
+                                    <Option Value="已接單">已接單</Option>
+                                    <Option Value="製作中">製作中</Option>
+                                    <Option Value="外送中">外送中</Option>
+                                    <Option Value="已結單">已結單</Option>
+                                </Select>
+                                <input type="submit" value="修改儲存" class="btn btn-primary btn-warning" />
+                            }
+                        </td>
+                        @*<th><a href="~/RestaurantOrder/Delete/@order.fOrderID" class="btn btn-danger">刪除</a></th>*@
+                        <td>@Html.ActionLink("刪除", "Delete", new { id = order.fOrderID }, new { @class = "btn btn-danger" })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        <hr />
+    </div>
+</div>
+
+
+

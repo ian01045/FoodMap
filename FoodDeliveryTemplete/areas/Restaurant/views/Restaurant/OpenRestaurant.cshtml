@@ -1,0 +1,146 @@
+﻿@model FoodDeliveryTemplete.ViewModel.OpenRestaurantViewModel
+
+@{
+    ViewBag.Title = "OpenRestaurant";
+    Layout = "~/Areas/Restaurant/Views/Restaurant/_RestaurantPage.cshtml";
+}
+
+@section style
+{
+   <style>
+         .self-control {
+        background-color:white;
+    }
+    /*.self-control input {
+        border-color: #5bc0de;
+        border-radius:5px;
+        width: 80%;
+    }*/
+    .form-horizontal label {
+        color:#ff6a00;
+        font-family:'標楷體';
+        font-size:16px;        
+    }
+    .form-group input{
+        border-color: #5bc0de;
+        border-radius:5px;      
+    }
+    </style>     
+}
+
+<div class="container" style="margin-bottom:7%;margin-top:5%">
+    <div class="row centered-form">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@ViewBag.MemberName 餐廳開店表單<small></small></h3>
+                    </div>
+                    <div class="panel-body self-control">
+                        @using (Html.BeginForm("OpenRestaurant", "Restaurant", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            <input type="hidden" name="fMemberId" value="@ViewBag.MemberID" />
+                            <div class="form-group">
+                                @Html.LabelFor(r => r.fRestaurantName, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(r => r.fRestaurantName, new { htmlAttributes = new { @class = "form-control", placeholder = "詳細餐廳名稱" } })
+                                    @Html.ValidationMessageFor(r => r.fRestaurantName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(r => r.fOpenTime, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(r => r.fOpenTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(r => r.fOpenTime, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(r => r.fCloseTime, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(r => r.fCloseTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(r => r.fCloseTime, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("一週固定店休", new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @foreach (var checkbox in ViewBag.Weeks)
+                                        {
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="SelectedWeek" value="@checkbox.Value" />@checkbox.Text
+                                                </label>
+
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    @Html.Label("提供的付款方式", new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9 " id="chkboxs">
+                                        @foreach (var checkbox in ViewBag.Payways)
+                                        {
+                                            <div class="checkbox col-sm-3 ">
+                                                <input type="checkbox" name="PaywayCheckboxs" value="@checkbox.Value" />@checkbox.Text
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(r => r.fAveragePricePerGuest, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(r => r.fAveragePricePerGuest, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(r => r.fAveragePricePerGuest, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(r => r.fDescription, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(r => r.fDescription, new { htmlAttributes = new { @class = "form-control", placeholder = "餐廳簡介", style = "height:200px;border-color:#5bc0de;border-radius:5px;" } })
+                                        @Html.ValidationMessageFor(r => r.fDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <button type="submit" class="btn btn-success">開店</button>
+                                    </div>
+                                </div>
+                        }
+
+                        <button class="btn btn-success" id="demo">Demo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            $('#demo').click(function () {
+                $('#fRestaurantName').val("瑞麟美而美 天祥店");                         
+                $('#fOpenTime').val("05:00");
+                $('#fCloseTime').val("13:00");
+                $('#fAveragePricePerGuest').val(100);
+                $('#fDescription').val("瑞麟美而美持續不斷在學習與改變，積極朝向新的的營業模式前進。 同時也在管理雜誌、哈佛企管網等調查評鑑為「消費者心中第一名」品牌，”美而美”已經是台灣人早餐的代名詞。 瑞麟美而美於2010年開始正式通過HACCP ISO22000國際認證，以安全性高、機動性、創業基金低和多元化的商品為主要訴求，不僅帶給消費者最親切多元的選擇，並提供完善的後勤支援給加盟主，由從原物料研發、生產、物流、銷售、服務等，一路垂直管理到第一線品牌經營模式，打造出一個最貼近生活的夢想工作！");
+               
+            })
+
+        })
+    </script>
+    
+    
+      }
